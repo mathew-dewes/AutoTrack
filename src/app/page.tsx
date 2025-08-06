@@ -1,4 +1,8 @@
-export default function page(){
+
+export default async function page(){
+
+
+  
   return (
     <div>
       <h1>Home page</h1>

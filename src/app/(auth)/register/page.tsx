@@ -1,13 +1,19 @@
-import LoginForm from "@/components/forms/LoginForm";
+
+import RegisterForm from "@/components/forms/RegisterForm";
 
 
 
-export default async function LoginPage(){
+
+
+export default async function RegiserPage(){
+
  
+
+    
     return (
         <div>
             <p className="text-center">Welcome to AutoTrack. Please Login or Register to continue</p>
-            <LoginForm/>
+            <RegisterForm/>
            
         </div>
     )
