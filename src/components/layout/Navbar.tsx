@@ -1,16 +1,18 @@
 
 import Link from "next/link";
 import NavLinks from "./NavLinks";
-import { createClientServer } from "@/utlis/supabase/server";
+import { createClientForServer } from "@/utlis/supabase/server";
+
 
 
 
 
 export default async function Navbar(){
 
-    const supabase = await createClientServer();
+    const supabase = await createClientForServer();
     const session = await supabase.auth.getUser();
     const avatar =  session.data.user?.user_metadata.avatar_url; 
+    
 
       
   

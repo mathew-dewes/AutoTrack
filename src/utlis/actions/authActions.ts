@@ -1,7 +1,8 @@
 'use server'
 
 import { redirect } from "next/navigation";
-import { createClientServer } from "../supabase/server"
+import { createClientForServer } from "../supabase/server";
+
 
 type OAuthProvider = 'google';
 type PreviousFormState = {
@@ -11,7 +12,7 @@ type PreviousFormState = {
 
 
 const signInWith = (provider: OAuthProvider) => async () => {
-    const supabase = await createClientServer();
+    const supabase = await createClientForServer();
     const auth_callback_url = `${process.env.SITE_URL}/auth/callback`;
 
     const { data, error } = await supabase.auth.signInWithOAuth({
@@ -22,7 +23,7 @@ const signInWith = (provider: OAuthProvider) => async () => {
     });
 
     if (error) throw new Error(error.message);
-    console.log(data);
+
 
     redirect(data.url)
 
@@ -31,7 +32,7 @@ const signInWith = (provider: OAuthProvider) => async () => {
 
 
 export const signOut = async () => {
-    const supabase = await createClientServer();
+    const supabase = await createClientForServer();
     await supabase.auth.signOut();
     redirect('/login')
 }
@@ -39,7 +40,7 @@ export const signOut = async () => {
 
 export const signUpWithEmailPassword = async (prevState: PreviousFormState, formData: FormData):
     Promise<PreviousFormState> => {
-    const supabase = await createClientServer();
+    const supabase = await createClientForServer();
     const { error } = await supabase.auth.signUp({
         email: formData.get("email") as string,
         password: formData.get("password") as string
@@ -60,7 +61,7 @@ export const signUpWithEmailPassword = async (prevState: PreviousFormState, form
 
 export const signInWithEmailPassword = async (prevState: PreviousFormState, formData: FormData):
     Promise<PreviousFormState> => {
-    const supabase = await createClientServer();
+    const supabase = await createClientForServer();
     const { error } = await supabase.auth.signInWithPassword({
         email: formData.get("email") as string,
         password: formData.get("password") as string
@@ -77,7 +78,7 @@ export const signInWithEmailPassword = async (prevState: PreviousFormState, form
 
 
 export const sendResetPasswordEmail = async (prevState: PreviousFormState, formData: FormData) => {
-    const supabase = await createClientServer();
+    const supabase = await createClientForServer();
     const { error } = await supabase.auth.resetPasswordForEmail(formData.get('email') as string);
     if (error) {
         console.error("Error", error);
@@ -94,7 +95,7 @@ export const sendResetPasswordEmail = async (prevState: PreviousFormState, formD
 }
 
 export const updatePassword = async (prevState: PreviousFormState, formData: FormData) => {
-    const supabase = await createClientServer();
+    const supabase = await createClientForServer();
     const { error } = await supabase.auth.updateUser({
         password: formData.get("password") as string
     });
@@ -105,10 +106,7 @@ export const updatePassword = async (prevState: PreviousFormState, formData: For
             error: error.message
         }
     }
-    return {
-        success: 'Password updated',
-        error: ''
-    }
+  redirect('/')
 
 }
 

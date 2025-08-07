@@ -16,14 +16,14 @@ export default function NavLinks({avatar}:{avatar?: string | null}) {
     {!hideNavLinks && 
      <ul className="flex gap-10 items-center">
             {routes.map((route, key) => {
-                return <Link key={key} className={`${pathname === `/` + route && 'font-bold text-accent-500'}`} href={route}>
+                return <Link key={key} className={`${pathname.startsWith("/" + route) && 'font-bold text-accent-500'}`} href={'/' + route}>
                     {route.toUpperCase()}</Link>
             })}
               </ul>}
     
-            <form>
+            <form className={`${hideNavLinks ? "hidden": ""}`}>
                 <div className="flex items-center gap-2">
-<Image className="rounded-full" width={40} height={40} src={avatar || 'https://placehold.co/100'} alt="avatar" />
+<Image className="rounded-full" width={40} height={40} src={avatar || '/avatar.png'} alt="avatar" />
                 <button className="cursor-pointer" formAction={signOut}>Signout</button>
                 </div>
                 

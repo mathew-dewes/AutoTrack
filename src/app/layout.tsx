@@ -27,7 +27,9 @@ export default function RootLayout({
         className={`${notoSans.variable} antialiased mx-10`}
       >
         <Navbar/>
-        {children}
+    {children}
+
+    
       </body>
     </html>
   );
