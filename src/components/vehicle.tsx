@@ -2,17 +2,14 @@
 
 import { fetchVehicle } from "@/utlis/db/vehicles"
 import { useQuery } from "@tanstack/react-query"
-import { useAuth } from "./providers/AuthProvider";
-import Link from "next/link";
 
 export default function Vehicle({id}:{id:string}){
-    const {user_id} = useAuth()
 
     const { data: vehicle, isLoading, isError, error } = useQuery({
     queryKey: ['vehicle', id],
      queryFn: async ({ queryKey }) => {
     const [, vehicleId] = queryKey; 
-    return fetchVehicle(vehicleId, user_id!);
+    return fetchVehicle(vehicleId);
         },
         staleTime: 1000 * 60 * 5,
     })

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const routes = ['dashboard', 'vehicles', 'log', 'reminders', 'reports']
+const routes = ['vehicles', 'log', 'reminders', 'reports']
 
 
 export default function NavLinks() {

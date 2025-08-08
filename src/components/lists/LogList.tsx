@@ -2,61 +2,65 @@
 
 
 
-import { getVehicleLog } from '@/utlis/db/logs'
+import { getDistanceLogs } from '@/utlis/db/logs'
 import { useQuery } from '@tanstack/react-query'
 
 
-export default function LogList({id}:{id: string}) {
+export default function LogList() {
 
     const { data: logs, isLoading, isError, error } = useQuery({
-    queryKey: ['logs', id],
-     queryFn: async ({ queryKey }) => {
-    const [, vehicleId] = queryKey; 
-    return getVehicleLog(vehicleId);
-        },
+        queryKey: ['logs'],
+        queryFn: async () => getDistanceLogs(),
         staleTime: 1000 * 60 * 5,
     })
 
-    
+
     if (isLoading) return <p>Loading data...</p>
     if (isError) return <p className='text-red-500 mt-5'>Error: {(error as Error).message}</p>
-        if (!logs) return 
+    if (!logs) return
+    console.log(logs);
 
-        
+
+
+
+
 
     return (
         <div >
-            {logs?.map((log, key) => {
-                return (
-                    <div key={key}>
-                        <h1></h1>
-<div className="my-10 border py-5 px-3 rounded-xl" >
-                    <h1 className='font-semibold'>Distance logs:</h1>
-                    {log.distance_logs.map((item, key)=>{
-                        return (
-                            <div className='mt-3' key={key}>
-                                <p>Date: {item.logged_at} -  {item.km} Km&apos;s</p>
-                            </div>
-                        )
-                    })}
-                    
-                </div>
-<div className="my-10 border py-5 px-3 rounded-xl" >
-                    <h1 className='font-semibold'>Service logs:</h1>
-                    {log.service_logs.map((item, key)=>{
-                        return (
-                            <div className='mt-3' key={key}>
-                                <p>Service type: {item.type}</p>
-                                <p>Date completed: {item.date}</p>
-                                <p>Notes: {item.notes}</p>
-                            </div>
-                        )
-                    })}
-                    
-                </div>
-                    </div>
-                )
-            })}
+
+            <div className="my-10 border py-5 px-3 rounded-xl" >
+                <h1 className='font-semibold'>Distance logs:</h1>
+                {logs.map((entry, key) => {
+                    return (
+                        <div key={key}>
+                            {entry.distance_logs.map((log) => {
+                                return (
+                                    <p className='my-2' key={log.id}>
+                                        <b>Date:</b> {new Date(log.logged_at!).toLocaleDateString("en-GB", {
+                                            day: "2-digit",
+                                            month: "2-digit",
+                                            year: "2-digit",
+                                        })}{" - "}{new Date(log.logged_at!).toLocaleTimeString("en-GB", {
+                                            hour: "2-digit",
+                                            minute: "2-digit",
+                                            hour12: false, 
+                                        })}{" "}
+                                        <b>{entry.make?.trim()} {entry.model} </b>
+                                         - {log.km} Km
+                                    </p>
+                                )
+
+                            })}
+
+                        </div>
+                    )
+                })}
+
+            </div>
+
+
+
+
         </div>
 
 
