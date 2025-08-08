@@ -3,6 +3,7 @@
 import { fetchVehicle } from "@/utlis/db/vehicles"
 import { useQuery } from "@tanstack/react-query"
 import { useAuth } from "./providers/AuthProvider";
+import Link from "next/link";
 
 export default function Vehicle({id}:{id:string}){
     const {user_id} = useAuth()
@@ -21,11 +22,10 @@ export default function Vehicle({id}:{id:string}){
         if (!vehicle) return 
     
     return (
-       <div className="my-10 border w-1/3 py-5 px-3 rounded-xl" key={vehicle.id}>
-                    <p><b>Make: </b>{vehicle.make}</p>
-                    <p><b>Model: </b>{vehicle.model}</p>
+       <div className="my-10 border w-1/3 py-10 px-3 rounded-xl mx-auto flex gap-3 flex-col" key={vehicle.id}>
+                    <h1><b>Vehicle:</b> {vehicle.make} {vehicle.model}</h1>
                     <p><b>Year: </b>{vehicle.year}</p>
-                    <p><b>Odometer: </b>{vehicle.odometer} Km&apos;s</p>
+                    <p><b>Current odometer: </b>{vehicle.odometer} Km&apos;s</p>
                 
                 </div>
     )
