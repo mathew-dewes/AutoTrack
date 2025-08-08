@@ -1,13 +1,10 @@
 import VehcileList from "@/components/lists/VehicleList";
 import Link from "next/link";
-import { Suspense } from "react";
 
 
 
-export default async function Page(){
 
-
-
+export default function Page(){
 
     return (
         <div>
@@ -16,9 +13,9 @@ export default async function Page(){
               
             </div>
             <h1 className="font-bold mt-10">My Vehicles:</h1>
-            <Suspense fallback={<p>Loading...</p>}>
+  
        <VehcileList />
-            </Suspense>
+  
   
         </div>
     )

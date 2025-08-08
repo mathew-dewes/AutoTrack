@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import {  Noto_Sans } from "next/font/google";
+import { Noto_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
-
-
+import QueryProvider from "@/components/providers/QueryProvider";
 
 const notoSans = Noto_Sans({
   variable: "--font-geist-sans",
@@ -26,10 +25,14 @@ export default function RootLayout({
       <body
         className={`${notoSans.variable} antialiased mx-10`}
       >
-        <Navbar/>
-    {children}
+        <QueryProvider>
+          <Navbar />
+          {children}
 
-    
+        </QueryProvider>
+
+
+
       </body>
     </html>
   );

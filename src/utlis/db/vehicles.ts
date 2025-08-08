@@ -1,18 +1,31 @@
-import { createClientForServer } from "../supabase/server";
 
 
-
-export async function getVehicles() {
-  const supabase = await createClientForServer();
-  await wait(1000)
-  const { data, error } = await supabase.from("vehicles").select("*");
- return {
-  error: error?.message,
-  vehicles: data
- }
+type Vehicle = {
+    id?: string
+    created_at?: string
+    make: string
+    model: string
+    year: number | string
+    odometer: number | string
 }
-function wait(duration: number) {
-  return new Promise(resolve => {
-    setTimeout(resolve, duration)
-  })
+export async function fetchVehicles(): Promise<Vehicle[]> {
+    const res = await fetch('/api/vehicles')
+    if (!res.ok) {
+        const err = await res.json().catch(() => null)
+        throw new Error(err?.error || 'Failed to fetch vehicles')
+    }
+    return res.json()
+}
+
+export async function addvehicle(newVehicle: Vehicle){
+  const res = await fetch('/api/vehicles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newVehicle)
+      })
+      if (!res.ok) {
+        const errorData = await res.json()
+        throw new Error(errorData.error || 'Failed to add vehicle')
+      }
+      return res.json()
 }
