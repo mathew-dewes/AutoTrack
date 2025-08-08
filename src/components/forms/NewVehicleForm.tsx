@@ -4,28 +4,33 @@ import { useState } from "react"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { addvehicle } from "@/utlis/db/vehicles"
+import { useAuth } from "../providers/AuthProvider"
+
 
 
 type VehicleForm = {
   make: string
   model: string
   year: number | string
-  odometer: number | string
+  odometer: number | string,
+  user_id: string | null
 }
 
 export default function AddVehicleForm() {
   const queryClient = useQueryClient()
-    const router = useRouter()
+  const router = useRouter();
+  const {user_id} = useAuth()
 
   const [form, setForm] = useState<VehicleForm>({
     make: "",
     model: "",
     year: "",
-    odometer: ""
+    odometer: "",
+    user_id: user_id
   })
 
-  const {mutate, isError, isPending, error} = useMutation<void, Error, VehicleForm>({
-    mutationFn: async(newVehicle)=> await addvehicle(newVehicle),
+  const {mutate, isError, isPending, error} = useMutation({
+    mutationFn: async(newVehicle: VehicleForm)=> await addvehicle(newVehicle),
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['vehicles']}) // refetch vehicle list
       router.push("/vehicles")
@@ -39,7 +44,7 @@ export default function AddVehicleForm() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    mutate(form)
+    mutate(form);
   }
 
   return (

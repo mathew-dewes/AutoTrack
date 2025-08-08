@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 const routes = ['dashboard', 'vehicles', 'log', 'reminders', 'reports']
 
 
-export default function NavLinks({avatar}:{avatar?: string | null}) {
+export default function NavLinks() {
     const pathname = usePathname();
     const hideNavLinks = pathname.startsWith('/password')
     return (
@@ -23,7 +23,7 @@ export default function NavLinks({avatar}:{avatar?: string | null}) {
     
             <form className={`${hideNavLinks ? "hidden": ""}`}>
                 <div className="flex items-center gap-2">
-<Image className="rounded-full" width={40} height={40} src={avatar || '/avatar.png'} alt="avatar" />
+<Image className="rounded-full" width={40} height={40} src={'/avatar.png'} alt="avatar" />
                 <button className="cursor-pointer" formAction={signOut}>Signout</button>
                 </div>
                 

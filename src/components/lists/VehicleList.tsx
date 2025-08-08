@@ -1,7 +1,9 @@
 "use client"
 
+
 import { fetchVehicles } from '@/utlis/db/vehicles'
 import { useQuery } from '@tanstack/react-query'
+import Link from 'next/link'
 
 
 export default function VehcileList() {
@@ -13,6 +15,7 @@ export default function VehcileList() {
     })
     if (isLoading) return <p>Loading data...</p>
     if (isError) return <p className='text-red-500 mt-5'>Error: {(error as Error).message}</p>
+    if (vehicles?.length === 0) return <p>You have no vehciles.</p>
 
     return (
         <div >
@@ -22,6 +25,7 @@ export default function VehcileList() {
                     <p><b>Model: </b>{vehicle.model}</p>
                     <p><b>Year: </b>{vehicle.year}</p>
                     <p><b>Odometer: </b>{vehicle.odometer} Km&apos;s</p>
+                    <Link href={'/vehicles/' + vehicle.id }>Hello</Link>
                 </div>)
             })}
         </div>
