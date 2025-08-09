@@ -1,17 +1,19 @@
 
 import DistanceLogShort from "@/components/lists/DistanceLogShort";
+import ServiceListShort from "@/components/lists/ServiceLogShort";
+
 import Link from "next/link";
 
 export default function Page(){
+
+       
     return (
         <div className="flex gap-60 mt-10"> 
 <div>
   <div>
             <h1 className="font-semibold">Service history:</h1>
             <ul className="mt-3">
-                <li>09/08/25 - 20000km (Toyota Crown)</li>
-                <li>02/08/25 - 19800km (Toyota Crown)</li>
-                <li>11/07/25 - 18000km (Toyota Crown)</li>
+              <ServiceListShort/>
             </ul>
             <Link href={'/log/service'}>View All</Link>
     
@@ -19,7 +21,7 @@ export default function Page(){
   <div className="mt-10">
             <h1 className="font-semibold">Distance logs:</h1>
            <DistanceLogShort/>
-             <Link href={'/log/distance'}>View All</Link>
+   
   
         </div>
         </div>

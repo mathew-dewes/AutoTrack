@@ -1,6 +1,6 @@
 "use client"
 
-import { LogDistance } from "@/utlis/actions/logDistanceAction";
+import { LogDistance } from "@/utlis/actions/logActions";
 import { useVehicles } from "@/utlis/hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useRouter } from "next/navigation";

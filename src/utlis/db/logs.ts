@@ -11,18 +11,17 @@ export async function getVehicleLog(id: string){
 }
 
 
-export async function getDistanceLogs(limit?: number) {
+export async function getDistanceLogs() {
   const supabase = await createClientForServer();
 
   const { data, error } = await supabase
     .from("vehicles")
-    .select("make, model, year, distance_logs(*)")
-    .order("created_at", { ascending: false });
+    .select("make, model, year, distance_logs(km, created_at)")
+
 
   if (error) throw new Error(error.message);
   if (!data) return [];
 
-  // Flatten all distance_logs with vehicle info attached
   const allLogs = data.flatMap(vehicle =>
     vehicle.distance_logs.map(log => ({
       ...log,
@@ -32,13 +31,38 @@ export async function getDistanceLogs(limit?: number) {
     }))
   );
 
-  // Sort all logs by logged_at descending
-  allLogs.sort((a, b) => new Date(b.logged_at!).getTime() - new Date(a.logged_at!).getTime());
+  allLogs.sort((a, b) => new Date(b.created_at!).getTime() - new Date(a.created_at!).getTime());
 
-  // Return only top 3 logs
-  if (limit){
-  return allLogs.slice(0, limit);
-  }
+
+  return allLogs
+
+}
+
+export async function getServiceLogs() {
+  const supabase = await createClientForServer();
+
+  const { data, error } = await supabase
+    .from("vehicles")
+    .select("make, model, year, service_logs(type, date, km, notes)")
+
+
+  if (error) throw new Error(error.message);
+  if (!data) return [];
+
+  
+
+  const allLogs = data.flatMap(vehicle =>
+    vehicle.service_logs.map(log => ({
+      ...log,
+      make: vehicle.make,
+      model: vehicle.model,
+      year: vehicle.year,
+    }))
+  );
+
+  allLogs.sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
+
+
   return allLogs
 
 }

@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { fetchVehicles } from "../db/vehicles"
-import { getDistanceLogs } from "../db/logs"
+import { getDistanceLogs, getServiceLogs } from "../db/logs"
 
 
 
@@ -18,7 +18,15 @@ return  useQuery({
 export function useDistanceLogs(limit?:number){
     return useQuery({
             queryKey: ['distance', limit],
-            queryFn: async () => getDistanceLogs(limit),
+            queryFn: async () => getDistanceLogs(),
+            staleTime: 1000 * 60 * 5,
+        })
+}
+
+export function useServiceLogs(){
+    return useQuery({
+            queryKey: ['service'],
+            queryFn: async () => getServiceLogs(),
             staleTime: 1000 * 60 * 5,
         })
 }
