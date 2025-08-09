@@ -1,4 +1,5 @@
-import LogDistanceForm from "@/components/forms/LogDistanceForm";
+
+import DistanceLogShort from "@/components/lists/DistanceLogShort";
 import Link from "next/link";
 
 export default function Page(){
@@ -13,24 +14,22 @@ export default function Page(){
                 <li>11/07/25 - 18000km (Toyota Crown)</li>
             </ul>
             <Link href={'/log/service'}>View All</Link>
-            <LogDistanceForm/>
+    
         </div>
   <div className="mt-10">
             <h1 className="font-semibold">Distance logs:</h1>
-            <ul className="mt-3">
-                <li>09/08/25 - 20000km (Toyota Crown)</li>
-                <li>02/08/25 - 19800km (Toyota Crown)</li>
-                <li>11/07/25 - 18000km (Toyota Crown)</li>
-            </ul>
+           <DistanceLogShort/>
              <Link href={'/log/distance'}>View All</Link>
-            <LogDistanceForm/>
+  
         </div>
         </div>
         <div className="">
             <h1 className="font-semibold">Quick Actions:</h1>
-            <div className="mt-10 flex flex-col gap-8 text-center">
- <h1>Add Service</h1>
-            <h1>Add Service</h1>
+            <div className="mt-15 flex flex-col gap-12 text-center">
+                <Link href={'/log/service/add'}>Log Service</Link>
+                <Link href={'/log/distance/add'}>Log Distance</Link>
+
+
             </div>
            
         </div>

@@ -1,18 +1,13 @@
 "use client"
 
 
-import { fetchVehicles } from '@/utlis/db/vehicles'
-import { useQuery } from '@tanstack/react-query'
+import { useVehicles } from '@/utlis/hooks'
 import Link from 'next/link'
 
 
 export default function VehcileList() {
 
-    const { data: vehicles, isLoading, isError, error } = useQuery({
-        queryKey: ['vehicles'],
-        queryFn: async () => fetchVehicles(),
-        staleTime: 1000 * 60 * 5,
-    })
+    const { data: vehicles, isLoading, isError, error } = useVehicles()
     if (isLoading) return <p>Loading data...</p>
     if (isError) return <p className='text-red-500 mt-5'>Error: {(error as Error).message}</p>
     if (vehicles?.length === 0) return <p>You have no vehciles.</p>

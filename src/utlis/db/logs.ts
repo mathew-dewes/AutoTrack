@@ -11,18 +11,34 @@ export async function getVehicleLog(id: string){
 }
 
 
-export async function getDistanceLogs(){
-        const supabase = await createClientForServer();
-    const {data, error} = await supabase.from("vehicles")
-    .select("make, model, year, distance_logs(*)")
-    .order("created_at",{ascending: false}); 
-    if (error) throw new Error(error.message)
-   const vehiclesWithLogs =  data.filter(vehicle => vehicle.distance_logs && vehicle.distance_logs.length > 0);
-  vehiclesWithLogs.sort((a, b) => {
-    const aLatest = a.distance_logs.reduce((max, log) => log.created_at > max ? log.created_at : max, a.distance_logs[0].created_at);
-    const bLatest = b.distance_logs.reduce((max, log) => log.created_at > max ? log.created_at : max, b.distance_logs[0].created_at);
-    return new Date(bLatest).getTime() - new Date(aLatest).getTime();
-  });
+export async function getDistanceLogs(limit?: number) {
+  const supabase = await createClientForServer();
 
-  return vehiclesWithLogs;
+  const { data, error } = await supabase
+    .from("vehicles")
+    .select("make, model, year, distance_logs(*)")
+    .order("created_at", { ascending: false });
+
+  if (error) throw new Error(error.message);
+  if (!data) return [];
+
+  // Flatten all distance_logs with vehicle info attached
+  const allLogs = data.flatMap(vehicle =>
+    vehicle.distance_logs.map(log => ({
+      ...log,
+      make: vehicle.make,
+      model: vehicle.model,
+      year: vehicle.year,
+    }))
+  );
+
+  // Sort all logs by logged_at descending
+  allLogs.sort((a, b) => new Date(b.logged_at!).getTime() - new Date(a.logged_at!).getTime());
+
+  // Return only top 3 logs
+  if (limit){
+  return allLogs.slice(0, limit);
+  }
+  return allLogs
+
 }
