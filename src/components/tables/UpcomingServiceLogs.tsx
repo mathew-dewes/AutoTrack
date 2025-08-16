@@ -29,7 +29,6 @@ export default async function UpcomingServices() {
             <th className="px-4 py-3 text-left font-semibold text-gray-700">Vehicle</th>
             <th className="px-4 py-3 text-left font-semibold text-gray-700">Service type</th>
             <th className="px-4 py-3 text-left font-semibold text-gray-700">Due Date</th>
-            <th className="px-4 py-3 text-left font-semibold text-gray-700">Due distance</th>
             <th className="px-4 py-3 text-left font-semibold text-gray-700">Status</th>
 
             <th className="px-4 py-3"></th>
@@ -48,7 +47,6 @@ export default async function UpcomingServices() {
                 </span>
               </td>
               <td className="px-4 py-3">12/01/2025</td>
-              <td className="px-4 py-3">1200</td>
               <td className="px-4 py-3">Overdue</td>
       
               <td className="px-4 py-3 text-right">

@@ -42,7 +42,7 @@ export default async function ServiceLogsTable() {
           {logs?.map((log) => (
           
             <tr key={log.id} className="hover:bg-gray-50 transition">
-              <td className="px-4 py-3 whitespace-nowrap">{log.date.toISOString()}</td>
+              <td className="px-4 py-3 whitespace-nowrap">{log.date.toDateString()}</td>
                     <td className="px-4 py-3">{log.vehicle?.make}</td>
               <td className="px-4 py-3">
                 <span
@@ -54,7 +54,7 @@ export default async function ServiceLogsTable() {
               <td className="px-4 py-3">{log.machanic}</td>
               <td className="px-4 py-3">{log.notes}</td>
               <td className="px-4 py-3">{log.odometer}</td>
-              <td className="px-4 py-3">12000km</td>
+              <td className="px-4 py-3">{log.renewalDate.toDateString()}</td>
                      
               <td className="px-4 py-3">${log.cost}</td>
               <td className="px-4 py-3 text-right">
