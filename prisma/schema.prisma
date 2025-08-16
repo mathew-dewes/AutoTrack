@@ -3,10 +3,47 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String   @unique
+  emailVerified DateTime?
+  image         String?
+
+  vehicle     Vehicle[]
+  serviceLogs ServiceLogs[]
+}
+
+model Vehicle {
+  id          String        @id @default(cuid())
+  createdAt   DateTime      @default(now())
+  userId      String
+  make        String
+  model       String
+  odometer    String
+  serviceLogs ServiceLogs[]
+  user        User?         @relation(fields: [userId], references: [id])
+}
+
+model ServiceLogs {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  date        DateTime
+  odometer    Int
+  machanic    String?
+  notes       String?
+  renewalDate DateTime
+  vehicleId   String
+  type        String
+  cost        Int?
+  userId      String
+  User        User?    @relation(fields: [userId], references: [id])
+  vehicle     Vehicle? @relation(fields: [vehicleId], references: [id])
 }
