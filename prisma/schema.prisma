@@ -27,7 +27,7 @@ model Vehicle {
   userId      String
   make        String
   model       String
-  odometer    String
+  odometer    Int
   serviceLogs ServiceLogs[]
   user        User?         @relation(fields: [userId], references: [id])
 }
