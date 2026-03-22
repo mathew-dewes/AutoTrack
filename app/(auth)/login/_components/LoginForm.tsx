@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -18,59 +18,53 @@ import {
   FieldSeparator,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import Link from "next/link"
-import { Controller, useForm } from "react-hook-form"
+import Link from "next/link";
 import z from "zod"
+import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useTransition } from "react";
-import { registerFormSchema } from "@/lib/validation/schema";
+import { useTransition } from "react"
+import { loginFormSchema } from "@/lib/validation/schema"
 
 
 
-export function RegisterForm({
+export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
 
+
   const [isPending, startTransition] = useTransition();
 
 
-
-
-  const form = useForm<z.infer<typeof registerFormSchema>>({
-    resolver: zodResolver(registerFormSchema),
+  const form = useForm<z.infer<typeof loginFormSchema>>({
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
       email: "",
       password: "",
-      confirmPassword: ""
+
     }
   });
 
-  function onSubmit(values: z.infer<typeof registerFormSchema>) {
 
+  function onSubmit(values: z.infer<typeof loginFormSchema>) {
     startTransition((async () => {
- console.log(values);
- 
+    console.log(values);
+    
     }))
 
-
-
   }
-
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl font-bold">Register</CardTitle>
+          <CardTitle className="text-xl font-bold">Login</CardTitle>
           <CardDescription>
-            Register with your Apple or Google account
+            Login with your Apple or Google account
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form id="register-form" onSubmit={form.handleSubmit(onSubmit)}>
+          <form id="login-form" onSubmit={form.handleSubmit(onSubmit)}>
             <FieldGroup>
               <Field>
                 <Button variant="outline" type="button">
@@ -80,7 +74,7 @@ export function RegisterForm({
                       fill="currentColor"
                     />
                   </svg>
-                  Signup with Apple
+                  Login with Apple
                 </Button>
                 <Button variant="outline" type="button">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -89,7 +83,7 @@ export function RegisterForm({
                       fill="currentColor"
                     />
                   </svg>
-                  Signup with Google
+                  Login with Google
                 </Button>
               </Field>
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
@@ -97,66 +91,17 @@ export function RegisterForm({
               </FieldSeparator>
               <Controller
                 control={form.control}
-                name="firstName"
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="firstName">First name</FieldLabel>
-                    <Input
-                      {...field}
-                      id="firstName"
-                      type="text"
-                      aria-invalid={fieldState.invalid}
-                      placeholder="John"
-                      autoComplete="off"
-
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              >
-
-              </Controller>
-
-              <Controller
-                control={form.control}
-                name="lastName"
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="lastName">Last name</FieldLabel>
-                    <Input
-                      {...field}
-                      id="lastName"
-                      type="text"
-                      placeholder="Smith"
-                      aria-invalid={fieldState.invalid}
-
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              >
-
-              </Controller>
-
-              <Controller
-                control={form.control}
                 name="email"
                 render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
+                  <Field data-invalid={fieldState.invalid || !!form.formState.errors.root}>
                     <FieldLabel htmlFor="email">Email</FieldLabel>
                     <Input
                       {...field}
                       id="email"
                       type="email"
+                      aria-invalid={fieldState.invalid || !!form.formState.errors.root}
                       placeholder="m@example.com"
-                      aria-invalid={fieldState.invalid}
                       autoComplete="off"
-
-
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -165,51 +110,29 @@ export function RegisterForm({
                 )}
               >
 
-
-
               </Controller>
-
 
               <Controller
                 control={form.control}
                 name="password"
                 render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-
-                    <FieldLabel htmlFor="password">Password</FieldLabel>
-
+                  <Field data-invalid={fieldState.invalid || !!form.formState.errors.root}>
+                    <div className="flex items-center">
+                      <FieldLabel htmlFor="password">Password</FieldLabel>
+                      <Link
+                        href="/login/forgot-password"
+                        className="ml-auto text-sm underline-offset-4 hover:underline"
+                        tabIndex={-1}
+                      >
+                        Forgot your password?
+                      </Link>
+                    </div>
                     <Input
-                      {...field}
                       id="password"
                       type="password"
-                      aria-invalid={fieldState.invalid}
+                      aria-invalid={fieldState.invalid || !!form.formState.errors.root}
                       autoComplete="off"
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              >
-
-              </Controller>
-
-              <Controller
-
-                control={form.control}
-                name="confirmPassword"
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-
-                    <FieldLabel htmlFor="confrim-password">Confrim Password</FieldLabel>
-
-                    <Input
                       {...field}
-                      id="confrim-password"
-                      type="password"
-                      autoComplete="off"
-                      aria-invalid={fieldState.invalid}
-
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -218,20 +141,16 @@ export function RegisterForm({
                 )}
               >
 
-
               </Controller>
-
-
-
 
 
               <Field>
-                <Button disabled={isPending} type="submit">Register</Button>
+                <Button disabled={isPending} type="submit">Login</Button>
                 <FieldDescription className="text-center">
-                  Already have an account? <Link href="/login">Login</Link>
+                  Don&apos;t have an account? <Link href="/register">Register</Link>
                 </FieldDescription>
               </Field>
-               {form.formState.errors.root && (
+              {form.formState.errors.root && (
                 <p className="text-sm text-red-500 font-medium">
                   {form.formState.errors.root.message}
                 </p>
