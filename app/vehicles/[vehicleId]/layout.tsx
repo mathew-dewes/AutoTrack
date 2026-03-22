@@ -1,5 +1,4 @@
-
-import VehicleNavigation from "./_components/VehicleNavigation";
+import VehicleNavigation from "./_components/VehicleNavigation"
 
 export default function VehicleLayout({
     children,
