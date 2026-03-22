@@ -1,5 +1,10 @@
+import { Button } from "@/components/ui/button";
+
 export default function page(){
   return (
-    <p>Landing page</p>
+    <div>
+      <p>Loading page</p>
+      <Button>Hello Testing</Button>
+    </div>
   )
 }
