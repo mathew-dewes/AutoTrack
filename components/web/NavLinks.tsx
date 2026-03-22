@@ -4,6 +4,7 @@ import Link from "next/link"
 import { buttonVariants } from "../ui/button"
 import { cn } from "@/lib/utils"
 import { usePathname } from "next/navigation";
+import { ThemeToggle } from "./ThemeToggle";
 
 const navLinks = [
     { name: 'Dashboard', href: '/dashboard' },
@@ -33,5 +34,6 @@ function isActive(path: string){
                         {link.name}</Link>
           
         })}
+        <ThemeToggle/>
     </ul>
 }
