@@ -24,6 +24,9 @@ import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useTransition } from "react"
 import { loginFormSchema } from "@/lib/validation/schema"
+import { loginUser } from "@/lib/auth/actions"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 
 
@@ -34,6 +37,7 @@ export function LoginForm({
 
 
   const [isPending, startTransition] = useTransition();
+   const router = useRouter()
 
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
@@ -48,8 +52,35 @@ export function LoginForm({
 
   function onSubmit(values: z.infer<typeof loginFormSchema>) {
     startTransition((async () => {
-    console.log(values);
+          const res = await loginUser(values);
+
+      if (res.error) {
+        form.setError("root", {
+          message: res.error
+        });
+        toast.error(res.error)
+      };
+
+      if (res.fieldErrors) {
+        Object.entries(res.fieldErrors).forEach(([field, message]) => {
+          form.setError(field as keyof z.infer<typeof loginFormSchema>,
+            { message }
+          )
+        });
+        
+        toast.error(res.error)
+
+      }
+
+      if (res.success){
+    toast.success(res.message);
+    router.push('/dashboard')
+        
+      }
+
     
+
+
     }))
 
   }
