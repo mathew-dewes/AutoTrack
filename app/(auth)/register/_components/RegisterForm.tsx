@@ -24,6 +24,8 @@ import z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useTransition } from "react";
 import { registerFormSchema } from "@/lib/validation/schema";
+import { registerWithEmailPassword } from "@/lib/auth/actions";
+import { toast } from "sonner";
 
 
 
@@ -51,7 +53,31 @@ export function RegisterForm({
   function onSubmit(values: z.infer<typeof registerFormSchema>) {
 
     startTransition((async () => {
- console.log(values);
+      const res = await registerWithEmailPassword(values);
+
+            if (res.error) {
+        form.setError("root", {
+          message: res.error
+        });
+        toast.error(res.error)
+      };
+
+            if (res.fieldErrors) {
+              Object.entries(res.fieldErrors).forEach(([field, message]) => {
+                form.setError(field as keyof z.infer<typeof registerFormSchema>,
+                  { message }
+                )
+              });
+              
+              toast.error(res.error)
+      
+            }
+      
+       if (res?.success) {
+        toast.success(res.message);
+     
+
+      } 
  
     }))
 

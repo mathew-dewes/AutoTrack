@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/web/Navbar";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "sonner";
 
 const ralewayHeading = Raleway({ subsets: ['latin'], variable: '--font-heading' });
 
@@ -44,6 +45,13 @@ export default function RootLayout({
           <main className="mt-5 mb-30 w-full px-4 md:px-6 lg:px-12">
             {children}
           </main>
+
+             <Toaster
+            duration={3000}
+            closeButton
+            expand
+
+          />
 
         </ThemeProvider>
 
