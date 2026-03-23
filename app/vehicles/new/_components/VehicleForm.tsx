@@ -26,7 +26,8 @@ export default function VehicleForm() {
             make: "",
             model: "",
             licence_plate: "",
-            year: undefined
+            year: undefined,
+            odometer: undefined
 
         }
     });
@@ -80,7 +81,7 @@ export default function VehicleForm() {
                             name="make"
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel data-invalid={fieldState.invalid}>Make:</FieldLabel>
+                                    <FieldLabel>Make:</FieldLabel>
                                     <Input
                                         {...field}
                                         type="text"
@@ -100,7 +101,7 @@ export default function VehicleForm() {
                             name="model"
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel data-invalid={fieldState.invalid}>Model:</FieldLabel>
+                                    <FieldLabel>Model:</FieldLabel>
                                     <Input
                                         {...field}
                                         type="text"
@@ -120,13 +121,13 @@ export default function VehicleForm() {
                             name="year"
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel data-invalid={fieldState.invalid}>Year:</FieldLabel>
+                                    <FieldLabel>Year:</FieldLabel>
                                     <Input
                                         {...field}
                                         type="number"
                                         aria-disabled={fieldState.invalid}
                                         placeholder="Vehicle model year"
-                                        value={field.value ?? ""} // ✅ prevents uncontrolled warning
+                                        value={field.value ?? ""}
                                         onChange={(e) => {
                                             const value = e.target.value;
                                             field.onChange(value === "" ? undefined : Number(value));
@@ -147,12 +148,40 @@ export default function VehicleForm() {
                             name="licence_plate"
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel data-invalid={fieldState.invalid}>Licence plate number:</FieldLabel>
+                                    <FieldLabel>Licence plate number:</FieldLabel>
                                     <Input
                                         {...field}
                                         type="text"
                                         aria-disabled={fieldState.invalid}
                                         placeholder="Licence plate number"
+
+                                    />
+                                    {fieldState.invalid && (
+                                        <FieldError errors={[fieldState.error]} />
+                                    )}
+                                </Field>
+                            )}
+                        >
+
+                        </Controller>
+
+                        <Controller
+                            control={form.control}
+                            name="odometer"
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel>Odometer reading:</FieldLabel>
+                                    <Input
+                                        {...field}
+                                        type="number"
+                                        aria-disabled={fieldState.invalid}
+                                        placeholder="Vehicle model year"
+                                        value={field.value ?? ""}
+                                        onChange={(e) => {
+                                            const value = e.target.value;
+                                            field.onChange(value === "" ? undefined : Number(value));
+                                        }}
+
 
                                     />
                                     {fieldState.invalid && (

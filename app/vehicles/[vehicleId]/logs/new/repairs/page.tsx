@@ -1,7 +1,7 @@
 export default function page(){
     return (
         <div>
-            <p>Fuel log page</p>
+            <p>Repair log page</p>
         </div>
     )
 }

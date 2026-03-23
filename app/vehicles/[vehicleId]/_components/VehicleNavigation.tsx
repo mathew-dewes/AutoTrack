@@ -19,13 +19,17 @@ export default function VehicleNavigation({vehicleId}:
         { name: "Maintenance", href: `/vehicles/${vehicleId}/maintenance` },
         { name: "Insights", href: `/vehicles/${vehicleId}/analytics` },
     ];
-    return      <div className="flex justify-between mt-5">
-        <div className="flex gap-1">
-        <Link className={cn(buttonVariants({variant: "outline"}))} href={'/'}>+ Log service</Link>
-        <Link className={cn(buttonVariants({variant: "outline"}))} href={'/'}>+ Log fuel</Link>
-    
+    return      <div className="flex justify-between my-5">
+        <div className="flex items-center gap-2">
+    <Link className={cn(buttonVariants({
+        variant: `${pathname == `/vehicles/${vehicleId}/logs/new/repairs` ? 'default' : 'outline'}`}))} 
+        href={`/vehicles/${vehicleId}/logs/new/repairs`}>+ Log repairs</Link>
+    <Link className={cn(buttonVariants({
+        variant: `${pathname == `/vehicles/${vehicleId}/logs/new/fuel` ? 'default' : 'outline'}`}))} 
+        href={`/vehicles/${vehicleId}/logs/new/fuel`}>+ Log fuel</Link>
         </div>
-                   <div className="flex gap-2">
+
+           <div className="flex gap-2">
             {tabs.map((tab, key)=>{
                     return <Link
                     key={key}
