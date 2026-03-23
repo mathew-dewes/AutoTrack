@@ -22,21 +22,16 @@ export default function NavLinks({ isLoggedIn }:
 
     const pathname = usePathname();
 
-    function isActive(path: string) {
-        if (path === "/") {
-            return pathname === "/";
-        }
+function isActive(path: string) {
 
-        if (path === "/vehicles/new") {
-            return pathname === "/vehicles/new";
-        }
+  if (path === "/") return pathname === "/";
 
-        if (path === "/vehicles") {
-            return pathname === "/vehicles";
-        }
 
-        return pathname.startsWith(path);
-    }
+  if (path === "/vehicles/new") return pathname === "/vehicles/new";
+  if (path === "/vehicles") return pathname.startsWith("/vehicles") && pathname !== "/vehicles/new";
+
+  return pathname === path;
+}
 
     return <ul className="flex justify-end gap-5 items-center">
         {!isLoggedIn && navLinks.map((link, key) => {
