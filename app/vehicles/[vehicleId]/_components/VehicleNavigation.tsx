@@ -19,8 +19,14 @@ export default function VehicleNavigation({vehicleId}:
         { name: "Maintenance", href: `/vehicles/${vehicleId}/maintenance` },
         { name: "Insights", href: `/vehicles/${vehicleId}/analytics` },
     ];
-    return      <div className="flex gap-2">
-                {tabs.map((tab, key)=>{
+    return      <div className="flex justify-between mt-5">
+        <div className="flex gap-1">
+        <Link className={cn(buttonVariants({variant: "outline"}))} href={'/'}>+ Log service</Link>
+        <Link className={cn(buttonVariants({variant: "outline"}))} href={'/'}>+ Log fuel</Link>
+    
+        </div>
+                   <div className="flex gap-2">
+            {tabs.map((tab, key)=>{
                     return <Link
                     key={key}
                     className={cn(
@@ -28,6 +34,8 @@ export default function VehicleNavigation({vehicleId}:
                             variant: `${pathname == tab.href ? 'default' : 'outline'}` }))}
                     href={tab.href}>{tab.name}</Link>
                 })}
+                </div>
+              
               
             </div>
 }
