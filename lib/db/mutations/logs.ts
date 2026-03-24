@@ -37,7 +37,9 @@ try {
                 odometer: parsed.data.odometer,
                 user_id,
                 vehicle_id,
-                fuel_litres:parsed.data.fuel_litres
+                fuel_litres:parsed.data.fuel_litres,
+                notes: parsed.data.notes,
+                cost_per_litre: parsed.data.cost / parsed.data.fuel_litres
 
             });
 
@@ -48,7 +50,7 @@ try {
             }
         };
 
-          revalidatePath('/vehicles');
+          revalidatePath(`/vehicles/${vehicle_id}/fuel`);
 
              return {success: true, message: `Fuel log added`}
 
@@ -88,13 +90,13 @@ try {
             
             const {error} = await supabase.from("logs").insert({
                 date: parsed.data.date.toISOString(),
-                type: "maintenance",
+                type: "repair",
                 cost: parsed.data.cost,
                 odometer: parsed.data.odometer,
                 user_id,
                 vehicle_id,
                 title: parsed.data.title,
-                description: parsed.data.description,
+                notes: parsed.data.notes,
                 service_type:parsed.data.service_type as ServiceType
 
             });
@@ -106,7 +108,7 @@ try {
             }
         };
 
-          revalidatePath('/vehicles');
+        revalidatePath(`/vehicles/${vehicle_id}/repairs`);
 
              return {success: true, message: `Repair log added`}
 

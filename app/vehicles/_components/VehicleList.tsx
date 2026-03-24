@@ -1,4 +1,4 @@
-import { getUserId } from "@/lib/auth/session";
+
 import { getVehicles } from "@/lib/db/queries/vehicle";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,9 +6,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 export default async function VehicleList() {
-
-    const user_id = await getUserId();
-    const data = await getVehicles(user_id);
+    const data = await getVehicles();
 
 
     if (!data.vehicles){
@@ -18,9 +16,9 @@ export default async function VehicleList() {
 
 
     return (
-<div className="flex gap-5 flex-wrap">
+<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {data.vehicles?.map((vehicle) => {
-            return <Card className="w-full max-w-sm" key={vehicle.id}>
+            return <Card className="w-full" key={vehicle.id}>
                 <CardHeader>
                     <CardTitle className="font-semibold">{vehicle.make} {vehicle.model}</CardTitle>
                     <CardDescription>{vehicle.year} - ODO: {vehicle.current_odometer}</CardDescription>

@@ -42,6 +42,7 @@ export function LogDatePicker({value, onChange}: Props) {
             setOpen(false)
           }} // pass date back to RHF
           defaultMonth={value ?? new Date()} 
+          disabled={{ after: new Date() }} 
         />
       </PopoverContent>
     </Popover>

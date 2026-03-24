@@ -26,7 +26,7 @@ export default function RepairForm({vehicleId}:
         resolver: zodResolver(repairFormSchema),
         defaultValues:{
             title: "",
-            description: "",
+            notes: "",
             cost: undefined,
             odometer: undefined,
             date: undefined,
@@ -63,7 +63,7 @@ export default function RepairForm({vehicleId}:
       
 
 
-                router.push('/vehicles/' + vehicleId)
+                router.push(`/vehicles/${vehicleId}/repairs`)
 
 
             }
@@ -131,14 +131,14 @@ export default function RepairForm({vehicleId}:
 
                             </Controller>
 
-                                         <Controller
+                                                 <Controller
                                 control={form.control}
-                                name="description"
+                                name="notes"
                                 render={({ field, fieldState }) => (
 
 
                                     <Field data-invalid={fieldState.invalid}>
-                                        <FieldLabel>Description</FieldLabel>
+                                        <FieldLabel>Notes: (Optional)</FieldLabel>
                                         <Textarea
                                             {...field}
                                             value={field.value ?? ""}

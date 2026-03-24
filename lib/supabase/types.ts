@@ -74,11 +74,12 @@ export type Database = {
       logs: {
         Row: {
           cost: number
+          cost_per_litre: number | null
           created_at: string
           date: string
-          description: string | null
           fuel_litres: number | null
           id: string
+          notes: string | null
           odometer: number
           service_type: Database["public"]["Enums"]["Service_type"] | null
           title: string | null
@@ -88,11 +89,12 @@ export type Database = {
         }
         Insert: {
           cost: number
+          cost_per_litre?: number | null
           created_at?: string
           date: string
-          description?: string | null
           fuel_litres?: number | null
           id?: string
+          notes?: string | null
           odometer: number
           service_type?: Database["public"]["Enums"]["Service_type"] | null
           title?: string | null
@@ -102,11 +104,12 @@ export type Database = {
         }
         Update: {
           cost?: number
+          cost_per_litre?: number | null
           created_at?: string
           date?: string
-          description?: string | null
           fuel_litres?: number | null
           id?: string
+          notes?: string | null
           odometer?: number
           service_type?: Database["public"]["Enums"]["Service_type"] | null
           title?: string | null
@@ -247,7 +250,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      Log_type: "fuel" | "maintenance"
+      Log_type: "fuel" | "repair"
       Service_type: "oil_change" | "brakes" | "tyres" | "WOF" | "other"
     }
     CompositeTypes: {
@@ -379,7 +382,7 @@ export const Constants = {
   },
   public: {
     Enums: {
-      Log_type: ["fuel", "maintenance"],
+      Log_type: ["fuel", "repair"],
       Service_type: ["oil_change", "brakes", "tyres", "WOF", "other"],
     },
   },

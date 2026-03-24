@@ -1,20 +1,16 @@
-
 import { Suspense } from "react";
-import FuelTable from "./_components/FuelTable";
-
-
-
+import RepairTable from "./_components/RepairTable";
 
 export default async function page({params}:{params: Promise<{vehicleId: string}>}){
-      const {vehicleId} = await params;
-
-
+    
+         const {vehicleId} = await params;
     return (
         <div>
             <Suspense fallback={"Loading data..."}>
-   <FuelTable vehicleId={vehicleId}/>
+   <RepairTable vehicleId={vehicleId}/>
             </Suspense>
-           
+         
+
         </div>
     )
 }

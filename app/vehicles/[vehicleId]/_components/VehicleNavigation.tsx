@@ -16,7 +16,7 @@ export default function VehicleNavigation({vehicleId}:
         { name: "Overview", href: `/vehicles/${vehicleId}` },
         { name: "History", href: `/vehicles/${vehicleId}/logs` },
         { name: "Fuel", href: `/vehicles/${vehicleId}/fuel` },
-        { name: "Maintenance", href: `/vehicles/${vehicleId}/maintenance` },
+        { name: "Repairs", href: `/vehicles/${vehicleId}/repairs` },
         { name: "Insights", href: `/vehicles/${vehicleId}/analytics` },
     ];
     return      <div className="flex justify-between my-5">
