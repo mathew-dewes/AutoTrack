@@ -13,6 +13,7 @@ import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { addFuelLog } from "@/lib/db/mutations/logs";
 import { toast } from "sonner";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function FuelForm({ vehicleId }:
     { vehicleId: string }
@@ -58,7 +59,7 @@ export default function FuelForm({ vehicleId }:
       
 
 
-                router.push('/vehicles/' + vehicleId)
+                router.push(`/vehicles/${vehicleId}/fuel`)
 
 
             }
@@ -185,6 +186,32 @@ export default function FuelForm({ vehicleId }:
                         >
 
                         </Controller>
+
+                         <Controller
+                                control={form.control}
+                                name="notes"
+                                render={({ field, fieldState }) => (
+
+
+                                    <Field data-invalid={fieldState.invalid}>
+                                        <FieldLabel>Notes: (Optional)</FieldLabel>
+                                        <Textarea
+                                            {...field}
+                                            value={field.value ?? ""}
+
+                                            aria-disabled={fieldState.invalid}
+                                            placeholder="Enter log description - Max 200 words"
+                                        />
+                                        {fieldState.invalid && (
+                                            <FieldError errors={[fieldState.error]} />
+                                        )}
+
+
+                                    </Field>
+                                )}
+                            >
+
+                            </Controller>
                     </FieldGroup>
                 </form>
             </CardContent>
