@@ -14,10 +14,10 @@ export default function VehicleNavigation({vehicleId}:
 
        const tabs = [
         { name: "Overview", href: `/vehicles/${vehicleId}` },
-        { name: "History", href: `/vehicles/${vehicleId}/logs` },
         { name: "Fuel", href: `/vehicles/${vehicleId}/fuel` },
         { name: "Repairs", href: `/vehicles/${vehicleId}/repairs` },
-        { name: "Insights", href: `/vehicles/${vehicleId}/analytics` },
+        { name: "Analytics", href: `/vehicles/${vehicleId}/analytics` },
+        { name: "Reminders", href: `/vehicles/${vehicleId}/reminders` },
     ];
     return      <div className="flex justify-between my-5">
         <div className="flex items-center gap-2">

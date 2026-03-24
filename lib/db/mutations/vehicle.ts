@@ -57,4 +57,52 @@ export async function addVehicle(values: z.infer<typeof vehicleSchema>) {
         }
 
     }
+};
+
+
+export async function updateOdometerReading(vehicle_id: string, updatedAmount: number){
+
+const supabase = await createClientForServer();
+
+const {data ,error} = await supabase.from("vehicles").update({current_odometer: updatedAmount})
+.eq("id", vehicle_id).select();
+     if (error) {
+        console.log(error);
+        
+            return {
+                success: false,
+                error: error.message
+            }
+        };
+
+        console.log("UPDATE RESULT:", data, error);
+
+        return {
+            success: true, message: "Odometer reading updated"
+        }
+};
+
+export async function odometerCheck(vehicle_id: string, updateAmount: number){
+    const supabase = await createClientForServer();
+
+const { data: vehicle } = await supabase
+  .from("vehicles")
+  .select("current_odometer")
+  .eq("id", vehicle_id)
+  .single();
+
+  if (!vehicle){
+    return {
+        success: false, error: "Vehicle not found"
+    }
+  }
+
+if (updateAmount <= vehicle.current_odometer) {
+  return {
+    success: false,
+    error: "Odometer cannot go backwards",
+  };
+}
+
+return {success: true}
 }
