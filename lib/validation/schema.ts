@@ -48,4 +48,19 @@ export const repairFormSchema = z.object({
   odometer: z.number("Odometer reading is required").min(1).max(1000000),
   cost: z.number("Cost is required"),
   service_type: z.enum(Service_type, "Please select a service type"),
+
+  // Reminder logic
+  enable_reminders: z.boolean(),
+  reminder_date: z.date().optional(),
+  odometer_trigger: z.number("Please enter a valid number").optional()
+}).superRefine((data, ctx)=>{
+  if (!data.enable_reminders) return
+
+  if (!data.reminder_date && !data.odometer_trigger){
+        ctx.addIssue({
+      code: "custom",
+      message: "Provide at least a date or distance",
+      path: ["reminder_date"],
+    })
+  }
 })

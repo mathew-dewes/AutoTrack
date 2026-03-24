@@ -130,33 +130,36 @@ export type Database = {
       notifications: {
         Row: {
           created_at: string
+          date_trigger: string
           id: string
           message: string
+          odometer_trigger: number | null
           sent: boolean | null
           title: string
-          trigger_at: string
           type: string
           user_id: string
           vehicle_id: string
         }
         Insert: {
           created_at?: string
+          date_trigger: string
           id?: string
           message: string
+          odometer_trigger?: number | null
           sent?: boolean | null
           title: string
-          trigger_at: string
           type: string
           user_id: string
           vehicle_id: string
         }
         Update: {
           created_at?: string
+          date_trigger?: string
           id?: string
           message?: string
+          odometer_trigger?: number | null
           sent?: boolean | null
           title?: string
-          trigger_at?: string
           type?: string
           user_id?: string
           vehicle_id?: string

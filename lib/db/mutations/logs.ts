@@ -6,12 +6,15 @@ import { ServiceType } from "@/lib/validation/enums";
 import { fuelLogSchema, repairFormSchema } from "@/lib/validation/schema";
 import { revalidatePath } from "next/cache";
 import z from "zod";
-import { odometerCheck, updateOdometerReading } from "./vehicle";
+import { updateOdometerReading } from "./vehicle";
+import { Database } from "@/lib/supabase/types";
+
+type NotificationInsert = Database["public"]["Tables"]["notifications"]["Insert"];
 
 
 
 export async function addFuelLog(values: z.infer<typeof fuelLogSchema>, vehicle_id: string) {
-    
+
     const user_id = await getUserId();
     const supabase = await createClientForServer();
 
@@ -31,15 +34,26 @@ export async function addFuelLog(values: z.infer<typeof fuelLogSchema>, vehicle_
             }
         };
 
+           // Get vehicle odometer reading
+        const { error: odoError, data: vehicle } = await supabase
+            .from("vehicles")
+            .select("current_odometer")
+            .eq("id", vehicle_id)
+            .single();
 
+        if (odoError) {
+            return {
+                success: false,
+                error: odoError.message
+            }
+        };
 
-        const check = await odometerCheck(vehicle_id, parsed.data.odometer);
-
-        if (!check.success) {
-
-            return check.error
+        // Check if parsed odometer reading is greater than the vehicles current odometer reading
+        if (parsed.data.odometer < vehicle.current_odometer) {
+            return { success: false, fieldErrors: { odometer: "Odometer must be greater than current reading" } };
         }
 
+        // Insert log
         const { data: updatedLog, error } = await supabase.from("logs").insert({
             date: parsed.data.date.toISOString(),
             type: "fuel",
@@ -91,11 +105,12 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
     const supabase = await createClientForServer();
 
     try {
+
+        // Zod calidation check
         const parsed = repairFormSchema.safeParse(values);
 
         if (!parsed.success) {
             const fieldErrors: Record<string, string> = {}
-
             parsed.error.issues.forEach(issue => {
                 fieldErrors[issue.path[0] as string] = issue.message
             })
@@ -106,17 +121,36 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
             }
         };
 
-             const check = await odometerCheck(vehicle_id, parsed.data.odometer);
 
-        if (!check.success) {
+        // Get vehicle odometer reading
+        const { error: odoError, data: vehicle } = await supabase
+            .from("vehicles")
+            .select("current_odometer, make, model, year")
+            .eq("id", vehicle_id)
+            .single();
 
-            return {error: check.error}
+        if (odoError) {
+            return {
+                success: false,
+                error: odoError.message
+            }
+        };
+
+        // Check if parsed odometer reading is greater than the vehicles current odometer reading
+        if (parsed.data.odometer < vehicle.current_odometer) {
+            return { success: false, fieldErrors: { odometer: "Odometer must be greater than current reading" } };
         }
 
-      
+        // Check if parsed omdometer trigger is greater than parsed odometer reading
+        if (parsed.data.odometer_trigger !== undefined) {
+            if (parsed.data.odometer_trigger <= parsed.data.odometer) {
+                return { success: false, error:  "Reminder distance must be greater than current odometer"};
+            }
+        }
 
 
-        const { data: updatedLog ,error } = await supabase.from("logs").insert({
+        // Update log
+        const { data: updatedLog, error } = await supabase.from("logs").insert({
             date: parsed.data.date.toISOString(),
             type: "repair",
             cost: parsed.data.cost,
@@ -136,7 +170,8 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
             }
         };
 
-                const updateResult = await updateOdometerReading(vehicle_id, parsed.data.odometer);
+        // Update odometer reading
+        const updateResult = await updateOdometerReading(vehicle_id, parsed.data.odometer);
 
         if (!updateResult.success) {
             await supabase.from("logs").delete().eq("id", updatedLog.id);
@@ -145,7 +180,47 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
                 success: false,
                 error: "Failed to update odometer",
             };
+        };
+
+
+
+
+        if (parsed.data.enable_reminders) {
+            // Insert reminder
+            const hasReminder = parsed.data.reminder_date || parsed.data.odometer_trigger;
+
+            if (hasReminder) {
+
+                const notification: Partial<NotificationInsert> = {
+                    message: `This is a reminder that the service type ${parsed.data.service_type} is now due for ${vehicle.make} ${vehicle.model} - ${vehicle.year}`,
+                    title: `Maintenance reminder - ${parsed.data.service_type}`,
+                    type: parsed.data.service_type,
+                    user_id,
+                    vehicle_id
+                };
+
+                if (parsed.data.reminder_date) {
+                    notification.date_trigger = parsed.data.reminder_date.toISOString();
+                }
+
+                if (parsed.data.odometer_trigger !== undefined) {
+                    notification.odometer_trigger = parsed.data.odometer_trigger;
+                }
+
+                const { error: notificationError } = await supabase
+                    .from("notifications")
+                    .insert(notification as NotificationInsert);
+
+                if (notificationError) {
+                    return {
+                        success: false,
+                        error: notificationError.message
+                    };
+                }
+            }
         }
+
+
 
         revalidatePath(`/vehicles/${vehicle_id}/repairs`);
 
