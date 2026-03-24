@@ -33,10 +33,26 @@ export const vehicleSchema = z.object({
   odometer: z.number("Odometer reading is required").min(1).max(1000000)
 });
 
+export const fuelLogSchema = z.object({
+  date: z.date('Refuel date is required'),
+  odometer: z.number("Odometer reading is required").min(1).max(1000000),
+  cost: z.number("Cost is required"),
+  fuel_litres: z.number("Litres of fuel is required"),
+});
+
+export const repairFormSchema = z.object({
+  title: z.string().min(1, "Repair title is required"),
+  description: z.string().max(200, 'Description must be 200 characters or less').optional(),
+  date: z.date('Refuel date is required'),
+  odometer: z.number("Odometer reading is required").min(1).max(1000000),
+  cost: z.number("Cost is required"),
+  service_type: z.enum(Service_type, "Please select a service type"),
+})
+
 
 export const logSchema = z.object({
   type: z.enum(Log_type, 'Log type is required'),
-service_type: z.enum(Service_type).optional(),
+  service_type: z.enum(Service_type).optional(),
   title: z.string().optional(),
   description: z.string().optional(),
   cost: z.number(),
@@ -46,7 +62,7 @@ service_type: z.enum(Service_type).optional(),
 
 
 }).superRefine((data, ctx) => {
-  
+
   if (data.type === "fuel") {
     if (data.fuel_litres === undefined) {
       ctx.addIssue({

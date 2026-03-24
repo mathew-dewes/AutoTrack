@@ -1,7 +1,15 @@
-export default function page(){
+import RepairForm from "./_components/RepairForm";
+
+export default async function page(
+    {params}:{
+        params: Promise<{vehicleId: string}>
+    }
+){
+
+            const {vehicleId} = await params;
     return (
         <div>
-            <p>Repair log page</p>
+            <RepairForm vehicleId={vehicleId}/>
         </div>
     )
 }

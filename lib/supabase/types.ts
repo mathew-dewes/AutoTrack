@@ -76,14 +76,13 @@ export type Database = {
           cost: number
           created_at: string
           date: string
-          description: string
+          description: string | null
           fuel_litres: number | null
-          fuel_price_per_litre: number
           id: string
           odometer: number
-          service_type: string | null
-          title: string
-          type: string
+          service_type: Database["public"]["Enums"]["Service_type"] | null
+          title: string | null
+          type: Database["public"]["Enums"]["Log_type"]
           user_id: string
           vehicle_id: string
         }
@@ -91,14 +90,13 @@ export type Database = {
           cost: number
           created_at?: string
           date: string
-          description: string
+          description?: string | null
           fuel_litres?: number | null
-          fuel_price_per_litre: number
           id?: string
           odometer: number
-          service_type?: string | null
-          title: string
-          type: string
+          service_type?: Database["public"]["Enums"]["Service_type"] | null
+          title?: string | null
+          type: Database["public"]["Enums"]["Log_type"]
           user_id: string
           vehicle_id: string
         }
@@ -106,14 +104,13 @@ export type Database = {
           cost?: number
           created_at?: string
           date?: string
-          description?: string
+          description?: string | null
           fuel_litres?: number | null
-          fuel_price_per_litre?: number
           id?: string
           odometer?: number
-          service_type?: string | null
-          title?: string
-          type?: string
+          service_type?: Database["public"]["Enums"]["Service_type"] | null
+          title?: string | null
+          type?: Database["public"]["Enums"]["Log_type"]
           user_id?: string
           vehicle_id?: string
         }
@@ -178,8 +175,8 @@ export type Database = {
           interval_days: number
           interval_km: number
           name: string
-          service_type: string
-          vehicle_id: string | null
+          service_type: Database["public"]["Enums"]["Service_type"]
+          vehicle_id: string
         }
         Insert: {
           created_at?: string
@@ -187,8 +184,8 @@ export type Database = {
           interval_days: number
           interval_km: number
           name: string
-          service_type: string
-          vehicle_id?: string | null
+          service_type: Database["public"]["Enums"]["Service_type"]
+          vehicle_id: string
         }
         Update: {
           created_at?: string
@@ -196,8 +193,8 @@ export type Database = {
           interval_days?: number
           interval_km?: number
           name?: string
-          service_type?: string
-          vehicle_id?: string | null
+          service_type?: Database["public"]["Enums"]["Service_type"]
+          vehicle_id?: string
         }
         Relationships: [
           {
@@ -250,7 +247,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      Log_type: "fuel" | "maintenance"
+      Service_type: "oil_change" | "brakes" | "tyres" | "WOF" | "other"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -380,6 +378,9 @@ export const Constants = {
     Enums: {},
   },
   public: {
-    Enums: {},
+    Enums: {
+      Log_type: ["fuel", "maintenance"],
+      Service_type: ["oil_change", "brakes", "tyres", "WOF", "other"],
+    },
   },
 } as const

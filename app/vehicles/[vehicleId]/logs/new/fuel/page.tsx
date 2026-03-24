@@ -1,7 +1,15 @@
-export default function page(){
+import FuelForm from "./_components/FuelForm";
+
+export default async function page(
+    {params}:{
+        params: Promise<{vehicleId: string}>
+    }
+){
+
+        const {vehicleId} = await params;
     return (
         <div>
-            <p>Fuel log page</p>
+            <FuelForm vehicleId={vehicleId}/>
         </div>
     )
 }
