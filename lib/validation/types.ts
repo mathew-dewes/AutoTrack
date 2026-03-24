@@ -16,4 +16,13 @@ export type FuelEntry = {
   odometer: number;
 
 
+};
+
+export type RepairEntry = {
+  id: string
+  date: string;
+  title: string;
+  notes: string;
+  cost: number;
+  odometer: number
 }

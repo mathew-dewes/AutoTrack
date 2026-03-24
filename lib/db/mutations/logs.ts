@@ -90,7 +90,7 @@ try {
             
             const {error} = await supabase.from("logs").insert({
                 date: parsed.data.date.toISOString(),
-                type: "maintenance",
+                type: "repair",
                 cost: parsed.data.cost,
                 odometer: parsed.data.odometer,
                 user_id,
@@ -108,7 +108,7 @@ try {
             }
         };
 
-          revalidatePath('/vehicles');
+        revalidatePath(`/vehicles/${vehicle_id}/repairs`);
 
              return {success: true, message: `Repair log added`}
 

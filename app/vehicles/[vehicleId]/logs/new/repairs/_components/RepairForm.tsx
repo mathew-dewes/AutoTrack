@@ -63,7 +63,7 @@ export default function RepairForm({vehicleId}:
       
 
 
-                router.push('/vehicles/' + vehicleId)
+                router.push(`/vehicles/${vehicleId}/repairs`)
 
 
             }

@@ -250,7 +250,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      Log_type: "fuel" | "maintenance"
+      Log_type: "fuel" | "repair"
       Service_type: "oil_change" | "brakes" | "tyres" | "WOF" | "other"
     }
     CompositeTypes: {
@@ -382,7 +382,7 @@ export const Constants = {
   },
   public: {
     Enums: {
-      Log_type: ["fuel", "maintenance"],
+      Log_type: ["fuel", "repair"],
       Service_type: ["oil_change", "brakes", "tyres", "WOF", "other"],
     },
   },
