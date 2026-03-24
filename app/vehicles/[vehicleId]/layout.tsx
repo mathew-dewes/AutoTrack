@@ -1,17 +1,18 @@
 import VehicleNavigation from "./_components/VehicleNavigation"
 
-export default function VehicleLayout({
-    children,
+export default async function VehicleLayout({
+    children, params
 }: {
-    children: React.ReactNode
+    children: React.ReactNode, params: Promise<{vehicleId: string}>
 }) {
 
+    const {vehicleId} = await params;
 
 
     return (
 
         <main>
-     <VehicleNavigation vehicleId="1"/>
+     <VehicleNavigation vehicleId={vehicleId}/>
             {children}
         </main>
 

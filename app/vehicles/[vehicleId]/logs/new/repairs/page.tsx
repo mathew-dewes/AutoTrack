@@ -1,4 +1,4 @@
-import FuelForm from "./_components/FuelForm";
+import RepairForm from "./_components/RepairForm";
 
 export default async function page(
     {params}:{
@@ -6,10 +6,10 @@ export default async function page(
     }
 ){
 
-        const {vehicleId} = await params;
+            const {vehicleId} = await params;
     return (
         <div>
-            <FuelForm vehicleId={vehicleId}/>
+            <RepairForm vehicleId={vehicleId}/>
         </div>
     )
 }

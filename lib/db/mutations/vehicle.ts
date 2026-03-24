@@ -33,7 +33,7 @@ export async function addVehicle(values: z.infer<typeof vehicleSchema>) {
             model: parsed.data.model,
             year: parsed.data.year,
             licence_plate_number: parsed.data.licence_plate,
-            current_odometer: 1,
+            current_odometer: parsed.data.odometer,
             user_id
         });
 

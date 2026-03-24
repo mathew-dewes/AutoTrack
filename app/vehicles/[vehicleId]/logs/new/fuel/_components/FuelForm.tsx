@@ -1,51 +1,50 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { ButtonSpinner } from "@/components/ui/button-spinner";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { addVehicle } from "@/lib/db/mutations/vehicle"
-
-
-import { vehicleSchema } from "@/lib/validation/schema";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { fuelLogSchema } from "@/lib/validation/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
 import z from "zod";
+import { LogDatePicker } from "../../_components/LogDatePicker";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { addFuelLog } from "@/lib/db/mutations/logs";
+import { toast } from "sonner";
 
-export default function VehicleForm() {
+export default function FuelForm({ vehicleId }:
+    { vehicleId: string }
+) {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
-
-    const form = useForm<z.infer<typeof vehicleSchema>>({
-        resolver: zodResolver(vehicleSchema),
+    const form = useForm<z.infer<typeof fuelLogSchema>>({
+        resolver: zodResolver(fuelLogSchema),
         defaultValues: {
-            make: "",
-            model: "",
-            licence_plate: "",
-            year: undefined,
+            date: undefined,
+            cost: undefined,
+            fuel_litres: undefined,
             odometer: undefined
-
         }
     });
 
-    function onSubmit(values: z.infer<typeof vehicleSchema>) {
+    function onSubmit(values: z.infer<typeof fuelLogSchema>) {
         startTransition((async () => {
-            const res = await addVehicle(values);
+            const res = await addFuelLog(values, vehicleId);
 
             if (res.error) {
                 form.setError("root", {
                     message: res.error
                 });
                 toast.error(res.error)
+
+
             };
 
             if (res.fieldErrors) {
                 Object.entries(res.fieldErrors).forEach(([field, message]) => {
-                    form.setError(field as keyof z.infer<typeof vehicleSchema>,
+                    form.setError(field as keyof z.infer<typeof fuelLogSchema>,
                         { message }
                     )
                 });
@@ -56,157 +55,149 @@ export default function VehicleForm() {
 
             if (res?.success) {
                 toast.success(res.message);
+      
 
 
-                router.push('/vehicles')
+                router.push('/vehicles/' + vehicleId)
 
 
             }
 
+
         }))
+      
+
     }
 
-    return <div className="flex flex-col gap-6 max-w-xl">
-        <Card>
+    return (
+        <Card className="w-full max-w-lg">
             <CardHeader>
-                <CardTitle className="font-bold">Vehicle Details</CardTitle>
-                <CardDescription>Enter you vehicle details</CardDescription>
+                <CardTitle className="font-semibold">Fuel log</CardTitle>
             </CardHeader>
 
             <CardContent>
-                <form id="vehicleForm" onSubmit={form.handleSubmit(onSubmit)}>
+                <form id="fuelLogForm" onSubmit={form.handleSubmit(onSubmit)}>
                     <FieldGroup>
                         <Controller
                             control={form.control}
-                            name="make"
-                            render={({ field, fieldState }) => (
+                            name="date"
+                            render={({ fieldState, field }) => (
+
+
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel>Make:</FieldLabel>
-                                    <Input
-                                        {...field}
-                                        type="text"
-                                        aria-disabled={fieldState.invalid}
-                                        placeholder="Vehicle make"
-                                    />
+                                    <FieldLabel>
+                                        Date</FieldLabel>
+                                    <LogDatePicker
+                                        value={field.value}
+                                        onChange={(date) => field.onChange(date)} />
                                     {fieldState.invalid && (
                                         <FieldError errors={[fieldState.error]} />
                                     )}
+
+
                                 </Field>
+
                             )}
                         >
 
                         </Controller>
-                        <Controller
-                            control={form.control}
-                            name="model"
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel>Model:</FieldLabel>
-                                    <Input
-                                        {...field}
-                                        type="text"
-                                        aria-disabled={fieldState.invalid}
-                                        placeholder="Vehicle model"
-                                    />
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-                                </Field>
-                            )}
-                        >
 
-                        </Controller>
-                        <Controller
-                            control={form.control}
-                            name="year"
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel>Year:</FieldLabel>
-                                    <Input
-                                        {...field}
-                                        type="number"
-                                        aria-disabled={fieldState.invalid}
-                                        placeholder="Vehicle model year"
-                                        value={field.value ?? ""}
-                                        onChange={(e) => {
-                                            const value = e.target.value;
-                                            field.onChange(value === "" ? undefined : Number(value));
-                                        }}
-
-
-                                    />
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-                                </Field>
-                            )}
-                        >
-
-                        </Controller>
-                        <Controller
-                            control={form.control}
-                            name="licence_plate"
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel>Licence plate number:</FieldLabel>
-                                    <Input
-                                        {...field}
-                                        type="text"
-                                        aria-disabled={fieldState.invalid}
-                                        placeholder="Licence plate number"
-
-                                    />
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-                                </Field>
-                            )}
-                        >
-
-                        </Controller>
 
                         <Controller
                             control={form.control}
                             name="odometer"
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel>Odometer reading:</FieldLabel>
+                                    <FieldLabel>Odometer reading</FieldLabel>
                                     <Input
                                         {...field}
                                         type="number"
                                         aria-disabled={fieldState.invalid}
-                                        placeholder="Vehicle model year"
+                                        placeholder="Enter vehicles odometer reading"
+                                        value={field.value ?? ""}
+                                        onChange={(e) => {
+                                            const value = e.target.value;
+                                            field.onChange(value === "" ? undefined : Number(value));
+                                        }}
+                                    />
+                                    <FieldDescription>Ensure odometer reading is from time of refuel for best accuracy</FieldDescription>
+                                    {fieldState.invalid && (
+                                        <FieldError errors={[fieldState.error]} />
+                                    )}
+
+                                </Field>
+                            )}
+                        >
+
+                        </Controller>
+
+                        <Controller
+                            control={form.control}
+                            name="cost"
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel>Cost</FieldLabel>
+                                    <Input
+                                        {...field}
+                                        type="number"
+                                        aria-disabled={fieldState.invalid}
+                                        placeholder="Enter cost of maintenance"
+                                        value={field.value ?? ""}
+                                        onChange={(e) => {
+                                            const value = e.target.value;
+                                            field.onChange(value === "" ? undefined : Number(value));
+                                        }}
+                                    />
+                                    {fieldState.invalid && (
+                                        <FieldError errors={[fieldState.error]} />
+                                    )}
+
+                                </Field>
+                            )}
+                        >
+
+                        </Controller>
+
+                        <Controller
+                            control={form.control}
+                            name="fuel_litres"
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel>Litres of fuel</FieldLabel>
+                                    <Input
+                                        {...field}
+                                        type="number"
+                                        aria-disabled={fieldState.invalid}
+                                        placeholder="Enter the amount of litres filled"
                                         value={field.value ?? ""}
                                         onChange={(e) => {
                                             const value = e.target.value;
                                             field.onChange(value === "" ? undefined : Number(value));
                                         }}
 
-
                                     />
                                     {fieldState.invalid && (
                                         <FieldError errors={[fieldState.error]} />
                                     )}
+
                                 </Field>
                             )}
                         >
 
                         </Controller>
                     </FieldGroup>
-
                 </form>
             </CardContent>
 
-            <CardFooter className="flex-col gap-4">
+            <CardFooter>
+                <div className="flex gap-2">
+                    <Button disabled={isPending} form="fuelLogForm">Submit</Button>
+                    <Button onClick={() => form.reset()}>Clear form</Button>
+                </div>
 
-
-                {!isPending ?
-                    <Button disabled={isPending} form="vehicleForm" className="w-full">Add Vehicle</Button>
-                    : <ButtonSpinner text="Adding Vehicle" />}
-                <Button disabled={isPending} onClick={() => form.reset()} variant={"outline"} className="w-full">Clear form</Button>
             </CardFooter>
 
         </Card>
+    )
 
-    </div>
 }
