@@ -25,10 +25,10 @@ export function VehicleCarousel({ vehicles, totalSpend, recentServices, upcoming
 ) {
 
     return (
-        <Carousel className="w-full mt-5"
+        <Carousel className="w-full"
             plugins={[
                 Autoplay({
-                    delay: 5000,
+                    delay: 6000,
                 }),
             ]}>
             <CarouselContent>
@@ -45,8 +45,8 @@ export function VehicleCarousel({ vehicles, totalSpend, recentServices, upcoming
                         return item.vehicle_id == vehicle.id
                     })
 
-                    console.log(recent_services[0].odometer);
-                    
+                
+                
                     return <CarouselItem key={index}>
                         <div className="p-1">
                             <Card className="w-full max-w-lg">
@@ -62,9 +62,11 @@ export function VehicleCarousel({ vehicles, totalSpend, recentServices, upcoming
                                 </CardHeader>
                                 <CardContent>
                                     <div className="flex flex-col space-y-1">
-                                        <span>Total spend: ${spend[0].cost}</span>
-                                        <span>Last service at: {recent_services[0].odometer} Km</span>
-                                        <span>Next service at: {upcoming_services[0].odometer_trigger} Km</span>
+                                        {spend[0]?.cost && <span>Total spend: ${spend[0]?.cost}</span>}
+                                        {recent_services[0]?.odometer && <span>Last service at: {recent_services[0]?.odometer} Km</span>}
+                                        {upcoming_services[0]?.odometer_trigger && <span >Next service at: {upcoming_services[0]?.odometer_trigger} Km</span>}
+                                       {!spend[0]?.cost && <p>This vehicle has no logs saved. Ensure to add fuel and maintance logs to utilize the auto track system</p>}
+                                        
                                     </div>
 
                                 </CardContent>

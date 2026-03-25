@@ -10,6 +10,8 @@ import { updateOdometerReading } from "./vehicle";
 import { Database } from "@/lib/supabase/types";
 
 type NotificationInsert = Database["public"]["Tables"]["notifications"]["Insert"];
+
+
 type ActionResponse =
     | { success: true; message: string, notification?: boolean }
     | {
@@ -132,7 +134,7 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
         // Get vehicle odometer reading
         const { error: odoError, data: vehicle } = await supabase
             .from("vehicles")
-            .select("current_odometer, make, model, year")
+            .select("current_odometer, make, model, year, licence_plate_number")
             .eq("id", vehicle_id)
             .single();
 
@@ -209,9 +211,10 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
                 const notification: Partial<NotificationInsert> = {
                     message: `This is a reminder that the service type ${parsed.data.service_type} is now due for ${vehicle.make} ${vehicle.model} - ${vehicle.year}`,
                     title: `Maintenance reminder - ${parsed.data.service_type}`,
-                    type: parsed.data.service_type,
+                    type: parsed.data.service_type as ServiceType,
                     user_id,
                     vehicle_id,
+                    vehicle_name: `${vehicle.make} ${vehicle.model} - ${vehicle.licence_plate_number}`
 
                 };
 

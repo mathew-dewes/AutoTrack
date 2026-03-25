@@ -139,6 +139,7 @@ export type Database = {
           type: Database["public"]["Enums"]["Service_type"]
           user_id: string
           vehicle_id: string
+          vehicle_name: string
         }
         Insert: {
           created_at?: string
@@ -151,6 +152,7 @@ export type Database = {
           type: Database["public"]["Enums"]["Service_type"]
           user_id: string
           vehicle_id: string
+          vehicle_name: string
         }
         Update: {
           created_at?: string
@@ -163,6 +165,7 @@ export type Database = {
           type?: Database["public"]["Enums"]["Service_type"]
           user_id?: string
           vehicle_id?: string
+          vehicle_name?: string
         }
         Relationships: [
           {
@@ -270,6 +273,17 @@ export type Database = {
         Args: { p_user_id: string }
         Returns: {
           cost: number
+          vehicle_id: string
+        }[]
+      }
+      get_vehicle_service_status: {
+        Args: { p_user_id: string }
+        Returns: {
+          current_odometer: number
+          distance_to_service: number
+          make: string
+          model: string
+          odometer_trigger: number
           vehicle_id: string
         }[]
       }

@@ -8,13 +8,9 @@ export default async function VehicleSummaryList(){
 
     
     return (
-        <div>
-            <h2>Vehicle summary:</h2>
-            <div>
+    
    <VehicleCarousel upcomingServices={upcomingServices} recentServices={recentServices} vehicles={vehicles} totalSpend={totalSpend}/>
-            </div>
-
-        </div>
+      
       
 
      

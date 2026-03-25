@@ -6,10 +6,10 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 export default async function VehicleList() {
-    const data = await getVehicles();
+    const vehicles = await getVehicles();
 
 
-    if (!data.vehicles){
+    if (!vehicles){
         return <p>You have no vehicles saved. Please add</p>
     }
 
@@ -17,7 +17,7 @@ export default async function VehicleList() {
 
     return (
 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {data.vehicles?.map((vehicle) => {
+        {vehicles?.map((vehicle) => {
             return <Card className="w-full" key={vehicle.id}>
                 <CardHeader>
                     <CardTitle className="font-semibold">{vehicle.make} {vehicle.model}</CardTitle>

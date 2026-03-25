@@ -19,3 +19,20 @@ export async function getUserNotifications(vehicle_id: string) {
 
       return data
 }
+
+export async function getUpcomingUserReminders() {
+    const user_id = await getUserId();
+    const supabase = await createClientForServer();
+
+     const { data, error } = await supabase.rpc(
+        "get_vehicle_service_status",
+        { p_user_id: user_id }
+    );
+
+    if (error) {
+        console.log(error);
+        return [];
+    }
+
+    return data;
+}
