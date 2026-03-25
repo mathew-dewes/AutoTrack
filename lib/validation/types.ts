@@ -25,4 +25,14 @@ export type RepairEntry = {
   notes: string;
   cost: number;
   odometer: number
+};
+
+
+export type NotificationEntry = {
+    id: string;
+    created_at: string;
+    title: string;
+    date_trigger: string;
+    odometer_trigger: number | null;
+    sent: boolean | null;
 }
