@@ -1,9 +1,10 @@
 export type Vehicle = {
-    make: string;
-    model: string;
-    year: number;
-    licence_plate_number: string;
-    current_odometer: number;
+  id: string;
+  make: string;
+  model: string;
+  year: number;
+  current_odometer: number;
+  licence_plate_number: string;
 };
 
 export type FuelEntry = {
@@ -29,10 +30,10 @@ export type RepairEntry = {
 
 
 export type NotificationEntry = {
-    id: string;
-    created_at: string;
-    title: string;
-    date_trigger: string;
-    odometer_trigger: number | null;
-    sent: boolean | null;
+  id: string;
+  created_at: string;
+  title: string;
+  date_trigger: string;
+  odometer_trigger: number | null;
+  sent: boolean | null;
 }
