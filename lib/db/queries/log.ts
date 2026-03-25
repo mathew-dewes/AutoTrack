@@ -31,7 +31,7 @@ export async function getVehicleRepairLogs(vehicle_id: string){
     select("id, date, notes, cost, odometer, title")
     .eq("user_id", user_id)
     .eq("vehicle_id", vehicle_id)
-    .eq("type", "repair").order("date", {ascending: false})
+    .eq("type", "repair").order("created_at", {ascending: false})
 
         if (error){
         console.log("Error:", error);

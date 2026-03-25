@@ -57,4 +57,28 @@ export async function addVehicle(values: z.infer<typeof vehicleSchema>) {
         }
 
     }
-}
+};
+
+
+
+export async function updateOdometerReading(vehicle_id: string, updatedAmount: number){
+
+const supabase = await createClientForServer();
+
+const {error} = await supabase.from("vehicles").update({current_odometer: updatedAmount})
+.eq("id", vehicle_id)
+     if (error) {
+        console.log(error);
+        
+            return {
+                success: false,
+                error: error.message
+            }
+        };
+
+
+        return {
+            success: true, message: "Odometer reading updated"
+        }
+};
+
