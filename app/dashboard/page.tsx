@@ -1,6 +1,9 @@
 import { Suspense } from "react";
 import AttentionRequired from "./_components/AttentionRequired";
 import VehicleSummaryList from "./_components/VehicleSummaryList";
+import SpendOverTime from "./_components/SpendOverTime";
+import FuelTable from "./_components/_table/FuelTable";
+
 
 export default function page() {
     return (
@@ -8,8 +11,8 @@ export default function page() {
             <Suspense fallback={"Loading dashboard..."}>
                 <VehicleSummaryList />
                 <AttentionRequired />
-                <h2>Spend overtime</h2>
-                <h2>Fuel snapshot</h2>
+                <SpendOverTime/>
+                <FuelTable/>
             </Suspense>
 
 
