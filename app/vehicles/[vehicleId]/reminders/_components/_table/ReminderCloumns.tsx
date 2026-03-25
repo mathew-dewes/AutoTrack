@@ -15,61 +15,45 @@ import {
 
 } from "@/components/ui/dropdown-menu"
 import { format } from "date-fns"
-import { RepairEntry } from "@/lib/validation/types"
+import { NotificationEntry } from "@/lib/validation/types"
 
 
 
-export const RepairColumn: ColumnDef<RepairEntry>[] = [
+export const ReminderColumns: ColumnDef<NotificationEntry>[] = [
 
   {
     accessorKey: "created_at",
     header: "Date",
     cell: ({ row }) => {
 
-      return <div>{format(row.original.date, "dd/MM/yy")}</div>
+      return <div>{format(row.original.created_at, "dd/MM/yy")}</div>
     },
+  },
+  {
+    accessorKey: "date_trigger",
+    header: "Reminder date",
+    cell: ({ row }) => {
+
+      return <div>
+        {row.original.date_trigger ? 
+        format(row.original.date_trigger, "dd/MM/yy") : "-"}</div>
+    },
+  },
+
+    {
+    accessorKey: "odometer_trigger",
+    header: "ODO trigger (KM)",
   },
     {
     accessorKey: "title",
     header: "Repair title",
   },
+    {
+    accessorKey: "sent",
+    header: "Email sent",
+  },
 
 
-  {
-    accessorKey: "odometer",
-    header: "Odometer (KM)",
-  },
-  {
-    accessorKey: "notes",
-    header: "Notes",
-  },
-  // {
-  //   accessorKey: "email",
-  //    header: ({ column }) => {
-  //     return (
-  //       <Button
-  //         variant="ghost"
-  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //       >
-  //         Email
-  //         <ArrowUpDown className="ml-2 h-4 w-4" />
-  //       </Button>
-  //     )
-  //   },
-  // },
-  {
-    accessorKey: "cost",
-    header: () => <div className="text-right">Total cost</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("cost"))
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
-
-      return <div className="text-right font-medium">{formatted}</div>
-    },
-  },
 
   {
     id: "actions",
