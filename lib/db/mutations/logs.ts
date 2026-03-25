@@ -10,7 +10,14 @@ import { updateOdometerReading } from "./vehicle";
 import { Database } from "@/lib/supabase/types";
 
 type NotificationInsert = Database["public"]["Tables"]["notifications"]["Insert"];
-
+type ActionResponse =
+    | { success: true; message: string, notification?: boolean }
+    | {
+        success: false;
+        fieldErrors?: Record<string, string>;
+        formError?: string;
+        
+    };
 
 
 export async function addFuelLog(values: z.infer<typeof fuelLogSchema>, vehicle_id: string) {
@@ -34,7 +41,7 @@ export async function addFuelLog(values: z.infer<typeof fuelLogSchema>, vehicle_
             }
         };
 
-           // Get vehicle odometer reading
+        // Get vehicle odometer reading
         const { error: odoError, data: vehicle } = await supabase
             .from("vehicles")
             .select("current_odometer")
@@ -100,7 +107,7 @@ export async function addFuelLog(values: z.infer<typeof fuelLogSchema>, vehicle_
 
 
 
-export async function addRepairLog(values: z.infer<typeof repairFormSchema>, vehicle_id: string) {
+export async function addRepairLog(values: z.infer<typeof repairFormSchema>, vehicle_id: string): Promise<ActionResponse>  {
     const user_id = await getUserId();
     const supabase = await createClientForServer();
 
@@ -132,19 +139,27 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
         if (odoError) {
             return {
                 success: false,
-                error: odoError.message
-            }
+                formError: odoError.message
+            };
         };
 
         // Check if parsed odometer reading is greater than the vehicles current odometer reading
         if (parsed.data.odometer < vehicle.current_odometer) {
-            return { success: false, fieldErrors: { odometer: "Odometer must be greater than current reading" } };
+            return {
+                success: false,
+                fieldErrors: {
+                    odometer: "Odometer must be greater than current reading"
+                }
+            };;
         }
 
         // Check if parsed omdometer trigger is greater than parsed odometer reading
         if (parsed.data.odometer_trigger !== undefined) {
             if (parsed.data.odometer_trigger <= parsed.data.odometer) {
-                return { success: false, error:  "Reminder distance must be greater than current odometer"};
+                return {
+                    success: false,
+                    formError: "Reminder distance must be greater than current odometer"
+                };
             }
         }
 
@@ -166,7 +181,7 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
         if (error) {
             return {
                 success: false,
-                error: error.message
+                formError: error.message
             }
         };
 
@@ -178,7 +193,7 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
 
             return {
                 success: false,
-                error: "Failed to update odometer",
+                formError: "Failed to update odometer",
             };
         };
 
@@ -214,7 +229,7 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
                 if (notificationError) {
                     return {
                         success: false,
-                        error: notificationError.message
+                        formError: notificationError.message
                     };
                 }
             }
@@ -224,14 +239,14 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
 
         revalidatePath(`/vehicles/${vehicle_id}/repairs`);
 
-        return { success: true, message: `Repair log added` }
+        return { success: true, message: `Repair log added`, notification: true }
 
     } catch (error) {
         console.error(error);
 
         return {
             success: false,
-            error: "Something went wrong. Please try again."
+            formError: "Something went wrong. Please try again."
         }
     }
 }

@@ -44,51 +44,58 @@ export default function RepairForm({ vehicleId }:
     const enableReminder = form.watch("enable_reminders");
 
     useEffect(() => {
-  if (!enableReminder) {
-    form.setValue("reminder_date", undefined)
-    form.setValue("odometer_trigger", undefined)
-  }
-}, [enableReminder, form])
+        if (!enableReminder) {
+            form.setValue("reminder_date", undefined)
+            form.setValue("odometer_trigger", undefined)
+        }
+    }, [enableReminder, form])
 
     function onSubmit(values: z.infer<typeof repairFormSchema>) {
         startTransition((async () => {
 
-     
-   
+
+
 
             const res = await addRepairLog(values, vehicleId);
 
-         
+            if (!res.success) {
 
-            if (res.error) {
-                form.setError("root", {
-                    message: res.error
-                });
-                toast.error(res.error)
+                const { fieldErrors, formError } = res;
+                if (fieldErrors) {
+                    Object.entries(fieldErrors).forEach(([field, message]) => {
+                        form.setError(field as keyof z.infer<typeof repairFormSchema>,
+                            { message }
+                        )
+                    });
+                    toast.error("Please fix the highlighted fields");
 
+                }
 
-            };
+                if (formError) {
+                    form.setError("root", { message: formError });
+                    toast.error(formError)
+                }
 
-            if (res.fieldErrors) {
-                Object.entries(res.fieldErrors).forEach(([field, message]) => {
-                    form.setError(field as keyof z.infer<typeof repairFormSchema>,
-                        { message }
-                    )
-                });
-
-                toast.error(res.error)
-
+                return;
             }
 
-            if (res?.success) {
-                toast.success(res.message);
+          
 
+            toast.success(res.message);
 
-
-                router.push(`/vehicles/${vehicleId}/repairs`)
-
-
+            if (res.notification){
+                toast.info("Reminder has been set")
             }
+        
+
+
+
+            router.push(`/vehicles/${vehicleId}/repairs`)
+
+
+
+
+
 
 
         }))
@@ -302,7 +309,7 @@ export default function RepairForm({ vehicleId }:
                                                         {...field}
                                                         type="number"
                                                         aria-disabled={fieldState.invalid}
-                                                         value={field.value ?? ""} 
+                                                        value={field.value ?? ""}
                                                         onChange={(e) => {
                                                             const value = e.target.value;
                                                             field.onChange(value === "" ? undefined : Number(value));
