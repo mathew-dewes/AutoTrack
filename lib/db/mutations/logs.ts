@@ -16,7 +16,7 @@ type ActionResponse =
         success: false;
         fieldErrors?: Record<string, string>;
         formError?: string;
-        
+
     };
 
 
@@ -107,7 +107,7 @@ export async function addFuelLog(values: z.infer<typeof fuelLogSchema>, vehicle_
 
 
 
-export async function addRepairLog(values: z.infer<typeof repairFormSchema>, vehicle_id: string): Promise<ActionResponse>  {
+export async function addRepairLog(values: z.infer<typeof repairFormSchema>, vehicle_id: string): Promise<ActionResponse> {
     const user_id = await getUserId();
     const supabase = await createClientForServer();
 
@@ -174,7 +174,7 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
             vehicle_id,
             title: parsed.data.title,
             notes: parsed.data.notes,
-            service_type: parsed.data.service_type as ServiceType
+            service_type: parsed.data.service_type as ServiceType,
 
         }).select("id").single();
 
@@ -211,7 +211,8 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
                     title: `Maintenance reminder - ${parsed.data.service_type}`,
                     type: parsed.data.service_type,
                     user_id,
-                    vehicle_id
+                    vehicle_id,
+
                 };
 
                 if (parsed.data.reminder_date) {
@@ -224,7 +225,7 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
 
                 const { error: notificationError } = await supabase
                     .from("notifications")
-                    .insert(notification as NotificationInsert);
+                    .insert(notification as NotificationInsert)
 
                 if (notificationError) {
                     return {
@@ -232,7 +233,13 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
                         formError: notificationError.message
                     };
                 }
+
+      
             }
+
+
+
+
         }
 
 

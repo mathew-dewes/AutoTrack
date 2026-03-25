@@ -130,37 +130,37 @@ export type Database = {
       notifications: {
         Row: {
           created_at: string
-          date_trigger: string
+          date_trigger: string | null
           id: string
           message: string
           odometer_trigger: number | null
           sent: boolean | null
           title: string
-          type: string
+          type: Database["public"]["Enums"]["Service_type"]
           user_id: string
           vehicle_id: string
         }
         Insert: {
           created_at?: string
-          date_trigger: string
+          date_trigger?: string | null
           id?: string
           message: string
           odometer_trigger?: number | null
           sent?: boolean | null
           title: string
-          type: string
+          type: Database["public"]["Enums"]["Service_type"]
           user_id: string
           vehicle_id: string
         }
         Update: {
           created_at?: string
-          date_trigger?: string
+          date_trigger?: string | null
           id?: string
           message?: string
           odometer_trigger?: number | null
           sent?: boolean | null
           title?: string
-          type?: string
+          type?: Database["public"]["Enums"]["Service_type"]
           user_id?: string
           vehicle_id?: string
         }
@@ -250,7 +250,29 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_next_oil_services: {
+        Args: { p_user_id: string }
+        Returns: {
+          odometer_trigger: number
+          title: string
+          vehicle_id: string
+        }[]
+      }
+      get_recent_oil_services: {
+        Args: { p_user_id: string }
+        Returns: {
+          odometer: number
+          title: string
+          vehicle_id: string
+        }[]
+      }
+      get_total_cost_per_vehicle: {
+        Args: { p_user_id: string }
+        Returns: {
+          cost: number
+          vehicle_id: string
+        }[]
+      }
     }
     Enums: {
       Log_type: "fuel" | "repair"
