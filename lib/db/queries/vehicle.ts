@@ -14,11 +14,11 @@ export async function getVehicles(){
 
     if (error){
         console.log("Error:", error);
-        return {success: false, error: error, vehicles}
+        return []
         
     }
 
-    return {success: true, vehicles}
+    return vehicles
 
 
 };

@@ -10,13 +10,15 @@ import { updateOdometerReading } from "./vehicle";
 import { Database } from "@/lib/supabase/types";
 
 type NotificationInsert = Database["public"]["Tables"]["notifications"]["Insert"];
+
+
 type ActionResponse =
     | { success: true; message: string, notification?: boolean }
     | {
         success: false;
         fieldErrors?: Record<string, string>;
         formError?: string;
-        
+
     };
 
 
@@ -107,7 +109,7 @@ export async function addFuelLog(values: z.infer<typeof fuelLogSchema>, vehicle_
 
 
 
-export async function addRepairLog(values: z.infer<typeof repairFormSchema>, vehicle_id: string): Promise<ActionResponse>  {
+export async function addRepairLog(values: z.infer<typeof repairFormSchema>, vehicle_id: string): Promise<ActionResponse> {
     const user_id = await getUserId();
     const supabase = await createClientForServer();
 
@@ -132,7 +134,7 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
         // Get vehicle odometer reading
         const { error: odoError, data: vehicle } = await supabase
             .from("vehicles")
-            .select("current_odometer, make, model, year")
+            .select("current_odometer, make, model, year, licence_plate_number")
             .eq("id", vehicle_id)
             .single();
 
@@ -174,7 +176,7 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
             vehicle_id,
             title: parsed.data.title,
             notes: parsed.data.notes,
-            service_type: parsed.data.service_type as ServiceType
+            service_type: parsed.data.service_type as ServiceType,
 
         }).select("id").single();
 
@@ -209,9 +211,11 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
                 const notification: Partial<NotificationInsert> = {
                     message: `This is a reminder that the service type ${parsed.data.service_type} is now due for ${vehicle.make} ${vehicle.model} - ${vehicle.year}`,
                     title: `Maintenance reminder - ${parsed.data.service_type}`,
-                    type: parsed.data.service_type,
+                    type: parsed.data.service_type as ServiceType,
                     user_id,
-                    vehicle_id
+                    vehicle_id,
+                    vehicle_name: `${vehicle.make} ${vehicle.model} - ${vehicle.licence_plate_number}`
+
                 };
 
                 if (parsed.data.reminder_date) {
@@ -224,7 +228,7 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
 
                 const { error: notificationError } = await supabase
                     .from("notifications")
-                    .insert(notification as NotificationInsert);
+                    .insert(notification as NotificationInsert)
 
                 if (notificationError) {
                     return {
@@ -232,7 +236,13 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
                         formError: notificationError.message
                     };
                 }
+
+      
             }
+
+
+
+
         }
 
 
