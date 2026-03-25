@@ -9,7 +9,7 @@ export async function getVehicles(){
 
     const {data: vehicles, error} = 
     await supabase.from("vehicles").
-    select()
+    select("id, make, model, year, current_odometer, licence_plate_number")
     .eq("user_id", user_id);
 
     if (error){
