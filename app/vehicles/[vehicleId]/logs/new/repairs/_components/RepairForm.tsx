@@ -17,10 +17,9 @@ import { addRepairLog } from "@/lib/db/mutations/logs";
 import { toast } from "sonner";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
-import { ReminderDatePicker } from "./ReminderDatePicker";
 
-export default function RepairForm({ vehicleId }:
-    { vehicleId: string }
+export default function RepairForm({ vehicleId, odometer }:
+    { vehicleId: string, odometer: number }
 ) {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
@@ -28,14 +27,13 @@ export default function RepairForm({ vehicleId }:
     const form = useForm<z.infer<typeof repairFormSchema>>({
         resolver: zodResolver(repairFormSchema),
         defaultValues: {
-            title: "",
             notes: "",
             cost: undefined,
-            odometer: undefined,
-            date: undefined,
+            odometer,
+            date: new Date(),
             service_type: undefined,
             odometer_trigger: undefined,
-            reminder_date: undefined,
+            vendor: "",
             enable_reminders: false
         }
     });
@@ -45,15 +43,12 @@ export default function RepairForm({ vehicleId }:
 
     useEffect(() => {
         if (!enableReminder) {
-            form.setValue("reminder_date", undefined)
             form.setValue("odometer_trigger", undefined)
         }
     }, [enableReminder, form])
 
     function onSubmit(values: z.infer<typeof repairFormSchema>) {
         startTransition((async () => {
-
-
 
 
             const res = await addRepairLog(values, vehicleId);
@@ -113,76 +108,30 @@ export default function RepairForm({ vehicleId }:
             <CardContent>
                 <form id="repairForm" onSubmit={form.handleSubmit(onSubmit)}>
                     <FieldGroup>
-                        <Controller
+                                    <Controller
                             control={form.control}
-                            name="service_type"
+                            name="date"
                             render={({ fieldState, field }) => (
+
+
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel>Service type</FieldLabel>
-                                    <LogServiceSelector
-                                        value={field.value ?? ""}
-                                        onChange={(val) => field.onChange(val ?? undefined)} />
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-                                </Field>
-
-                            )}
-                        >
-
-                        </Controller>
-
-                        <Controller
-                            control={form.control}
-                            name="title"
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel>Service title</FieldLabel>
-                                    <Input
-                                        {...field}
-                                        type="text"
-                                        aria-disabled={fieldState.invalid}
+                                    <FieldLabel>
+                                        Date</FieldLabel>
+                                    <LogDatePicker
                                         value={field.value}
-
-                                        placeholder="Enter log title - Brake replacement, service, fuel entry etc"
-                                    />
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-
-                                </Field>
-                            )}
-                        >
-
-                        </Controller>
-
-                        <Controller
-                            control={form.control}
-                            name="notes"
-                            render={({ field, fieldState }) => (
-
-
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel>Notes: (Optional)</FieldLabel>
-                                    <Textarea
-                                        {...field}
-                                        value={field.value ?? ""}
-
-                                        aria-disabled={fieldState.invalid}
-                                        placeholder="Enter log description - Max 200 words"
-                                    />
+                                        onChange={(date) => field.onChange(date)} />
                                     {fieldState.invalid && (
                                         <FieldError errors={[fieldState.error]} />
                                     )}
 
 
                                 </Field>
+
                             )}
                         >
 
                         </Controller>
-
-                        <Controller
+                                     <Controller
                             control={form.control}
                             name="odometer"
                             render={({ field, fieldState }) => (
@@ -209,30 +158,57 @@ export default function RepairForm({ vehicleId }:
                         >
 
                         </Controller>
-
                         <Controller
                             control={form.control}
-                            name="date"
+                            name="service_type"
                             render={({ fieldState, field }) => (
-
-
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel>
-                                        Date</FieldLabel>
-                                    <LogDatePicker
-                                        value={field.value}
-                                        onChange={(date) => field.onChange(date)} />
+                                    <FieldLabel>Service type</FieldLabel>
+                                    <LogServiceSelector
+                                        value={field.value ?? ""}
+                                        onChange={(val) => field.onChange(val ?? undefined)} />
                                     {fieldState.invalid && (
                                         <FieldError errors={[fieldState.error]} />
                                     )}
-
-
                                 </Field>
 
                             )}
                         >
 
                         </Controller>
+
+         
+
+
+                        
+                        <Controller
+                            control={form.control}
+                            name="vendor"
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel>Vendor</FieldLabel>
+                                    <Input
+                                        {...field}
+                                        type="text"
+                                        aria-disabled={fieldState.invalid}
+                                        placeholder="Enter vendor name - Mechanic, Auto repairer etc"
+                                  
+                                     
+                                    />
+                                    <FieldDescription>Please enter the business which completed the service</FieldDescription>
+                                    {fieldState.invalid && (
+                                        <FieldError errors={[fieldState.error]} />
+                                    )}
+
+                                </Field>
+                            )}
+                        >
+
+                        </Controller>
+
+           
+
+            
 
                         <Controller
                             control={form.control}
@@ -254,6 +230,32 @@ export default function RepairForm({ vehicleId }:
                                     {fieldState.invalid && (
                                         <FieldError errors={[fieldState.error]} />
                                     )}
+
+                                </Field>
+                            )}
+                        >
+
+                        </Controller>
+
+                                                <Controller
+                            control={form.control}
+                            name="notes"
+                            render={({ field, fieldState }) => (
+
+
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel>Notes: (Optional)</FieldLabel>
+                                    <Textarea
+                                        {...field}
+                                        value={field.value ?? ""}
+
+                                        aria-disabled={fieldState.invalid}
+                                        placeholder="Enter log description - Max 200 words"
+                                    />
+                                    {fieldState.invalid && (
+                                        <FieldError errors={[fieldState.error]} />
+                                    )}
+
 
                                 </Field>
                             )}
@@ -327,29 +329,7 @@ export default function RepairForm({ vehicleId }:
 
                                         </Controller>
 
-                                        <Controller
-                                            control={form.control}
-                                            name="reminder_date"
-                                            render={({ fieldState, field }) => (
-
-
-                                                <Field data-invalid={fieldState.invalid}>
-                                                    <FieldLabel>Remind by date</FieldLabel>
-                                                    <FieldDescription>Date where email reminder will trigger</FieldDescription>
-                                                    <ReminderDatePicker
-                                                        value={field.value}
-                                                        onChange={(date) => field.onChange(date)} />
-                                                    {fieldState.invalid && (
-                                                        <FieldError errors={[fieldState.error]} />
-                                                    )}
-
-
-                                                </Field>
-
-                                            )}
-                                        >
-
-                                        </Controller>
+                
                                     </FieldGroup>
                                 </CollapsibleContent>
                             </Collapsible>

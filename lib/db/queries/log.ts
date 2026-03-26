@@ -8,7 +8,7 @@ export async function getVehicleFuelLogs(vehicle_id: string) {
     const supabase = await createClientForServer();
 
     const { data: logs, error } = await supabase.from("logs").
-        select("id, date, fuel_litres, cost_per_litre, notes, cost, odometer")
+        select("id, date, fuel_litres, cost_per_litre, notes, cost, odometer, vendor")
         .eq("user_id", user_id)
         .eq("vehicle_id", vehicle_id)
         .eq("type", "fuel").order("date", { ascending: false })
@@ -48,7 +48,7 @@ export async function getVehicleRepairLogs(vehicle_id: string) {
     const supabase = await createClientForServer();
 
     const { data: logs, error } = await supabase.from("logs").
-        select("id, date, notes, cost, odometer, title")
+        select("id, date, notes, cost, odometer, service_type, vendor")
         .eq("user_id", user_id)
         .eq("vehicle_id", vehicle_id)
         .eq("type", "repair").order("created_at", { ascending: false })
@@ -88,7 +88,7 @@ export async function getRecentServices() {
     const supabase = await createClientForServer();
 
      const { data, error } = await supabase.rpc(
-        "get_recent_oil_services",
+        "get_next_oil_services",
         { p_user_id: user_id }
     );
 

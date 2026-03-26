@@ -30,8 +30,8 @@ export const RepairColumn: ColumnDef<RepairEntry>[] = [
     },
   },
     {
-    accessorKey: "title",
-    header: "Repair title",
+    accessorKey: "service_type",
+    header: "Service type",
   },
 
 
@@ -40,8 +40,8 @@ export const RepairColumn: ColumnDef<RepairEntry>[] = [
     header: "Odometer (KM)",
   },
   {
-    accessorKey: "notes",
-    header: "Notes",
+    accessorKey: "vendor",
+    header: "Vendor",
   },
   // {
   //   accessorKey: "email",

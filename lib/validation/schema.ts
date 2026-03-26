@@ -37,15 +37,16 @@ export const fuelLogSchema = z.object({
   date: z.date('Refuel date is required'),
   odometer: z.number("Odometer reading is required").min(1).max(1000000),
   cost: z.number("Cost is required"),
+  vendor:z.string().min(1, "Vendor is required"),
   fuel_litres: z.number("Litres of fuel is required"),
   notes: z.string().optional()
 });
 
 export const repairFormSchema = z.object({
-  title: z.string().min(1, "Repair title is required"),
   notes: z.string().max(200, 'Description must be 200 characters or less').optional(),
   date: z.date('Refuel date is required'),
   odometer: z.number("Odometer reading is required").min(1).max(1000000),
+  vendor:z.string().min(1, "Vendor is required"),
   cost: z.number("Cost is required"),
   service_type: z.enum(Service_type, "Please select a service type"),
 
@@ -56,16 +57,11 @@ export const repairFormSchema = z.object({
 }).superRefine((data, ctx)=>{
   if (!data.enable_reminders) return
 
-  if (!data.reminder_date && !data.odometer_trigger){
-        ctx.addIssue({
-      code: "custom",
-      message: "Provide at least a date or distance",
-      path: ["reminder_date"],
-    })
+  if (!data.odometer_trigger){
 
     ctx.addIssue({
   code: "custom",
-  message: "Provide at least a date or distance",
+  message: "Please enter reminder distance",
   path: ["odometer_trigger"],
 });
   }
