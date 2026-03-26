@@ -5,7 +5,9 @@ import { getUpcomingUserReminders } from "@/lib/db/queries/notification";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-export default async function AttentionRequired() {
+export default async function AttentionRequired({user_id}:
+    {user_id: string}
+) {
 
     function getServiceStatus(distance: number) {
         if (distance < 0) {
@@ -30,7 +32,7 @@ export default async function AttentionRequired() {
             message: `Due in ${distance} km`
         };
     }
-    const incomingReminders = await getUpcomingUserReminders();
+    const incomingReminders = await getUpcomingUserReminders(user_id);
     const checkReminders = incomingReminders.filter((reminder) => {
         return reminder.odometer_trigger > 1
     });
@@ -53,11 +55,11 @@ export default async function AttentionRequired() {
             <CardContent>
 
                 <div className="space-y-3">
-                    {incomingReminders?.map((reminder) => {
+                    {incomingReminders?.map((reminder, key) => {
                         if (!reminder.odometer_trigger) return
                         const status = getServiceStatus(reminder.distance_to_service);
 
-                        return <div key={reminder.vehicle_id} className="flex gap-2 items-center">
+                        return <div key={key} className="flex gap-2 items-center">
                             <Badge variant="outline">{status.label}</Badge>
                             <div>
                                 <p>{reminder.make} {reminder.model}</p>

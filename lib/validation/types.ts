@@ -62,8 +62,21 @@ id: string;
 export type NotificationEntry = {
   id: string;
   created_at: string;
-  title: string;
   date_trigger: string;
   odometer_trigger: number | null;
   sent: boolean | null;
+  type: ServiceType
 }
+
+export type MonthlySpend = {
+    month: string;
+    spend: number;
+};
+
+
+export type TopVehicle = {
+    licence_plate: string;
+    make: string;
+    model: string;
+    total_spend: number;
+  }

@@ -116,7 +116,7 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
 
     try {
 
-        // Zod calidation check
+        // Zod validation check
         const parsed = repairFormSchema.safeParse(values);
 
         if (!parsed.success) {
@@ -130,7 +130,6 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
                 fieldErrors
             }
         };
-
 
         // Get vehicle odometer reading
         const { error: odoError, data: vehicle } = await supabase
@@ -214,12 +213,16 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
                     type: parsed.data.service_type as ServiceType,
                     user_id,
                     vehicle_id,
-                    vehicle_name: `${vehicle.make} ${vehicle.model} - ${vehicle.licence_plate_number}`
+                    vehicle_name: `${vehicle.make} ${vehicle.model} - ${vehicle.licence_plate_number}`,
+
 
                 };
 
                 if (parsed.data.odometer_trigger !== undefined) {
                     notification.odometer_trigger = parsed.data.odometer_trigger;
+                }
+                if (parsed.data.odometer_interval !== undefined) {
+                    notification.odometer_interval = parsed.data.odometer_interval;
                 }
 
                 const { error: notificationError } = await supabase

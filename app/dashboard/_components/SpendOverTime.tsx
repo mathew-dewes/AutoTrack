@@ -2,8 +2,17 @@ import { convertToMoney } from "@/lib/utils";
 import { SpendChart } from "./_charts/SpendChart";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp } from "lucide-react";
+import { getHighestSpendingVehicle, getMonthlyPurchases } from "@/lib/db/queries/log";
+import { MonthlySpend, TopVehicle } from "@/lib/validation/types";
 
-export default function SpendOverTime(){
+export default async function SpendOverTime({user_id}:{user_id: string}){
+
+    const spend = await getMonthlyPurchases(user_id) as MonthlySpend[];
+
+const highestSpendingVehicle = await getHighestSpendingVehicle(user_id) as TopVehicle;
+
+
+  
     return (
         <div className="space-y-3">
             <Card>
@@ -25,7 +34,7 @@ export default function SpendOverTime(){
         
             </Card>
          
-            <SpendChart/>
+            <SpendChart chartData={spend} topVehicle={highestSpendingVehicle}/>
         </div>
     )
 }

@@ -130,10 +130,12 @@ export type Database = {
       notifications: {
         Row: {
           created_at: string
+          email_sent_at: string | null
           id: string
           message: string
-          odometer_trigger: number | null
-          sent: boolean | null
+          odometer_interval: number
+          odometer_trigger: number
+          sent: boolean
           type: Database["public"]["Enums"]["Service_type"]
           user_id: string
           vehicle_id: string
@@ -141,10 +143,12 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          email_sent_at?: string | null
           id?: string
           message: string
-          odometer_trigger?: number | null
-          sent?: boolean | null
+          odometer_interval: number
+          odometer_trigger: number
+          sent?: boolean
           type: Database["public"]["Enums"]["Service_type"]
           user_id: string
           vehicle_id: string
@@ -152,10 +156,12 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          email_sent_at?: string | null
           id?: string
           message?: string
-          odometer_trigger?: number | null
-          sent?: boolean | null
+          odometer_interval?: number
+          odometer_trigger?: number
+          sent?: boolean
           type?: Database["public"]["Enums"]["Service_type"]
           user_id?: string
           vehicle_id?: string
@@ -247,25 +253,26 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_next_oil_change: {
+      get_highest_spending_vehicle: {
         Args: { p_user_id: string }
         Returns: {
-          odometer_trigger: number
-          vehicle_id: string
+          licence_plate: string
+          make: string
+          model: string
+          total_spend: number
         }[]
       }
-      get_next_oil_services: {
+      get_monthly_spend: {
         Args: { p_user_id: string }
         Returns: {
-          odometer_trigger: number
-          vehicle_id: string
+          month: string
+          spend: number
         }[]
       }
-      get_recent_oil_services: {
+      get_recent_services: {
         Args: { p_user_id: string }
         Returns: {
           odometer: number
-          title: string
           vehicle_id: string
         }[]
       }
@@ -273,6 +280,13 @@ export type Database = {
         Args: { p_user_id: string }
         Returns: {
           cost: number
+          vehicle_id: string
+        }[]
+      }
+      get_upcoming_services: {
+        Args: { p_user_id: string }
+        Returns: {
+          odometer_trigger: number
           vehicle_id: string
         }[]
       }

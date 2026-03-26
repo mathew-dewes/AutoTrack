@@ -1,6 +1,5 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts"
 
 import {
@@ -9,7 +8,6 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
 import {
   ChartContainer,
@@ -17,17 +15,20 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
+import { format } from "date-fns";
+import { MonthlySpend, TopVehicle } from "@/lib/validation/types";
+import { convertToMoney } from "@/lib/utils";
 
-export const description = "A bar chart with a custom label"
+const date = new Date();
+const currentMonth = format(date, "LLLL");
+date.setMonth(date.getMonth() - 5);
+const sixMonthPrevious = format(date, "LLLL")
 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-]
+type Props = {
+  chartData:MonthlySpend[],
+  topVehicle:TopVehicle
+
+}
 
 const chartConfig = {
   desktop: {
@@ -43,11 +44,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function SpendChart() {
+export function SpendChart({chartData, topVehicle}:Props) {
+
+  const {make, model, licence_plate, total_spend} = topVehicle;
   return (
     <Card>
       <CardHeader>
-        <CardDescription className="text-white">January - June 2024</CardDescription>
+        <CardDescription className="text-white">{sixMonthPrevious} - {currentMonth} {date.getFullYear()}</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -69,12 +72,12 @@ export function SpendChart() {
               tickFormatter={(value) => value.slice(0, 3)}
               hide
             />
-            <XAxis dataKey="desktop" type="number" hide />
+            <XAxis dataKey="spend" type="number" hide />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
             />
-            <Bar className="fill-primary" dataKey="desktop"  radius={4}>
+            <Bar className="fill-primary" dataKey="spend"  radius={4}>
               <LabelList
                 dataKey="month"
                 position="insideLeft"
@@ -95,7 +98,9 @@ export function SpendChart() {
       </CardContent>
       <CardFooter>
        <div>
-        <p>Highest costing vehicle: Toyota Auris RS</p>
+        <p>Highest costing vehicle:</p>
+        <p>{make} {model} - {licence_plate}</p>
+        <p>Total spend: {convertToMoney(total_spend)}</p>
        </div>
       </CardFooter>
     </Card>
