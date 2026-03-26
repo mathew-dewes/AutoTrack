@@ -46,10 +46,16 @@ export const Fuelcolumns: ColumnDef<FuelEntry>[] = [
        return <div>{formatted}</div>
     }
   },
+
+    {
+    accessorKey: "vendor",
+    header: "Vendor",
+  },
   {
     accessorKey: "odometer",
     header: "Odometer (KM)",
   },
+
   {
     accessorKey: "notes",
     header: "Notes",

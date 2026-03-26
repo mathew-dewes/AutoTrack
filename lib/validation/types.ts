@@ -17,6 +17,7 @@ export type FuelEntry = {
   notes: string | null;
   cost: number;
   odometer: number;
+  vendor: string;
 
 
 };
@@ -38,10 +39,10 @@ export type FuelEntryAll = {
 export type RepairEntry = {
   id: string
   date: string;
-  title: string;
   notes: string;
   cost: number;
-  odometer: number
+  odometer: number;
+  service_type: ServiceType;
 };
 
 export type RepairEntryAll = {

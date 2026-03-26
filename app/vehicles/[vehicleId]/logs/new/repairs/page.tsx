@@ -1,3 +1,4 @@
+import { getVehicleOdometer } from "@/lib/db/queries/vehicle";
 import RepairForm from "./_components/RepairForm";
 
 export default async function page(
@@ -7,9 +8,13 @@ export default async function page(
 ){
 
             const {vehicleId} = await params;
+            const odometer = await getVehicleOdometer(vehicleId) as number;
+
+            console.log(odometer);
+            
     return (
         <div>
-            <RepairForm vehicleId={vehicleId}/>
+            <RepairForm vehicleId={vehicleId} odometer={odometer}/>
         </div>
     )
 }

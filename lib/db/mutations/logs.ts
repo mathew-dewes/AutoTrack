@@ -175,7 +175,6 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
             odometer: parsed.data.odometer,
             user_id,
             vehicle_id,
-            title: parsed.data.title,
             notes: parsed.data.notes,
             service_type: parsed.data.service_type as ServiceType,
             vendor: "One Stop Auto"
@@ -206,23 +205,18 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
 
         if (parsed.data.enable_reminders) {
             // Insert reminder
-            const hasReminder = parsed.data.reminder_date || parsed.data.odometer_trigger;
+            const hasReminder = parsed.data.odometer_trigger;
 
             if (hasReminder) {
 
                 const notification: Partial<NotificationInsert> = {
                     message: `This is a reminder that the service type ${parsed.data.service_type} is now due for ${vehicle.make} ${vehicle.model} - ${vehicle.year}`,
-                    title: `Maintenance reminder - ${parsed.data.service_type}`,
                     type: parsed.data.service_type as ServiceType,
                     user_id,
                     vehicle_id,
                     vehicle_name: `${vehicle.make} ${vehicle.model} - ${vehicle.licence_plate_number}`
 
                 };
-
-                if (parsed.data.reminder_date) {
-                    notification.date_trigger = parsed.data.reminder_date.toISOString();
-                }
 
                 if (parsed.data.odometer_trigger !== undefined) {
                     notification.odometer_trigger = parsed.data.odometer_trigger;

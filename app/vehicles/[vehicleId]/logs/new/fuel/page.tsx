@@ -1,3 +1,4 @@
+import { getVehicleOdometer } from "@/lib/db/queries/vehicle";
 import FuelForm from "./_components/FuelForm";
 
 export default async function page(
@@ -7,9 +8,12 @@ export default async function page(
 ){
 
         const {vehicleId} = await params;
+
+                 const odometer = await getVehicleOdometer(vehicleId) as number;
+        
     return (
         <div>
-            <FuelForm vehicleId={vehicleId}/>
+            <FuelForm vehicleId={vehicleId} odometer={odometer}/>
         </div>
     )
 }

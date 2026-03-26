@@ -82,7 +82,6 @@ export type Database = {
           notes: string | null
           odometer: number
           service_type: Database["public"]["Enums"]["Service_type"] | null
-          title: string | null
           type: Database["public"]["Enums"]["Log_type"]
           user_id: string
           vehicle_id: string
@@ -98,7 +97,6 @@ export type Database = {
           notes?: string | null
           odometer: number
           service_type?: Database["public"]["Enums"]["Service_type"] | null
-          title?: string | null
           type: Database["public"]["Enums"]["Log_type"]
           user_id: string
           vehicle_id: string
@@ -114,7 +112,6 @@ export type Database = {
           notes?: string | null
           odometer?: number
           service_type?: Database["public"]["Enums"]["Service_type"] | null
-          title?: string | null
           type?: Database["public"]["Enums"]["Log_type"]
           user_id?: string
           vehicle_id?: string
@@ -133,12 +130,10 @@ export type Database = {
       notifications: {
         Row: {
           created_at: string
-          date_trigger: string | null
           id: string
           message: string
           odometer_trigger: number | null
           sent: boolean | null
-          title: string
           type: Database["public"]["Enums"]["Service_type"]
           user_id: string
           vehicle_id: string
@@ -146,12 +141,10 @@ export type Database = {
         }
         Insert: {
           created_at?: string
-          date_trigger?: string | null
           id?: string
           message: string
           odometer_trigger?: number | null
           sent?: boolean | null
-          title: string
           type: Database["public"]["Enums"]["Service_type"]
           user_id: string
           vehicle_id: string
@@ -159,12 +152,10 @@ export type Database = {
         }
         Update: {
           created_at?: string
-          date_trigger?: string | null
           id?: string
           message?: string
           odometer_trigger?: number | null
           sent?: boolean | null
-          title?: string
           type?: Database["public"]["Enums"]["Service_type"]
           user_id?: string
           vehicle_id?: string
@@ -256,11 +247,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_next_oil_change: {
+        Args: { p_user_id: string }
+        Returns: {
+          odometer_trigger: number
+          vehicle_id: string
+        }[]
+      }
       get_next_oil_services: {
         Args: { p_user_id: string }
         Returns: {
           odometer_trigger: number
-          title: string
           vehicle_id: string
         }[]
       }

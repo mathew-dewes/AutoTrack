@@ -38,12 +38,6 @@ export default async function AttentionRequired() {
     const activeReminders = checkReminders.length > 0;
 
 
-
-
-
-
-
-
     return (
 
 

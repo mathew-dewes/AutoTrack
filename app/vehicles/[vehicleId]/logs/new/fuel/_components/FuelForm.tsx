@@ -15,18 +15,19 @@ import { addFuelLog } from "@/lib/db/mutations/logs";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 
-export default function FuelForm({ vehicleId }:
-    { vehicleId: string }
+export default function FuelForm({ vehicleId, odometer }:
+    { vehicleId: string, odometer: number }
 ) {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
     const form = useForm<z.infer<typeof fuelLogSchema>>({
         resolver: zodResolver(fuelLogSchema),
         defaultValues: {
-            date: undefined,
+            date: new Date(),
             cost: undefined,
             fuel_litres: undefined,
-            odometer: undefined
+            odometer,
+            vendor: ""
         }
     });
 
@@ -122,6 +123,31 @@ export default function FuelForm({ vehicleId }:
                                         }}
                                     />
                                     <FieldDescription>Ensure odometer reading is from time of refuel for best accuracy</FieldDescription>
+                                    {fieldState.invalid && (
+                                        <FieldError errors={[fieldState.error]} />
+                                    )}
+
+                                </Field>
+                            )}
+                        >
+
+                        </Controller>
+
+                                   <Controller
+                            control={form.control}
+                            name="vendor"
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel>Vendor</FieldLabel>
+                                    <Input
+                                        {...field}
+                                        type="text"
+                                        aria-disabled={fieldState.invalid}
+                                        placeholder="Enter vendor name - BP, Z Energy, Gull, Caltex etc"
+                                  
+                                     
+                                    />
+                                    <FieldDescription>Please enter the business which completed the service</FieldDescription>
                                     {fieldState.invalid && (
                                         <FieldError errors={[fieldState.error]} />
                                     )}
