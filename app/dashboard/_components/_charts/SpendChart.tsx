@@ -47,8 +47,7 @@ export function SpendChart() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Total monthly spend</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardDescription className="text-white">January - June 2024</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -75,12 +74,12 @@ export function SpendChart() {
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
             />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4}>
+            <Bar className="fill-primary" dataKey="desktop"  radius={4}>
               <LabelList
                 dataKey="month"
                 position="insideLeft"
                 offset={8}
-                className="fill-(--color-label)"
+                className="fill-white"
                 fontSize={12}
               />
               <LabelList
@@ -94,13 +93,10 @@ export function SpendChart() {
           </BarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
-        </div>
+      <CardFooter>
+       <div>
+        <p>Highest costing vehicle: Toyota Auris RS</p>
+       </div>
       </CardFooter>
     </Card>
   )

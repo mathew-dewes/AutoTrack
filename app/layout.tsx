@@ -42,7 +42,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange>
           <Navbar />
-          <main className="mt-5 mb-30 w-full px-4 md:px-6 lg:px-12">
+          <main className="mt-10 mb-30 w-full px-4 md:px-6 lg:px-12">
             {children}
           </main>
 

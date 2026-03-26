@@ -7,7 +7,7 @@ import LogTables from "./_components/LogTables";
 
 export default function page() {
     return (
-        <div className="grid sm:grid-cols-2 gap-5 mt-10">
+        <div className="grid sm:grid-cols-2 gap-5">
             <Suspense fallback={"Loading dashboard..."}>
                 <VehicleSummaryList />
                 <AttentionRequired />
