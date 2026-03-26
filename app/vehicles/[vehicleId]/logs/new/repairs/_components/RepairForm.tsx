@@ -6,7 +6,7 @@ import { Field, FieldContent, FieldDescription, FieldError, FieldGroup, FieldLab
 import { repairFormSchema } from "@/lib/validation/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useEffect, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form"
 import z from "zod";
 import LogServiceSelector from "../../_components/LogServiceSelector";
@@ -18,10 +18,13 @@ import { toast } from "sonner";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 
+import DistanceReminderDropdown from "./DistanceRemindDropdown";
+
 export default function RepairForm({ vehicleId, odometer }:
     { vehicleId: string, odometer: number }
 ) {
     const [isPending, startTransition] = useTransition();
+    const [interval, setInterval] = useState<string | null>(null);
     const router = useRouter();
 
     const form = useForm<z.infer<typeof repairFormSchema>>({
@@ -33,6 +36,7 @@ export default function RepairForm({ vehicleId, odometer }:
             date: new Date(),
             service_type: undefined,
             odometer_trigger: undefined,
+            odometer_interval: undefined,
             vendor: "",
             enable_reminders: false
         }
@@ -40,15 +44,28 @@ export default function RepairForm({ vehicleId, odometer }:
 
     // eslint-disable-next-line react-hooks/incompatible-library
     const enableReminder = form.watch("enable_reminders");
+    const intervalValue = form.watch("odometer_interval");
+    const odometerValue = form.watch("odometer");
 
     useEffect(() => {
         if (!enableReminder) {
-            form.setValue("odometer_trigger", undefined)
+            form.setValue("odometer_trigger", undefined);
+            form.setValue("odometer_interval", undefined);
+            setInterval(null);
         }
     }, [enableReminder, form])
 
     function onSubmit(values: z.infer<typeof repairFormSchema>) {
         startTransition((async () => {
+
+            if (
+                values.enable_reminders &&
+                values.odometer_interval != null
+            ) {
+                values.odometer_trigger =
+                    values.odometer + values.odometer_interval;
+            };
+
 
 
             const res = await addRepairLog(values, vehicleId);
@@ -74,14 +91,14 @@ export default function RepairForm({ vehicleId, odometer }:
                 return;
             }
 
-          
+
 
             toast.success(res.message);
 
-            if (res.notification){
+            if (res.notification) {
                 toast.info("Reminder has been set")
             }
-        
+
 
 
 
@@ -108,7 +125,7 @@ export default function RepairForm({ vehicleId, odometer }:
             <CardContent>
                 <form id="repairForm" onSubmit={form.handleSubmit(onSubmit)}>
                     <FieldGroup>
-                                    <Controller
+                        <Controller
                             control={form.control}
                             name="date"
                             render={({ fieldState, field }) => (
@@ -131,7 +148,7 @@ export default function RepairForm({ vehicleId, odometer }:
                         >
 
                         </Controller>
-                                     <Controller
+                        <Controller
                             control={form.control}
                             name="odometer"
                             render={({ field, fieldState }) => (
@@ -177,10 +194,10 @@ export default function RepairForm({ vehicleId, odometer }:
 
                         </Controller>
 
-         
 
 
-                        
+
+
                         <Controller
                             control={form.control}
                             name="vendor"
@@ -192,8 +209,8 @@ export default function RepairForm({ vehicleId, odometer }:
                                         type="text"
                                         aria-disabled={fieldState.invalid}
                                         placeholder="Enter vendor name - Mechanic, Auto repairer etc"
-                                  
-                                     
+
+
                                     />
                                     <FieldDescription>Please enter the business which completed the service</FieldDescription>
                                     {fieldState.invalid && (
@@ -206,9 +223,9 @@ export default function RepairForm({ vehicleId, odometer }:
 
                         </Controller>
 
-           
 
-            
+
+
 
                         <Controller
                             control={form.control}
@@ -237,7 +254,7 @@ export default function RepairForm({ vehicleId, odometer }:
 
                         </Controller>
 
-                                                <Controller
+                        <Controller
                             control={form.control}
                             name="notes"
                             render={({ field, fieldState }) => (
@@ -299,45 +316,71 @@ export default function RepairForm({ vehicleId, odometer }:
                             <Collapsible open={enableReminder}>
                                 <CollapsibleContent>
                                     <FieldGroup>
+
                                         <Controller
                                             control={form.control}
-                                            name="odometer_trigger"
+                                            name="odometer_interval"
                                             render={({ field, fieldState }) => (
                                                 <Field data-invalid={fieldState.invalid}>
-                                                    <FieldLabel>Remind by distance (km)</FieldLabel>
-                                                    <FieldDescription>Distance where email reminder will trigger</FieldDescription>
+                                                    <FieldLabel>Reminder distance</FieldLabel>
+                                                    <DistanceReminderDropdown
+                                                          value={field.value != null ? field.value.toString() : ""}
+                                                        onChange={(val) => {
+                                                            if (val === "custom") {
+                                                                field.onChange(undefined);
+                                                                setInterval("custom");
+                                                            } else {
+                                                                setInterval(val);
+                                                                field.onChange(Number(val));
+                                                            }
+                                                        }} />
 
-                                                    <Input
-                                                        {...field}
-                                                        type="number"
-                                                        aria-disabled={fieldState.invalid}
-                                                        value={field.value ?? ""}
-                                                        onChange={(e) => {
-                                                            const value = e.target.value;
-                                                            field.onChange(value === "" ? undefined : Number(value));
-                                                        }}
-
-                                                        placeholder="Enter distance you wish to be remindered at"
-                                                    />
+                                                    {interval === "custom" && (
+                                                        <Input
+                                                            type="number"
+                                                            placeholder="Enter distance"
+                                                            value={field.value ?? ""}
+                                                            onChange={(e) => {
+                                                                const val = e.target.value;
+                                                                field.onChange(val === "" ? undefined : Number(val));
+                                                            }}
+                                                        />
+                                                    )}
                                                     {fieldState.invalid && (
                                                         <FieldError errors={[fieldState.error]} />
                                                     )}
-
                                                 </Field>
                                             )}
                                         >
 
                                         </Controller>
 
-                
+
+
+
+
+
+
+
+
                                     </FieldGroup>
                                 </CollapsibleContent>
                             </Collapsible>
+
+
+
                         </div>
 
 
-
+                        {intervalValue != null && odometerValue != null && (
+                            <p className="text-sm text-muted-foreground">
+                                Next reminder at{" "}
+                                {(odometerValue + intervalValue).toLocaleString()} km
+                            </p>
+                        )}
                     </FieldGroup>
+
+
                 </form>
             </CardContent>
 

@@ -10,7 +10,7 @@ export default async function page(
             const {vehicleId} = await params;
             const odometer = await getVehicleOdometer(vehicleId) as number;
 
-            console.log(odometer);
+
             
     return (
         <div>

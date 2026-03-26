@@ -29,25 +29,17 @@ export const ReminderColumns: ColumnDef<NotificationEntry>[] = [
       return <div>{format(row.original.created_at, "dd/MM/yy")}</div>
     },
   },
-  {
-    accessorKey: "date_trigger",
-    header: "Reminder date",
-    cell: ({ row }) => {
-
-      return <div>
-        {row.original.date_trigger ? 
-        format(row.original.date_trigger, "dd/MM/yy") : "-"}</div>
-    },
+      {
+    accessorKey: "type",
+    header: "Service type",
   },
+
 
     {
     accessorKey: "odometer_trigger",
     header: "ODO trigger (KM)",
   },
-    {
-    accessorKey: "title",
-    header: "Repair title",
-  },
+
     {
     accessorKey: "sent",
     header: "Email sent",

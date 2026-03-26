@@ -4,9 +4,11 @@ import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { getUserId } from "@/lib/auth/session";
 
 export default async function VehicleList() {
-    const vehicles = await getVehicles();
+    const user_id = await getUserId();
+    const vehicles = await getVehicles(user_id);
 
 
     if (!vehicles){

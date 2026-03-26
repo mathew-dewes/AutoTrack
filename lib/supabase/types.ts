@@ -130,10 +130,12 @@ export type Database = {
       notifications: {
         Row: {
           created_at: string
+          email_sent_at: string | null
           id: string
           message: string
-          odometer_trigger: number | null
-          sent: boolean | null
+          odometer_interval: number
+          odometer_trigger: number
+          sent: boolean
           type: Database["public"]["Enums"]["Service_type"]
           user_id: string
           vehicle_id: string
@@ -141,10 +143,12 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          email_sent_at?: string | null
           id?: string
           message: string
-          odometer_trigger?: number | null
-          sent?: boolean | null
+          odometer_interval: number
+          odometer_trigger: number
+          sent?: boolean
           type: Database["public"]["Enums"]["Service_type"]
           user_id: string
           vehicle_id: string
@@ -152,10 +156,12 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          email_sent_at?: string | null
           id?: string
           message?: string
-          odometer_trigger?: number | null
-          sent?: boolean | null
+          odometer_interval?: number
+          odometer_trigger?: number
+          sent?: boolean
           type?: Database["public"]["Enums"]["Service_type"]
           user_id?: string
           vehicle_id?: string

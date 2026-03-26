@@ -1,15 +1,13 @@
 "use server";
 
-import { getUserId } from "@/lib/auth/session";
 import { createClientForServer } from "@/lib/supabase/server";
 
 export async function getUserNotifications(vehicle_id: string) {
-    const user_id = await getUserId();
     const supabase = await createClientForServer();
 
     const { data, error } = await supabase.from("notifications").
-        select("id, created_at, title, date_trigger, odometer_trigger, sent").
-        eq("user_id", user_id).eq("vehicle_id", vehicle_id)
+        select("id, created_at, odometer_trigger, sent, type").
+   eq("vehicle_id", vehicle_id)
 
     if (error) {
         console.log("Error:", error);
@@ -20,8 +18,7 @@ export async function getUserNotifications(vehicle_id: string) {
       return data
 }
 
-export async function getUpcomingUserReminders() {
-    const user_id = await getUserId();
+export async function getUpcomingUserReminders(user_id: string) {
     const supabase = await createClientForServer();
 
      const { data, error } = await supabase.rpc(

@@ -24,8 +24,7 @@ export async function getVehicleFuelLogs(vehicle_id: string) {
 }
 
 
-export async function getVehiclesFuelLogs() {
-    const user_id = await getUserId();
+export async function getVehiclesFuelLogs(user_id: string) {
     const supabase = await createClientForServer();
 
     const { data: logs, error } = await supabase.from("logs").
@@ -62,8 +61,7 @@ export async function getVehicleRepairLogs(vehicle_id: string) {
     return logs
 
 };
-export async function getVehiclesRepairLogs() {
-    const user_id = await getUserId();
+export async function getVehiclesRepairLogs(user_id: string) {
     const supabase = await createClientForServer();
 
     const { data: logs, error } = await supabase.from("logs").
@@ -83,8 +81,7 @@ export async function getVehiclesRepairLogs() {
 };
 
 
-export async function getRecentServices() {
-    const user_id = await getUserId();
+export async function getRecentServices(user_id: string) {
     const supabase = await createClientForServer();
 
      const { data, error } = await supabase.rpc(
@@ -101,8 +98,7 @@ export async function getRecentServices() {
 };
 
 
-export async function getUpcomingServices() {
-    const user_id = await getUserId();
+export async function getUpcomingServices(user_id: string) {
     const supabase = await createClientForServer();
 
     const { data, error } = await supabase.rpc(
@@ -119,8 +115,7 @@ export async function getUpcomingServices() {
 }
 
 
-export async function getTotalSpend() {
-       const user_id = await getUserId();
+export async function getTotalSpend(user_id: string) {
     const supabase = await createClientForServer();
 
     const { data, error } = await supabase.rpc(

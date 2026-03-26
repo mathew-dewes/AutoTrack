@@ -5,7 +5,9 @@ import { getUpcomingUserReminders } from "@/lib/db/queries/notification";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-export default async function AttentionRequired() {
+export default async function AttentionRequired({user_id}:
+    {user_id: string}
+) {
 
     function getServiceStatus(distance: number) {
         if (distance < 0) {
@@ -30,7 +32,7 @@ export default async function AttentionRequired() {
             message: `Due in ${distance} km`
         };
     }
-    const incomingReminders = await getUpcomingUserReminders();
+    const incomingReminders = await getUpcomingUserReminders(user_id);
     const checkReminders = incomingReminders.filter((reminder) => {
         return reminder.odometer_trigger > 1
     });
