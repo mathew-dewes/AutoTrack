@@ -52,7 +52,7 @@ export const repairFormSchema = z.object({
 
   // Reminder logic
   enable_reminders: z.boolean(),
-  odometer_interval: z.number().optional(),
+  odometer_interval: z.number().max(100000, "Please enter a value below 100k").optional(),
   odometer_trigger: z.number().optional(),
 
 

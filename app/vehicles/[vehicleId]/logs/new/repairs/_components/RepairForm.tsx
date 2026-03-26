@@ -324,11 +324,13 @@ export default function RepairForm({ vehicleId, odometer }:
                                                 <Field data-invalid={fieldState.invalid}>
                                                     <FieldLabel>Reminder distance</FieldLabel>
                                                     <DistanceReminderDropdown
-                                                          value={field.value != null ? field.value.toString() : ""}
+                                                         value={interval ?? (field.value != null ? field.value.toString() : "")}
                                                         onChange={(val) => {
                                                             if (val === "custom") {
-                                                                field.onChange(undefined);
                                                                 setInterval("custom");
+                                                                if (field.value == null) {
+                                                                        field.onChange(undefined);
+                                                                }
                                                             } else {
                                                                 setInterval(val);
                                                                 field.onChange(Number(val));
