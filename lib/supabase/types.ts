@@ -253,25 +253,26 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_next_oil_change: {
+      get_highest_spending_vehicle: {
         Args: { p_user_id: string }
         Returns: {
-          odometer_trigger: number
-          vehicle_id: string
+          licence_plate: string
+          make: string
+          model: string
+          total_spend: number
         }[]
       }
-      get_next_oil_services: {
+      get_monthly_spend: {
         Args: { p_user_id: string }
         Returns: {
-          odometer_trigger: number
-          vehicle_id: string
+          month: string
+          spend: number
         }[]
       }
-      get_recent_oil_services: {
+      get_recent_services: {
         Args: { p_user_id: string }
         Returns: {
           odometer: number
-          title: string
           vehicle_id: string
         }[]
       }
@@ -279,6 +280,13 @@ export type Database = {
         Args: { p_user_id: string }
         Returns: {
           cost: number
+          vehicle_id: string
+        }[]
+      }
+      get_upcoming_services: {
+        Args: { p_user_id: string }
+        Returns: {
+          odometer_trigger: number
           vehicle_id: string
         }[]
       }

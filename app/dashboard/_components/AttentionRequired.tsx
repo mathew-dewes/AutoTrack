@@ -55,11 +55,11 @@ export default async function AttentionRequired({user_id}:
             <CardContent>
 
                 <div className="space-y-3">
-                    {incomingReminders?.map((reminder) => {
+                    {incomingReminders?.map((reminder, key) => {
                         if (!reminder.odometer_trigger) return
                         const status = getServiceStatus(reminder.distance_to_service);
 
-                        return <div key={reminder.vehicle_id} className="flex gap-2 items-center">
+                        return <div key={key} className="flex gap-2 items-center">
                             <Badge variant="outline">{status.label}</Badge>
                             <div>
                                 <p>{reminder.make} {reminder.model}</p>

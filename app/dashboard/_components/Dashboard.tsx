@@ -12,7 +12,7 @@ export default async function Dashboard(){
                     <Suspense fallback={"Loading dashboard..."}>
                         <VehicleSummaryList user_id={user_id} />
                         <AttentionRequired user_id={user_id}  />
-                        <SpendOverTime />
+                        <SpendOverTime user_id={user_id} />
                         <LogTables user_id={user_id} />
                     </Suspense>
         

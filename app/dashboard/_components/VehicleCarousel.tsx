@@ -19,7 +19,7 @@ export function VehicleCarousel({ vehicles, totalSpend, recentServices, upcoming
     { 
         vehicles: Vehicle[], 
         totalSpend: {cost: number, vehicle_id: string}[],
-        recentServices:{odometer_trigger: number, vehicle_id: string}[],
+        recentServices:{odometer: number, vehicle_id: string}[],
         upcomingServices:{odometer_trigger: number, vehicle_id: string}[]
      }
 ) {
@@ -62,7 +62,7 @@ export function VehicleCarousel({ vehicles, totalSpend, recentServices, upcoming
                                 <CardContent>
                                     <div className="flex flex-col space-y-1">
                                         {spend[0]?.cost && <span>Total spend: ${spend[0]?.cost}</span>}
-                                        {recent_services[0]?.odometer_trigger && <span>Last service at: {recent_services[0]?.odometer_trigger} Km</span>}
+                                        {recent_services[0]?.odometer && <span>Last service at: {recent_services[0]?.odometer} Km</span>}
                                         {upcoming_services[0]?.odometer_trigger && <span >Next service at: {upcoming_services[0]?.odometer_trigger} Km</span>}
                                        {!spend[0]?.cost && <p>This vehicle has no logs saved. Ensure to add fuel and maintance logs to utilize the auto track system</p>}
                                         

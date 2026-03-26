@@ -10,8 +10,9 @@ export default async function VehicleSummaryList({user_id}:
         getVehicles(user_id), 
         getTotalSpend(user_id), 
         getRecentServices(user_id), 
-        getUpcomingServices(user_id) ])
+        getUpcomingServices(user_id) ]);
 
+    
     
     return (
     

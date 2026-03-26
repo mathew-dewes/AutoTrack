@@ -67,3 +67,16 @@ export type NotificationEntry = {
   sent: boolean | null;
   type: ServiceType
 }
+
+export type MonthlySpend = {
+    month: string;
+    spend: number;
+};
+
+
+export type TopVehicle = {
+    licence_plate: string;
+    make: string;
+    model: string;
+    total_spend: number;
+  }
