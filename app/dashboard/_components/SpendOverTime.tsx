@@ -5,11 +5,11 @@ import { TrendingUp } from "lucide-react";
 import { getHighestSpendingVehicle, getMonthlyPurchases } from "@/lib/db/queries/log";
 import { MonthlySpend, TopVehicle } from "@/lib/validation/types";
 
-export default async function SpendOverTime({user_id}:{user_id: string}){
+export default async function SpendOverTime(){
 
-    const spend = await getMonthlyPurchases(user_id) as MonthlySpend[];
+    const spend = await getMonthlyPurchases() as MonthlySpend[];
 
-const highestSpendingVehicle = await getHighestSpendingVehicle(user_id) as TopVehicle;
+const highestSpendingVehicle = await getHighestSpendingVehicle() as TopVehicle;
 
 
   

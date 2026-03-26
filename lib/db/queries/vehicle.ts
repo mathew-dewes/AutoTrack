@@ -2,13 +2,13 @@
 
 import { createClientForServer } from "@/lib/supabase/server";
 
-export async function getVehicles(user_id: string){
+export async function getVehicles(){
     const supabase = await createClientForServer();
 
     const {data: vehicles, error} = 
     await supabase.from("vehicles").
     select("id, make, model, year, current_odometer, licence_plate_number")
-    .eq("user_id", user_id);
+
 
     if (error){
         console.log("Error:", error);

@@ -5,13 +5,11 @@ import { TableSwitcher } from "./TableSwitcher";
 import { FuelEntryAll, RepairEntryAll } from "@/lib/validation/types";
 
 
-export default async function LogTables({user_id}:
-    {user_id: string}
-){
+export default async function LogTables(){
 
     const [fuelLogs, repairLogs ] = await Promise.all([
-        getVehiclesFuelLogs(user_id), 
-        getVehiclesRepairLogs(user_id)]);
+        getVehiclesFuelLogs(), 
+        getVehiclesRepairLogs()]);
 
     const fuel = fuelLogs as FuelEntryAll[];
     const repairs = repairLogs as RepairEntryAll[]
