@@ -72,7 +72,8 @@ export async function addFuelLog(values: z.infer<typeof fuelLogSchema>, vehicle_
             vehicle_id,
             fuel_litres: parsed.data.fuel_litres,
             notes: parsed.data.notes,
-            cost_per_litre: parsed.data.cost / parsed.data.fuel_litres
+            cost_per_litre: parsed.data.cost / parsed.data.fuel_litres,
+            vendor:"Z Energy"
 
         }).select("id").single();
 
@@ -177,6 +178,7 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
             title: parsed.data.title,
             notes: parsed.data.notes,
             service_type: parsed.data.service_type as ServiceType,
+            vendor: "One Stop Auto"
 
         }).select("id").single();
 

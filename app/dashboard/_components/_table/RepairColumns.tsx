@@ -11,12 +11,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { MoreHorizontal } from "lucide-react"
-import {  FuelEntryAll } from "@/lib/validation/types"
+import { RepairEntryAll } from "@/lib/validation/types"
 import { format } from "date-fns"
 
 
 
-export const fuelColumns: ColumnDef<FuelEntryAll>[] = [
+export const repairColumns: ColumnDef<RepairEntryAll>[] = [
     
   {
     accessorKey: "date",
@@ -26,7 +26,8 @@ export const fuelColumns: ColumnDef<FuelEntryAll>[] = [
       return <div>{format(row.original.date, "dd/MM/yy")}</div>
     },
   },
-{
+
+  {
   id: "model",
   accessorFn: (row) => row.vehicles.model,
   header: "Vehicle",
@@ -37,15 +38,17 @@ export const fuelColumns: ColumnDef<FuelEntryAll>[] = [
 
   }
 },
+{
+  id: "service_type",
+  accessorFn: (row) => row.service_type,
+  header: "Repair type",
+
+},
   {
     accessorKey: "vendor",
-    header: "Station",
+    header: "Vendor",
   },
 
-  {
-    accessorKey: "fuel_litres",
-    header: "Litres",
-  },
   {
     accessorKey: "cost",
       header: () => <div className="text-right">Total cost</div>,

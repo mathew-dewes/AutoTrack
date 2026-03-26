@@ -23,6 +23,26 @@ export async function getVehicleFuelLogs(vehicle_id: string) {
 
 }
 
+
+export async function getVehiclesFuelLogs() {
+    const user_id = await getUserId();
+    const supabase = await createClientForServer();
+
+    const { data: logs, error } = await supabase.from("logs").
+        select("id, date, fuel_litres, vendor, cost, vehicles(model, licence_plate_number)")
+        .eq("user_id", user_id)
+        .eq("type", "fuel").order("date", { ascending: false }).order("created_at", {ascending: false})
+
+    if (error) {
+        console.log("Error:", error);
+        return { success: false, error: error, logs }
+
+    }
+
+    return logs
+
+}
+
 export async function getVehicleRepairLogs(vehicle_id: string) {
     const user_id = await getUserId();
     const supabase = await createClientForServer();
@@ -31,6 +51,25 @@ export async function getVehicleRepairLogs(vehicle_id: string) {
         select("id, date, notes, cost, odometer, title")
         .eq("user_id", user_id)
         .eq("vehicle_id", vehicle_id)
+        .eq("type", "repair").order("created_at", { ascending: false })
+
+    if (error) {
+        console.log("Error:", error);
+        return { success: false, error: error, logs }
+
+    }
+
+    return logs
+
+};
+export async function getVehiclesRepairLogs() {
+    const user_id = await getUserId();
+    const supabase = await createClientForServer();
+
+    const { data: logs, error } = await supabase.from("logs").
+        select(`id, date, cost, odometer, service_type, vendor,
+            vehicles(model, licence_plate_number)`)
+        .eq("user_id", user_id)
         .eq("type", "repair").order("created_at", { ascending: false })
 
     if (error) {

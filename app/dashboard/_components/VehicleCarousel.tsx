@@ -48,8 +48,7 @@ export function VehicleCarousel({ vehicles, totalSpend, recentServices, upcoming
                 
                 
                     return <CarouselItem key={index}>
-                  
-                            <Card className="w-full max-w-lg">
+                        <div className="p-1">                 <Card className="w-full max-w-lg">
                                 <CardHeader>
                                     <CardTitle>{vehicle.make} {vehicle.model}</CardTitle>
                                     <CardDescription>
@@ -79,6 +78,10 @@ export function VehicleCarousel({ vehicles, totalSpend, recentServices, upcoming
                         
                                 </CardFooter>
                             </Card>
+
+                        </div>
+                  
+           
                      
                     </CarouselItem>
 })}

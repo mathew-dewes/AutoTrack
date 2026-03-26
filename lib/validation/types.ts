@@ -1,3 +1,5 @@
+import { ServiceType } from "./enums";
+
 export type Vehicle = {
   id: string;
   make: string;
@@ -19,6 +21,20 @@ export type FuelEntry = {
 
 };
 
+
+export type FuelEntryAll = {
+  id: string;
+  date: string;
+  fuel_litres: number | null;
+  vendor: string | null;
+  cost: number;
+  vehicles: {
+    model: string;
+    licence_plate_number: string;
+  };
+
+}
+
 export type RepairEntry = {
   id: string
   date: string;
@@ -26,6 +42,19 @@ export type RepairEntry = {
   notes: string;
   cost: number;
   odometer: number
+};
+
+export type RepairEntryAll = {
+id: string;
+    date: string;
+    cost: number;
+    odometer: number;
+    service_type: ServiceType;
+    vendor: string | null;
+      vehicles: {
+    model: string;
+    licence_plate_number: string;
+  };
 };
 
 

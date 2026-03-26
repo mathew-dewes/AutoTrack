@@ -38,7 +38,7 @@ interface DataTableProps<TData, TValue> {
     data: TData[]
 }
 
-export function FuelTableClient<TData, TValue>({
+export function RepairTableClient<TData, TValue>({
     columns,
     data,
 }: DataTableProps<TData, TValue>) {
@@ -74,10 +74,10 @@ useState<VisibilityState>({})
         <div>
             <div className="flex items-center py-4">
                 <Input
-                    placeholder="Filter vehicles..."
-                    value={(table.getColumn("model")?.getFilterValue() as string) ?? ""}
+                    placeholder="Filter vendor..."
+                    value={(table.getColumn("vendor")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
-                        table.getColumn("model")?.setFilterValue(event.target.value)
+                        table.getColumn("vendor")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />
