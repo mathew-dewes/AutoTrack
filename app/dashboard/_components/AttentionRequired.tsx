@@ -47,7 +47,8 @@ export default async function AttentionRequired() {
     return (
 
 
-        <Card className="w-full max-w-3xl h-fit">
+        <div className="p-1">
+    <Card className="w-full max-w-3xl h-fit">
             <CardHeader>
                 <CardTitle>Maintenance & Repairs</CardTitle>
                 {!activeReminders &&
@@ -88,6 +89,8 @@ export default async function AttentionRequired() {
 
             </CardFooter>
         </Card>
+        </div>
+    
 
 
     )

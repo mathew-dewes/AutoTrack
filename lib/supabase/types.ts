@@ -86,6 +86,7 @@ export type Database = {
           type: Database["public"]["Enums"]["Log_type"]
           user_id: string
           vehicle_id: string
+          vendor: string | null
         }
         Insert: {
           cost: number
@@ -101,6 +102,7 @@ export type Database = {
           type: Database["public"]["Enums"]["Log_type"]
           user_id: string
           vehicle_id: string
+          vendor?: string | null
         }
         Update: {
           cost?: number
@@ -116,6 +118,7 @@ export type Database = {
           type?: Database["public"]["Enums"]["Log_type"]
           user_id?: string
           vehicle_id?: string
+          vendor?: string | null
         }
         Relationships: [
           {

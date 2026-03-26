@@ -1,15 +1,18 @@
 import { Suspense } from "react";
 import AttentionRequired from "./_components/AttentionRequired";
 import VehicleSummaryList from "./_components/VehicleSummaryList";
+import SpendOverTime from "./_components/SpendOverTime";
+import LogTables from "./_components/LogTables";
+
 
 export default function page() {
     return (
-        <div className="grid sm:grid-cols-2 gap-10 mt-10">
+        <div className="grid sm:grid-cols-2 gap-5">
             <Suspense fallback={"Loading dashboard..."}>
                 <VehicleSummaryList />
                 <AttentionRequired />
-                <h2>Spend overtime</h2>
-                <h2>Fuel snapshot</h2>
+                <SpendOverTime/>
+                <LogTables/>
             </Suspense>
 
 
