@@ -46,7 +46,7 @@ const chartConfig = {
 
 export function SpendChart({chartData, topVehicle}:Props) {
 
-  const {make, model, licence_plate, total_spend} = topVehicle;
+  const {make, model, licence_plate_number, total_spend} = topVehicle;
   return (
     <Card>
       <CardHeader>
@@ -99,7 +99,7 @@ export function SpendChart({chartData, topVehicle}:Props) {
       <CardFooter>
        <div>
         <p>Highest costing vehicle:</p>
-        <p>{make} {model} - {licence_plate}</p>
+        <p>{make} {model} - {licence_plate_number}</p>
         <p>Total spend: {convertToMoney(total_spend)}</p>
        </div>
       </CardFooter>

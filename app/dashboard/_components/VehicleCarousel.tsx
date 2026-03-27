@@ -56,14 +56,14 @@ export function VehicleCarousel({ vehicles, totalSpend, recentServices, upcoming
                                             <p>Licence: {vehicle.licence_plate_number}</p>
                                             <p>Year: {vehicle.year} </p>
                                         </div>
-                                        <p>ODO: {vehicle.current_odometer} KM</p>
+                                        <p>ODO: {vehicle.current_odometer.toLocaleString()} KM</p>
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="flex flex-col space-y-1">
                                         {spend[0]?.cost && <span>Total spend: ${spend[0]?.cost}</span>}
-                                        {recent_services[0]?.odometer && <span>Last service at: {recent_services[0]?.odometer} Km</span>}
-                                        {upcoming_services[0]?.odometer_trigger && <span >Next service at: {upcoming_services[0]?.odometer_trigger} Km</span>}
+                                        {recent_services[0]?.odometer && <span>Last service at: {recent_services[0]?.odometer.toLocaleString()} Km</span>}
+                                        {upcoming_services[0]?.odometer_trigger && <span >Next service at: {upcoming_services[0]?.odometer_trigger.toLocaleString()} Km</span>}
                                        {!spend[0]?.cost && <p>This vehicle has no logs saved. Ensure to add fuel and maintance logs to utilize the auto track system</p>}
                                         
                                     </div>

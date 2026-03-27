@@ -76,6 +76,23 @@ export async function getVehiclesRepairLogs() {
 
 };
 
+export async function getVehicleRecentLogs(vehicle_id: string){
+        const supabase = await createClientForServer();
+
+    const { data: logs, error } = await supabase.from("logs").
+        select(`id, date, cost, service_type, vendor`)
+        .eq("vehicle_id", vehicle_id)
+        .order("created_at", { ascending: false }).limit(5)
+
+    if (error) {
+        console.log("Error:", error);
+        return { success: false, error: error, logs }
+
+    }
+
+    return logs
+}
+
 
 export async function getRecentServices() {
     const supabase = await createClientForServer();
@@ -153,6 +170,40 @@ export async function getHighestSpendingVehicle(){
     }
 
     return vehicle[0] ?? [];
+};
+
+
+export async function getVehicleMostRecentService(vehicle_id: string){
+     const supabase = await createClientForServer();
+
+    const { data: logs, error } = await supabase.from("logs").
+        select(`odometer`)
+        .eq("service_type", "oil_change").eq("vehicle_id", vehicle_id)
+        .order("odometer", { ascending: false }).limit(1).maybeSingle()
+
+    if (error) {
+        console.log("Error:", error);
+        return { success: false, error: error, logs }
+
+    }
+
+    return logs?.odometer ?? null
+}
+export async function getVehicleUpcomingService(vehicle_id: string){
+     const supabase = await createClientForServer();
+
+    const { data: logs, error } = await supabase.from("notifications").
+        select(`odometer_trigger`)
+        .eq("type", "oil_change").eq("vehicle_id", vehicle_id)
+        .order("odometer_trigger", { ascending: false }).limit(1).maybeSingle()
+
+    if (error) {
+        console.log("Error:", error);
+        return { success: false, error: error, logs }
+
+    }
+
+    return logs?.odometer_trigger ?? null
 }
 
 

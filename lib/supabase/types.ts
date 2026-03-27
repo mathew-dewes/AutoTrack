@@ -254,44 +254,45 @@ export type Database = {
     }
     Functions: {
       get_highest_spending_vehicle: {
-        Args: { p_user_id: string }
+        Args: never
         Returns: {
-          licence_plate: string
+          licence_plate_number: string
           make: string
           model: string
           total_spend: number
+          vehicle_id: string
         }[]
       }
       get_monthly_spend: {
-        Args: { p_user_id: string }
+        Args: never
         Returns: {
           month: string
           spend: number
         }[]
       }
       get_recent_services: {
-        Args: { p_user_id: string }
+        Args: never
         Returns: {
           odometer: number
           vehicle_id: string
         }[]
       }
       get_total_cost_per_vehicle: {
-        Args: { p_user_id: string }
+        Args: never
         Returns: {
           cost: number
           vehicle_id: string
         }[]
       }
       get_upcoming_services: {
-        Args: { p_user_id: string }
+        Args: never
         Returns: {
           odometer_trigger: number
           vehicle_id: string
         }[]
       }
       get_vehicle_service_status: {
-        Args: { p_user_id: string }
+        Args: never
         Returns: {
           current_odometer: number
           distance_to_service: number
@@ -299,6 +300,15 @@ export type Database = {
           model: string
           odometer_trigger: number
           vehicle_id: string
+        }[]
+      }
+      get_vehicle_stats: {
+        Args: { p_vehicle_id: string }
+        Returns: {
+          current_odometer: number
+          total_fuel_logs: number
+          total_repairs: number
+          total_spend: number
         }[]
       }
     }

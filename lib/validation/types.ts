@@ -75,8 +75,32 @@ export type MonthlySpend = {
 
 
 export type TopVehicle = {
-    licence_plate: string;
+    licence_plate_number: string;
     make: string;
     model: string;
     total_spend: number;
-  }
+  };
+
+
+export type VehicleMetric = {
+    current_odometer: number;
+    total_fuel_logs: number;
+    total_repairs: number;
+    total_spend: number;
+};
+
+
+export type VehicleRecentActivity = {
+    id: string;
+    date: string;
+    cost: number;
+    service_type: ServiceType;
+    vendor: string | null;
+}[];
+
+
+export type MostRecentVehicleService ={
+    odometer: number;
+    service_type: ServiceType
+    date: string;
+}

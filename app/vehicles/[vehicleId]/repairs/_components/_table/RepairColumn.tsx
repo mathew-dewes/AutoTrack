@@ -38,6 +38,11 @@ export const RepairColumn: ColumnDef<RepairEntry>[] = [
   {
     accessorKey: "odometer",
     header: "Odometer (KM)",
+        cell:({row})=>{
+      const value = parseInt(row.getValue("odometer"))
+      return <div><p>{value.toLocaleString()}</p></div> 
+   
+    }
   },
   {
     accessorKey: "vendor",

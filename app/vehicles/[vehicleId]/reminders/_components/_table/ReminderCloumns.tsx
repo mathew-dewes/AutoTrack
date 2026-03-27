@@ -38,6 +38,11 @@ export const ReminderColumns: ColumnDef<NotificationEntry>[] = [
     {
     accessorKey: "odometer_trigger",
     header: "ODO trigger (KM)",
+        cell:({row})=>{
+      const value = parseInt(row.getValue("odometer_trigger"))
+      return <div><p>{value.toLocaleString()}</p></div> 
+   
+    }
   },
 
     {
