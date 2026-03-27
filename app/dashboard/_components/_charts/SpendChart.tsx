@@ -8,6 +8,7 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import {
   ChartContainer,
@@ -16,8 +17,9 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart"
 import { format } from "date-fns";
-import { MonthlySpend, TopVehicle } from "@/lib/validation/types";
+import { MonthlySpend, TopVehicle, TotalSpendBreakdown } from "@/lib/validation/types";
 import { convertToMoney } from "@/lib/utils";
+import { TrendingUp } from "lucide-react";
 
 const date = new Date();
 const currentMonth = format(date, "LLLL");
@@ -25,8 +27,9 @@ date.setMonth(date.getMonth() - 5);
 const sixMonthPrevious = format(date, "LLLL")
 
 type Props = {
-  chartData:MonthlySpend[],
-  topVehicle:TopVehicle
+  chartData: MonthlySpend[],
+  topVehicle: TopVehicle,
+  spendBreakdown: TotalSpendBreakdown
 
 }
 
@@ -44,13 +47,30 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function SpendChart({chartData, topVehicle}:Props) {
+export function SpendChart({ chartData, topVehicle, spendBreakdown }: Props) {
 
-  const {make, model, licence_plate_number, total_spend} = topVehicle;
+  const { make, model, licence_plate_number, total_spend } = topVehicle;
   return (
     <Card>
       <CardHeader>
-        <CardDescription className="text-white">{sixMonthPrevious} - {currentMonth} {date.getFullYear()}</CardDescription>
+        <CardTitle className="text-xl font-semibold">Total Spend</CardTitle>
+        <CardDescription>{sixMonthPrevious} - {currentMonth} {date.getFullYear()}
+          <div className="mt-3 space-y-1 text-white">
+            <h2 className="font-semibold">Breakdown:</h2>
+            <div className="flex gap-5">
+              <p>Yearly: {convertToMoney(spendBreakdown.yearly_spend)}</p>
+              <p>Monthly: {convertToMoney(spendBreakdown.monthly_spend)}</p>
+              <div className="flex gap-1.5 items-center">
+
+                <p>Change: {spendBreakdown.monthly_change_percent}%</p>
+                <TrendingUp className="h-4 w-4" />
+              </div>
+            </div>
+
+
+          </div>
+
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -77,7 +97,7 @@ export function SpendChart({chartData, topVehicle}:Props) {
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
             />
-            <Bar className="fill-primary" dataKey="spend"  radius={4}>
+            <Bar className="fill-primary" dataKey="spend" radius={4}>
               <LabelList
                 dataKey="month"
                 position="insideLeft"
@@ -97,11 +117,11 @@ export function SpendChart({chartData, topVehicle}:Props) {
         </ChartContainer>
       </CardContent>
       <CardFooter>
-       <div>
-        <p>Highest costing vehicle:</p>
-        <p>{make} {model} - {licence_plate_number}</p>
-        <p>Total spend: {convertToMoney(total_spend)}</p>
-       </div>
+        <div>
+          <p>Highest costing vehicle:</p>
+          <p>{make} {model} - {licence_plate_number}</p>
+          <p>Total spend: {convertToMoney(total_spend)}</p>
+        </div>
       </CardFooter>
     </Card>
   )

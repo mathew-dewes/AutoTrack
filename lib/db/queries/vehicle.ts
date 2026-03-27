@@ -74,3 +74,34 @@ export async function getVehicleMetrics(vehicleId: string){
 
 
 }
+
+export async function getVehicleCostBreakdown(vehicle_id: string){
+     const supabase = await createClientForServer();
+
+    const { data: vehicle, error } = await supabase.rpc("get_vehicle_cost_breakdown",
+          {p_vehicle_id: vehicle_id}
+    );
+
+    if (error) {
+        console.log("Error fetching vehicle costs:", error);
+        return { success: false, error: error };
+    }
+
+    return vehicle[0] ?? [];
+};
+
+
+export async function getVehiclesSpendBreakdown(){
+         const supabase = await createClientForServer();
+
+    const { data: vehicle, error } = await supabase.rpc("get_total_spend_stats"
+        
+    );
+
+    if (error) {
+        console.log("Error fetching vehicle spend:", error);
+        return { success: false, error: error };
+    }
+
+    return vehicle[0] ?? [];
+}

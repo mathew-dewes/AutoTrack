@@ -13,40 +13,21 @@ export default function VehicleNavigation({ vehicleId }:
 
 
     const tabs = [
+        { name: "Fuel", href: `/vehicles/${vehicleId}/fuel` },
+        { name: "Repairs", href: `/vehicles/${vehicleId}/repairs` },
         { name: "Reminders", href: `/vehicles/${vehicleId}/reminders` },
-        { name: "Analytics", href: `/vehicles/${vehicleId}/analytics` },
-    
+
     ];
-    return <div className="flex justify-between my-5">
-        <div className="flex items-center gap-2">
-            <Link className={cn(buttonVariants({
-                variant: `${pathname == `/vehicles/${vehicleId}/logs/new/repairs` ? 'default' : 'outline'}`
-            }))}
-                href={`/vehicles/${vehicleId}/logs/new/repairs`}>+ Log repairs</Link>
-            <Link className={cn(buttonVariants({
-                variant: `${pathname == `/vehicles/${vehicleId}/logs/new/fuel` ? 'default' : 'outline'}`
-            }))}
-                href={`/vehicles/${vehicleId}/logs/new/fuel`}>+ Log fuel</Link>
-        </div>
+    return <div className="flex justify-end my-5">
+        <Link
 
-        <div className="flex gap-8">
-
-                    <div className="flex gap-1">
- <Link className={cn(
+            className={cn(
                 buttonVariants({
                     variant: `${pathname == `/vehicles/${vehicleId}` ? 'default' : 'outline'}`
-                }))} href={`/vehicles/${vehicleId}`}>Overview</Link>
- <Link className={cn(
-                buttonVariants({
-                    variant: `${pathname == `/vehicles/${vehicleId}/fuel` ? 'default' : 'outline'}`
-                }))} href={`/vehicles/${vehicleId}/fuel`}>Fuel</Link>
- <Link className={cn(
-                buttonVariants({
-                    variant: `${pathname == `/vehicles/${vehicleId}/repairs`  ? 'default' : 'outline'}`
-                }))} href={`/vehicles/${vehicleId}/repairs` }>Repairs</Link>
-            </div>
+                }))}
+            href={`/vehicles/${vehicleId}`}>Overview</Link>
 
-                    <div className="flex gap-1">
+        <div className="flex gap-2 mx-7">
             {tabs.map((tab, key) => {
                 return <Link
                     key={key}
@@ -58,7 +39,14 @@ export default function VehicleNavigation({ vehicleId }:
             })}
         </div>
 
-        </div>
+             <Link
+
+            className={cn(
+                buttonVariants({
+                    variant: `${pathname == `/vehicles/${vehicleId}/analytics` ? 'default' : 'outline'}`
+                }))}
+            href={`/vehicles/${vehicleId}/analytics`}>Analytics</Link>
+
 
 
 
