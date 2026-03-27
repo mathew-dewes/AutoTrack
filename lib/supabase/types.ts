@@ -284,11 +284,27 @@ export type Database = {
           vehicle_id: string
         }[]
       }
+      get_total_spend_stats: {
+        Args: never
+        Returns: {
+          monthly_change_percent: number
+          monthly_spend: number
+          yearly_spend: number
+        }[]
+      }
       get_upcoming_services: {
         Args: never
         Returns: {
           odometer_trigger: number
           vehicle_id: string
+        }[]
+      }
+      get_vehicle_cost_breakdown: {
+        Args: { p_vehicle_id: string }
+        Returns: {
+          refuel_cost: number
+          repair_cost: number
+          total_cost: number
         }[]
       }
       get_vehicle_service_status: {
@@ -300,6 +316,14 @@ export type Database = {
           model: string
           odometer_trigger: number
           vehicle_id: string
+        }[]
+      }
+      get_vehicle_spend_stats: {
+        Args: { p_vehicle_id: string }
+        Returns: {
+          monthly_change_percent: number
+          monthly_spend: number
+          yearly_spend: number
         }[]
       }
       get_vehicle_stats: {

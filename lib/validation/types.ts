@@ -103,4 +103,17 @@ export type MostRecentVehicleService ={
     odometer: number;
     service_type: ServiceType
     date: string;
+};
+
+
+export type CostBreakdown = {
+    refuel_cost: number;
+    repair_cost: number;
+    total_cost: number;
+};
+
+export type TotalSpendBreakdown = {
+    monthly_change_percent: number;
+    monthly_spend: number;
+    yearly_spend: number;
 }

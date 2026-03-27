@@ -82,3 +82,6 @@ const {error} = await supabase.from("vehicles").update({current_odometer: update
         }
 };
 
+
+
+
