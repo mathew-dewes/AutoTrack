@@ -35,9 +35,10 @@ return (
                 href={link.href}>
                 {link.name}</Link>
         })}
-              <ThemeToggle />
+  
               <Link className={cn(buttonVariants({ variant: `${isActive('/login') ? "default" : "outline"}` }))} href={'/login'}>Login</Link>
               <Link className={cn(buttonVariants({ variant: `${isActive('/register') ? "default" : "outline"}` }))} href={'/register'}>Register</Link>
+                <ThemeToggle />
     </ul>
 )
 }
