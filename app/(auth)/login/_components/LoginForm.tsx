@@ -24,11 +24,11 @@ import { Controller, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useTransition } from "react"
 
-
-import { toast } from "sonner"
-// import { useRouter } from "next/navigation"
 import { loginFormSchema } from "@/lib/validation/schema"
 import { authClient } from "@/lib/auth-client"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+
 
 
 
@@ -37,10 +37,8 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
 
-
+const router = useRouter()
   const [isPending, startTransition] = useTransition();
-//    const router = useRouter()
-
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
@@ -57,10 +55,21 @@ export function LoginForm({
 console.log(values);
 const {data, error} = await authClient.signIn.email({
   email: values.email,
-  password:values.password
+  password:values.password,
 })
 
-    }))
+
+    if (error){
+      toast.error(error.message)
+    } else {
+  toast.success('Welcome ' + data?.user.name);
+  router.push('/dashboard')
+  router.refresh()
+    }
+
+  
+    }));
+
 
   }
 

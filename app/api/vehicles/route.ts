@@ -1,6 +1,7 @@
 
 import { auth } from "@/lib/auth";
-import { sql } from "@/lib/sql";
+import { sql } from "@/lib/db/sql";
+
 import { headers } from "next/headers";
 
 import { NextResponse } from "next/server";
