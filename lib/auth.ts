@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth";
+import { headers } from "next/headers";
 import { Pool } from "pg";
 
 export const auth = betterAuth({
@@ -9,3 +10,22 @@ export const auth = betterAuth({
     enabled: true
   }
 });
+
+export async function getUserId(){
+
+  try {
+          const session = await auth.api.getSession(
+       { headers: await headers()});
+        return session?.user.id
+  } catch (error) {
+    console.error(error)
+  }
+  
+
+
+
+
+      
+  
+ 
+}

@@ -9,7 +9,9 @@ import { authClient } from "@/lib/auth-client";
 
 
 
-export default function LogoutButton() {
+export default function LogoutButton({hide}:
+    {hide: boolean}
+) {
     const [isPending, startTransition] = useTransition();
     const router = useRouter()
 
@@ -18,8 +20,9 @@ export default function LogoutButton() {
             await authClient.signOut({
                 fetchOptions: {
                     onSuccess: () => {
-                        toast.success("Logout successful")
+                        toast.success("Logout successful");
                         router.push("/login");
+                        router.refresh();
                     },
                 },
             });
@@ -27,5 +30,5 @@ export default function LogoutButton() {
         })
     };
 
-    return <Button onClick={logout} disabled={isPending}>Logout</Button>
+    return <Button hidden={hide} onClick={logout} disabled={isPending}>Logout</Button>
 }

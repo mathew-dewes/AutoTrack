@@ -17,7 +17,9 @@ const navLinks = [
 
 ]
 
-export default function NavLinks(){
+export default function NavLinks({session}:
+    {session: boolean}
+){
     const pathname = usePathname();
 
     function isActive(path: string) {
@@ -31,16 +33,18 @@ if (path === "/vehicles") return pathname.startsWith("/vehicles") && pathname !=
 return (
     <ul className="flex justify-end gap-5 items-center">
         {navLinks.map((link, key)=>{
-            return <Link key={key} className={cn(
+            return <Link
+            hidden={session}
+            key={key} className={cn(
                 buttonVariants({ variant: `${isActive(link.href) ? "default" : "outline"}` }))}
                 href={link.href}>
                 {link.name}</Link>
         })}
   
-              <Link className={cn(buttonVariants({ variant: `${isActive('/login') ? "default" : "outline"}` }))} href={'/login'}>Login</Link>
-              <Link className={cn(buttonVariants({ variant: `${isActive('/register') ? "default" : "outline"}` }))} href={'/register'}>Register</Link>
+              <Link hidden={!session} className={cn(buttonVariants({ variant: `${isActive('/login') ? "default" : "outline"}` }))} href={'/login'}>Login</Link>
+              <Link hidden={!session} className={cn(buttonVariants({ variant: `${isActive('/register') ? "default" : "outline"}` }))} href={'/register'}>Register</Link>
                 <ThemeToggle />
-                <LogoutButton/>
+                <LogoutButton hide={session}/>
     </ul>
 )
 }

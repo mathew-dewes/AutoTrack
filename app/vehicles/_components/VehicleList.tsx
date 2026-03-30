@@ -26,7 +26,7 @@ if (!res.ok) {
 export default function VehicleList(){
       const {data: vehicles , error, isLoading, isError} = 
   useQuery({
-    queryKey:["posts"], 
+    queryKey:["vehicles"], 
     queryFn: fetchVehicles,
     staleTime: 1000 * 30
 },);

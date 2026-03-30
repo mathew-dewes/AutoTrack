@@ -5,24 +5,17 @@ import VehicleNavigation from "./_components/_layout/VehicleNavigation";
 export default async function VehicleLayout({
     children, params
 }: {
-    children: React.ReactNode, params: Promise<{vehicleId: string}>
+    children: React.ReactNode, params: Promise<{vehicle_id: string}>
 }) {
 
-    const {vehicleId} = await params;
+    const {vehicle_id} = await params;
 
 
     return (
 
         <div>
-    <VehicleHeader vehicle={{
-        make: "Nissan", 
-        model: "Skyline",
-        current_odometer:134000,
-        licence_plate_number: "LJT597",
-        year: 2012
-    }
-        }/>
-     <VehicleNavigation vehicleId={vehicleId}/>
+    <VehicleHeader vehicle_id={vehicle_id}/>
+     <VehicleNavigation vehicleId={vehicle_id}/>
             {children}
         </div>
 
