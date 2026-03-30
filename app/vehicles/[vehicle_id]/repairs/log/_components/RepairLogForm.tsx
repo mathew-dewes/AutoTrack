@@ -19,6 +19,7 @@ import { RepairLogDatePicker } from "./RepairLogDatePicker";
 import LogServiceSelector from "./LogServiceSelector";
 import { repairFormSchema } from "@/lib/validation/schema";
 import { addRepairLog } from "@/lib/db/mutations/repair";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 export default function RepairLogForm({ vehicle_id, odometer }:
@@ -26,7 +27,7 @@ export default function RepairLogForm({ vehicle_id, odometer }:
 ) {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
-
+const queryClient = useQueryClient(); 
     const form = useForm<z.infer<typeof repairFormSchema>>({
         resolver: zodResolver(repairFormSchema),
         defaultValues: {
@@ -50,7 +51,7 @@ export default function RepairLogForm({ vehicle_id, odometer }:
                             form.setError("root", {
                                 message: res.error
                             });
-                            toast.error(res.error)
+                  
             
             
                         };
@@ -61,13 +62,13 @@ export default function RepairLogForm({ vehicle_id, odometer }:
                                     { message }
                                 )
                             });
-            
-                            toast.error(res.error)
+        
             
                         }
             
                               if (res?.success) {
                             toast.success(res.message);
+                                      queryClient.invalidateQueries({ queryKey: [`vehicle-${vehicle_id}-repairs`] });
                             router.push(`/vehicles/${vehicle_id}/repairs`)
             
             
@@ -247,7 +248,11 @@ export default function RepairLogForm({ vehicle_id, odometer }:
 
                     </FieldGroup>
 
-
+  {form.formState.errors.root && (
+    <div className="mt-4 text-red-400">
+      {form.formState.errors.root.message}
+    </div>
+  )}
                 </form>
             </CardContent>
 

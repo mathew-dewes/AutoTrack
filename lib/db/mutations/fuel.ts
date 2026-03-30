@@ -6,6 +6,7 @@ import { getUserId } from "@/lib/auth";
 import z from "zod";
 
 export async function addFuelLog(values: z.infer<typeof fuelLogSchema>, vehicle_id: string) {
+console.log(values);
 
     const user_id = await getUserId()
     try {
@@ -25,7 +26,7 @@ export async function addFuelLog(values: z.infer<typeof fuelLogSchema>, vehicle_
         };
 
         const f = parsed.data;
-        await sql`
+        const result = await sql`
     INSERT INTO fuel_logs (
       vehicle_id,
       date,
@@ -37,7 +38,7 @@ export async function addFuelLog(values: z.infer<typeof fuelLogSchema>, vehicle_
       vendor,
       notes
     )
-    VALUES (
+   SELECT
       ${vehicle_id},
       ${f.date},
       ${f.fuel_litres},
@@ -47,9 +48,26 @@ export async function addFuelLog(values: z.infer<typeof fuelLogSchema>, vehicle_
       ${user_id},
       ${f.vendor},
       ${f.notes}
-    )
-    ;
+      FROM vehicles
+      WHERE id = ${vehicle_id} AND
+      user_id = ${user_id} AND
+      ${f.odometer} >= current_odometer
+      AND ${f.odometer} >= COALESCE(current_odometer, 0)
+      RETURNING id;
   `;
+
+  console.log(result);
+  
+
+if (result.length === 0) {
+  return {
+    success: false,
+    fieldErrors: {
+      odometer: "Odometer must be greater than current vehicle odometer"
+    }, 
+
+  };
+}
 
         return {
             success: true,

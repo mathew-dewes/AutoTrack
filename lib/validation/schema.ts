@@ -37,8 +37,9 @@ export const fuelLogSchema = z.object({
   cost: z.number("Cost is required"),
   vendor: z.string().min(1, "Vendor is required"),
   fuel_litres: z.number("Litres of fuel is required"),
-  notes: z.string().optional()
-});
+  notes: z.string().optional(),
+})
+
 
 export const repairFormSchema = z.object({
   notes: z.string().max(200, 'Description must be 200 characters or less').optional(),
