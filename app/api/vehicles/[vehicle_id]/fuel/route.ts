@@ -6,8 +6,8 @@ import { headers } from "next/headers";
 
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, { params }: { params: Promise< { id: string }> }) {
-  const { id } = await params;
+export async function GET(req: NextRequest, { params }: { params: Promise< { vehicle_id: string }> }) {
+  const { vehicle_id } = await params;
   
   try {
 
@@ -23,17 +23,17 @@ export async function GET(req: NextRequest, { params }: { params: Promise< { id:
 
          const userId = session.user.id;
 
-    const vehicle = await sql`
-      SELECT *
-      FROM vehicles
-      where user_id = ${userId} AND id = ${id}
+    const fuelLogs = await sql`
+      SELECT date, litres, cost, odometer, price_per_litre, vendor, notes
+      FROM fuel_logs
+      where user_id = ${userId} AND vehicle_id = ${vehicle_id}
       order by created_at DESC
-      LIMIT 1;
+
       ;
     `;
 
 
-    return NextResponse.json(vehicle[0] ?? null);
+    return NextResponse.json(fuelLogs ?? null);
   } catch (error) {
     console.log(error);
     

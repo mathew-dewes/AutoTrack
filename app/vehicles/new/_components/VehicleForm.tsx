@@ -40,10 +40,10 @@ export default function VehicleForm() {
 
           if (res.success){
             toast.success(res.data?.make + " " + res.data?.model + " was added");
-            queryClient.invalidateQueries({ queryKey: ["vehicles"] });
+            await queryClient.invalidateQueries({ queryKey: ["vehicles"] });
             router.push('/vehicles')
           }
-        }))
+        }));
     }
 
     return <div className="flex flex-col gap-6 max-w-xl">

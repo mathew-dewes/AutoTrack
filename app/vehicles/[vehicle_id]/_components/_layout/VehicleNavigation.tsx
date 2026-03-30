@@ -20,13 +20,13 @@ export default function VehicleNavigation({ vehicleId }:
     return <div className="flex justify-between my-5">
         <div className="flex items-center gap-2">
             <Link className={cn(buttonVariants({
-                variant: `${pathname == `/vehicles/${vehicleId}/logs/new/repairs` ? 'default' : 'outline'}`
+                variant: `${pathname == `/vehicles/${vehicleId}/repairs/log` ? 'default' : 'outline'}`
             }))}
-                href={`/vehicles/${vehicleId}/logs/new/repairs`}>+ Log repairs</Link>
+                href={`/vehicles/${vehicleId}/repairs/log`}>+ Log repairs</Link>
             <Link className={cn(buttonVariants({
-                variant: `${pathname == `/vehicles/${vehicleId}/logs/new/fuel` ? 'default' : 'outline'}`
+                variant: `${pathname == `/vehicles/${vehicleId}/fuel/log` ? 'default' : 'outline'}`
             }))}
-                href={`/vehicles/${vehicleId}/logs/new/fuel`}>+ Log fuel</Link>
+                href={`/vehicles/${vehicleId}/fuel/log`}>+ Log fuel</Link>
         </div>
 
         <div className="flex gap-2">

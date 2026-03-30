@@ -1,4 +1,5 @@
 import z from "zod";
+import { REPAIR_TYPE } from "./enums";
 
 const date = new Date();
 
@@ -29,3 +30,22 @@ export const vehicleSchema = z.object({
   licence_plate: z.string().min(4).max(6),
   odometer: z.number("Odometer reading is required").min(1).max(1000000)
 });
+
+export const fuelLogSchema = z.object({
+  date: z.date('Refuel date is required'),
+  odometer: z.number("Odometer reading is required").min(1).max(1000000),
+  cost: z.number("Cost is required"),
+  vendor: z.string().min(1, "Vendor is required"),
+  fuel_litres: z.number("Litres of fuel is required"),
+  notes: z.string().optional()
+});
+
+export const repairFormSchema = z.object({
+  notes: z.string().max(200, 'Description must be 200 characters or less').optional(),
+  date: z.date('Refuel date is required'),
+  odometer: z.number("Odometer reading is required").min(1).max(1000000),
+  vendor: z.string().min(1, "Vendor is required"),
+  cost: z.number("Cost is required"),
+  repair_type: z.enum(REPAIR_TYPE, "Please select a service type"),
+
+})
