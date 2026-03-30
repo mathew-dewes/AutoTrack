@@ -4,10 +4,11 @@ import { sql } from "@/lib/db/sql";
 
 import { headers } from "next/headers";
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
-
+export async function GET(req: NextRequest, { params }: { params: Promise< { id: string }> }) {
+  const { id } = await params;
+  
   try {
 
     const session = await auth.api.getSession(
@@ -22,16 +23,17 @@ export async function GET() {
 
          const userId = session.user.id;
 
-    const vehicles = await sql`
+    const vehicle = await sql`
       SELECT *
       FROM vehicles
-      where user_id = ${userId}
+      where user_id = ${userId} AND id = ${id}
       order by created_at DESC
+      LIMIT 1;
       ;
     `;
-    
 
-    return NextResponse.json(vehicles);
+
+    return NextResponse.json(vehicle[0] ?? null);
   } catch (error) {
     console.log(error);
     

@@ -1,5 +1,9 @@
+import VehicleForm from "./_components/VehicleForm";
+
 export default function page(){
-    return(
-        <p>New vehicle page</p>
+    return (
+        <div>
+            <VehicleForm/>
+        </div>
     )
 }
