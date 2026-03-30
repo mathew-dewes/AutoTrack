@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { QueryClient } from "@tanstack/react-query";
 
 
 
@@ -13,7 +14,8 @@ export default function LogoutButton({hide}:
     {hide: boolean}
 ) {
     const [isPending, startTransition] = useTransition();
-    const router = useRouter()
+    const router = useRouter();
+    const queryClient = new QueryClient();
 
     function logout() {
         startTransition(async () => {
@@ -21,6 +23,7 @@ export default function LogoutButton({hide}:
                 fetchOptions: {
                     onSuccess: () => {
                         toast.success("Logout successful");
+                        queryClient.clear();
                         router.push("/login");
                         router.refresh();
                     },
