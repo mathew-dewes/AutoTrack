@@ -26,6 +26,7 @@ import { useTransition } from "react";
 import { registerFormSchema } from "@/lib/validation/schema";
 
 import { toast } from "sonner";
+import { authClient } from "@/lib/auth-client";
 
 
 
@@ -54,9 +55,24 @@ export function RegisterForm({
 
     startTransition((async () => {
 console.log(values);
-toast.success("Hello world")
+
+
+const {data, error} = await authClient.signUp.email({
+  name: values.firstName + " " + values.lastName,
+  email: values.email,
+  password: values.confirmPassword
+},{
+  onSuccess: ()=>{
+  toast.success("Login Success");
+  },
+  onError: () =>{
+    toast.error("There was an error")
+  }
+})
  
-    }))
+    }));
+
+  
 
   }
 

@@ -28,6 +28,7 @@ import { useTransition } from "react"
 import { toast } from "sonner"
 // import { useRouter } from "next/navigation"
 import { loginFormSchema } from "@/lib/validation/schema"
+import { authClient } from "@/lib/auth-client"
 
 
 
@@ -54,7 +55,10 @@ export function LoginForm({
   function onSubmit(values: z.infer<typeof loginFormSchema>) {
     startTransition((async () => {
 console.log(values);
-toast.success("Hello world")
+const {data, error} = await authClient.signIn.email({
+  email: values.email,
+  password:values.password
+})
 
     }))
 

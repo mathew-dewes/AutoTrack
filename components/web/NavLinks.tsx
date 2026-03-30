@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
+import LogoutButton from "./LogoutButton";
 
 
 const navLinks = [
@@ -39,6 +40,7 @@ return (
               <Link className={cn(buttonVariants({ variant: `${isActive('/login') ? "default" : "outline"}` }))} href={'/login'}>Login</Link>
               <Link className={cn(buttonVariants({ variant: `${isActive('/register') ? "default" : "outline"}` }))} href={'/register'}>Register</Link>
                 <ThemeToggle />
+                <LogoutButton/>
     </ul>
 )
 }

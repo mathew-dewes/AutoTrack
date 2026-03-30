@@ -4,6 +4,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "../components/web/theme-provider";
 import Navbar from "../components/web/Navbar";
+import { Toaster } from "sonner";
+import QueryProvider from "@/components/QueryProvider";
 
 const ralewayHeading = Raleway({ subsets: ['latin'], variable: '--font-heading' });
 
@@ -27,7 +29,7 @@ export default function RootLayout({
       className={cn("h-full", "antialiased", "font-sans", outfit.variable, ralewayHeading.variable)}
     >
       <body className="min-h-full flex flex-col">
-    
+        <QueryProvider>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -38,7 +40,16 @@ export default function RootLayout({
           <main className="mt-10 mb-30 w-full px-4 md:px-6 lg:px-12">
             {children}
           </main>
+                <Toaster
+            duration={3000}
+            closeButton
+            expand
+
+          />
         </ThemeProvider>
+        </QueryProvider>
+    
+
 
       </body>
     </html>
