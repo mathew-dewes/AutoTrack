@@ -12,7 +12,7 @@ export default function DeleteVehicleButton({ vehicle_id }: { vehicle_id: string
     const router = useRouter()
 
     return (
-        <Button
+        <Button size={"sm"}
             onClick={() => {
                 startTransition(async () => {
                     const res = await deleteVehicle(vehicle_id);
