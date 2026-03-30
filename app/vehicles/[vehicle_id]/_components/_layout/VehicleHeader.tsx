@@ -27,7 +27,7 @@ if (!res.ok) {
 export default function VehicleHeader({vehicle_id}: {vehicle_id: string}){
           const {data: vehicle , error, isLoading, isError} = 
   useQuery({
-    queryKey:[`vehicle=${vehicle_id}`], 
+    queryKey:[`vehicle-${vehicle_id}`], 
     queryFn: ()=> fetchVehicle(vehicle_id),
     staleTime: 1000 * 30,
     enabled: !!vehicle_id,
@@ -40,7 +40,7 @@ if (error){
 
 if (isLoading) return <p>Loading vehicle</p>
 if (isError) return <p>There was an error</p>
-if (!vehicle) return <p>Vehicle doesnt exist</p>
+if (!vehicle) return <p>Vehicle doesn&apos;t exist</p>
 
 
     return <Card className="w-full max-w-sm">

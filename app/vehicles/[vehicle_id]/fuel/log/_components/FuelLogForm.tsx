@@ -16,12 +16,14 @@ import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import { FuelLogDatePicker } from "./FuelLogDatePicker";
 import { addFuelLog } from "@/lib/db/mutations/fuel";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function FuelLogForm({ vehicle_id, odometer }:
     { vehicle_id: string, odometer: number }
 ) {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
+const queryClient = useQueryClient(); 
     const form = useForm<z.infer<typeof fuelLogSchema>>({
         resolver: zodResolver(fuelLogSchema),
         defaultValues: {
@@ -61,6 +63,7 @@ export default function FuelLogForm({ vehicle_id, odometer }:
 
                   if (res?.success) {
                 toast.success(res.message);
+                queryClient.invalidateQueries({ queryKey: [`vehicle-${vehicle_id}-fuel`] });
                 router.push(`/vehicles/${vehicle_id}/fuel`)
 
 
