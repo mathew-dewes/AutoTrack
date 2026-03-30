@@ -1,5 +1,5 @@
 import z from "zod";
-import { Service_type } from "./enums";
+import { REPAIR_TYPE } from "./enums";
 
 const date = new Date();
 
@@ -46,6 +46,6 @@ export const repairFormSchema = z.object({
   odometer: z.number("Odometer reading is required").min(1).max(1000000),
   vendor: z.string().min(1, "Vendor is required"),
   cost: z.number("Cost is required"),
-  repair_type: z.enum(Service_type, "Please select a service type"),
+  repair_type: z.enum(REPAIR_TYPE, "Please select a service type"),
 
 })

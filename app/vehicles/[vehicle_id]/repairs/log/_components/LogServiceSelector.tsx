@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Service_type } from "@/lib/validation/enums";
+import { REPAIR_TYPE } from "@/lib/validation/enums";
 
 
 
@@ -26,7 +26,7 @@ export default function LogServiceSelector({value, onChange}: Props){
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Service types</SelectLabel>
-          {Service_type.map((type)=>{
+          {REPAIR_TYPE.map((type)=>{
             return <SelectItem key={type} value={type}>{type}</SelectItem>
           })}
  

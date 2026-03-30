@@ -19,3 +19,16 @@ export type FuelEntry = {
 
 
 };
+
+export type RepairEntry = {
+  id: string
+  date: string;
+  notes: string;
+  cost: number;
+  odometer: number;
+  service_type: ['oil_service',
+'general_service',
+'brakes',
+'tyres',
+'battery'];
+};
