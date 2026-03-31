@@ -13,6 +13,8 @@ export default function Overview({vehicle_id}:
             <FuelOverview vehicle_id={vehicle_id}/>
             <Repairoverview vehicle_id={vehicle_id}/>
             <RecentActivity/>
+      
+    
         </div>
     )
 }

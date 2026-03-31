@@ -1,6 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import LoadingCard from "@/components/web/LoadingCard";
 import { convertToMoney } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 
@@ -36,12 +37,12 @@ export default function VehicleSummary({ vehicle_id }:
 
     }
 
-    if (isLoading) return <p>Loading vehicle</p>
+    if (isLoading) return <LoadingCard/>
     if (isError) return <p>There was an error</p>
     if (!metrics) return <p>Vehicle doesn&apos;t exist</p>
 
     return (
-        <Card className="w-full">
+        <Card className="w-full h-50">
             <CardHeader>
                 <CardTitle>Vehicle Summary</CardTitle>
             </CardHeader>

@@ -5,7 +5,7 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/comp
 import { Vehicle } from "@/lib/validation/types";
 import { useQuery } from "@tanstack/react-query";
 import DeleteVehicleButton from "../DeleteVehicleButton";
-
+import HeaderLoading from "./HeadlerLoading";
 
 
 async function fetchVehicle(id: string): Promise<Vehicle> {
@@ -38,14 +38,14 @@ if (error){
     
 }
 
-if (isLoading) return <p>Loading vehicle</p>
+if (isLoading) return <HeaderLoading/>
 if (isError) return <p>There was an error</p>
 if (!vehicle) return <p>Vehicle doesn&apos;t exist</p>
 
 
-    return <Card className="w-full max-w-sm">
+    return <Card className="w-full max-w-sm h-40">
         <CardHeader>
-            <CardTitle className="font-semibold text-lg">{vehicle.make} {vehicle.model}</CardTitle>
+            <CardTitle className="font-semibold text-lg line-clamp-1">{vehicle.make} {vehicle.model}</CardTitle>
         <CardDescription>{vehicle?.licence_plate_number} - ODO {vehicle.current_odometer} km</CardDescription>
         </CardHeader>
 
@@ -55,4 +55,8 @@ if (!vehicle) return <p>Vehicle doesn&apos;t exist</p>
         </CardFooter>
         
     </Card>
+
+    
+    
+ 
 }

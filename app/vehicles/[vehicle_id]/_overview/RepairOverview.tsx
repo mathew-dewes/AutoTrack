@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { convertToMoney } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
+import NullCard from "../../../../components/web/NullCard";
+import LoadingCard from "@/components/web/LoadingCard";
 
 
 async function fetchLatestRepair(vehicle_id: string) {
@@ -34,13 +36,15 @@ export default function Repairoverview({vehicle_id}:
 
     }
 
-    if (isLoading) return <p>Loading vehicle</p>
+    if (isLoading) return <LoadingCard/>
     if (isError) return <p>There was an error</p>
-    if (!metrics) return <p>Vehicle doesn&apos;t exist</p>
+    if (!metrics) return <NullCard 
+    title="Latest Repairs"
+    description="You have no repairs"
+    />
 
-    console.log(metrics);
     return(
-        <Card className="w-full">
+        <Card className="w-full h-50">
             <CardHeader>
                 <CardTitle>Latest Repair</CardTitle>
             </CardHeader>
