@@ -39,8 +39,6 @@ export default function FuelOverview({vehicle_id}:
     if (isLoading) return <p>Loading vehicle</p>
     if (isError) return <p>There was an error</p>
     if (!metrics) return <p>Vehicle doesn&apos;t exist</p>
-
-    console.log(metrics);
     
     return(
         <Card className="w-full">
