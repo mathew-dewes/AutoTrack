@@ -33,35 +33,14 @@ export const RepairColumn: ColumnDef<RepairEntry>[] = [
     accessorKey: "type",
     header: "Repair type",
   },
-
-
-  {
-    accessorKey: "odometer",
-    header: "Odometer (KM)",
-        cell:({row})=>{
-      const value = parseInt(row.getValue("odometer"))
-      return <div><p>{value.toLocaleString()}</p></div> 
-   
-    }
-  },
   {
     accessorKey: "vendor",
     header: "Vendor",
   },
-  // {
-  //   accessorKey: "email",
-  //    header: ({ column }) => {
-  //     return (
-  //       <Button
-  //         variant="ghost"
-  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //       >
-  //         Email
-  //         <ArrowUpDown className="ml-2 h-4 w-4" />
-  //       </Button>
-  //     )
-  //   },
-  // },
+  {
+    accessorKey: "notes",
+    header: "notes",
+  },
   {
     accessorKey: "cost",
     header: () => <div className="text-right">Total cost</div>,

@@ -23,17 +23,25 @@ export async function GET(req: NextRequest, { params }: { params: Promise< { veh
 
          const userId = session.user.id;
 
-    const RepairLogs = await sql`
-      SELECT date, type, cost, vendor, notes
-      FROM repair_logs
-      where user_id = ${userId} AND vehicle_id = ${vehicle_id}
-      order by created_at DESC
+    const data = await sql`SELECT
+  date,
+  cost,
+  litres,
+  price_per_litre,
+  vendor,
+  (odometer - prev_odometer)::decimal / litres AS last_km_per_litre
+FROM (
+  SELECT
+    *,
+    LAG(odometer) OVER (PARTITION BY vehicle_id ORDER BY date) AS prev_odometer
+  FROM fuel_logs
+  WHERE vehicle_id = ${vehicle_id} AND user_id = ${userId}
+) t
+ORDER BY date DESC
+LIMIT 1;`;
 
-      ;
-    `;
 
-
-    return NextResponse.json(RepairLogs ?? null);
+    return NextResponse.json(data[0] ?? null);
   } catch (error) {
     console.log(error);
     

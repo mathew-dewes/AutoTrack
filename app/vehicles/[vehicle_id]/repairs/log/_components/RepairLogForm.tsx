@@ -22,8 +22,8 @@ import { addRepairLog } from "@/lib/db/mutations/repair";
 import { useQueryClient } from "@tanstack/react-query";
 
 
-export default function RepairLogForm({ vehicle_id, odometer }:
-    { vehicle_id: string, odometer: number }
+export default function RepairLogForm({ vehicle_id }:
+    { vehicle_id: string }
 ) {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
@@ -33,7 +33,6 @@ export default function RepairLogForm({ vehicle_id, odometer }:
         defaultValues: {
             notes: "",
             cost: undefined,
-            odometer,
             date: new Date(),
             repair_type: undefined,
             vendor: "",
@@ -117,7 +116,7 @@ export default function RepairLogForm({ vehicle_id, odometer }:
                         >
 
                         </Controller>
-                        <Controller
+                        {/* <Controller
                             control={form.control}
                             name="odometer"
                             render={({ field, fieldState }) => (
@@ -143,7 +142,7 @@ export default function RepairLogForm({ vehicle_id, odometer }:
                             )}
                         >
 
-                        </Controller>
+                        </Controller> */}
                         <Controller
                             control={form.control}
                             name="repair_type"

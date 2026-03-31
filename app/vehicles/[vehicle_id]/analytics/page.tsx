@@ -1,3 +1,9 @@
+import Analytics from "./_components/Analytics";
+
 export default function page(){
-    return
+    return (
+        <div>
+            <Analytics/>
+        </div>
+    )
 }

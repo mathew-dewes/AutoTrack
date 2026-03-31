@@ -18,7 +18,7 @@ import { FuelLogDatePicker } from "./FuelLogDatePicker";
 import { addFuelLog } from "@/lib/db/mutations/fuel";
 import { useQueryClient } from "@tanstack/react-query";
 
-export default function FuelLogForm({ vehicle_id, odometer }:
+export default function FuelLogFormClient({ vehicle_id, odometer }:
     { vehicle_id: string, odometer: number }
 ) {
     const [isPending, startTransition] = useTransition();

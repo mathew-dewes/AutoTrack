@@ -6,7 +6,7 @@ import { cn, convertToMoney } from "@/lib/utils";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { Vehicle } from "@/lib/validation/types";
-import { formatDistanceToNow } from "date-fns";
+
 
 
 
@@ -35,6 +35,9 @@ export default function VehicleList() {
     if (isLoading) return <p>Data is loading..</p>;
     if (isError) return <p>Error: {(error as Error).message}</p>;
 
+    console.log(vehicles);
+    
+
 
 
     return (
@@ -46,27 +49,27 @@ export default function VehicleList() {
                         <CardTitle className="font-semibold">{vehicle.make} {vehicle.model}</CardTitle>
                         <CardDescription>{vehicle.year} - ODO: {vehicle.current_odometer}</CardDescription>
                         
-                        {Number(vehicle.last_cost) == 0 ? <p>This vehicle has no fuel logs. In order to see fuel metrics, at least two logs must be entered.</p> :
+                       
                             <div>
-                                <p>Last filed: {vehicle.last_fill_date ? formatDistanceToNow(vehicle.last_fill_date.toLocaleString(), {addSuffix: true}) : "N/A"}</p>
-                                <p>Last cost: {convertToMoney(Number(vehicle.last_cost))}</p>
-                                <p>Litres filled: {vehicle.last_litres}</p>
+                                <p>Weekly fuel cost: {convertToMoney(Number(vehicle.avg_weekly_cost)) }</p>
+                                <p>Weekly distance: {Number(vehicle.avg_weekly_distance).toFixed()} KM</p>
                             </div>
-                        }
+                        
 
 
 
                     </CardHeader>
-                    {Number(vehicle.last_cost) > 0 && 
+               
                     
                        <CardContent>
-                        <div className="flex gap-6 items-center">
-                            <p>Economy: {vehicle.current_fuel_average} KM / L</p>
-                            <p>Distance tracked: {vehicle.total_distance} Km</p>
+                        <div className="flex gap-4 items-center">
+                            <p>Economy: {vehicle.avg_km_per_litre ?? 0} KM / L</p>
+                            <p>Distance tracked: {vehicle.total_distance ?? 0} Km</p>
+
                         </div>
 
 
-                    </CardContent>}
+                    </CardContent>
 
                  
 
