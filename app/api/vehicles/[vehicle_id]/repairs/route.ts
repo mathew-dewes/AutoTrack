@@ -24,7 +24,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise< { veh
          const userId = session.user.id;
 
     const RepairLogs = await sql`
-      SELECT date, type, cost, odometer, vendor, notes
+      SELECT date, type, cost, vendor, notes
       FROM repair_logs
       where user_id = ${userId} AND vehicle_id = ${vehicle_id}
       order by created_at DESC

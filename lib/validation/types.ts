@@ -1,17 +1,15 @@
 export type Vehicle = {
-    current_fuel_average: string,
+    avg_km_per_litre: string,
     current_odometer: number,
     id: string,
-    initial_odometer: number,
-    last_fill_date: Date,
     last_litres: string,
     make: string,
     model:string,
-    overall_fuel_average: string,
     total_distance: string,
     total_litres: string,
     year: number,
-    last_cost: string
+    avg_weekly_distance: string,
+    avg_weekly_cost: string
 };
 
 export type FuelEntry = {
@@ -32,7 +30,6 @@ export type RepairEntry = {
   date: string;
   notes: string;
   cost: number;
-  odometer: number;
   service_type: ['oil_service',
 'general_service',
 'brakes',

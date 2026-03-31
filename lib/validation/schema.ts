@@ -43,8 +43,7 @@ export const fuelLogSchema = z.object({
 
 export const repairFormSchema = z.object({
   notes: z.string().max(200, 'Description must be 200 characters or less').optional(),
-  date: z.date('Refuel date is required'),
-  odometer: z.number("Odometer reading is required").min(1).max(1000000),
+  date: z.date('Repair date is required'),
   vendor: z.string().min(1, "Vendor is required"),
   cost: z.number("Cost is required"),
   repair_type: z.enum(REPAIR_TYPE, "Please select a service type"),
