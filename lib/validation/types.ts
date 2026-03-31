@@ -1,10 +1,17 @@
 export type Vehicle = {
-    id: string,
-    make: string,
-    model: string,
-    year: number,
-    licence_plate_number: number,
+    current_fuel_average: string,
     current_odometer: number,
+    id: string,
+    initial_odometer: number,
+    last_fill_date: Date,
+    last_litres: string,
+    make: string,
+    model:string,
+    overall_fuel_average: string,
+    total_distance: string,
+    total_litres: string,
+    year: number,
+    last_cost: string
 };
 
 export type FuelEntry = {

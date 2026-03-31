@@ -23,7 +23,7 @@ export default function FuelLogForm({ vehicle_id, odometer }:
 ) {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
-const queryClient = useQueryClient(); 
+    const queryClient = useQueryClient();
     const form = useForm<z.infer<typeof fuelLogSchema>>({
         resolver: zodResolver(fuelLogSchema),
         defaultValues: {
@@ -32,7 +32,7 @@ const queryClient = useQueryClient();
             fuel_litres: undefined,
             odometer,
             vendor: "",
-       
+
         }
     });
 
@@ -46,7 +46,7 @@ const queryClient = useQueryClient();
                 form.setError("root", {
                     message: res.error
                 });
-     
+
 
             };
 
@@ -57,13 +57,23 @@ const queryClient = useQueryClient();
                     )
                 });
 
-        
+
 
             }
 
-                  if (res?.success) {
+            if (res?.success) {
                 toast.success(res.message);
-                queryClient.invalidateQueries({ queryKey: [`vehicle-${vehicle_id}-fuel`] });
+                queryClient.invalidateQueries({
+                    queryKey: [
+                        `vehicle-${vehicle_id}-fuel`]
+                });
+                queryClient.invalidateQueries({
+                    queryKey: [
+                        `vehicle-${vehicle_id}`]
+                });
+
+
+
                 router.push(`/vehicles/${vehicle_id}/fuel`)
 
 
@@ -243,11 +253,11 @@ const queryClient = useQueryClient();
                         </Controller>
                     </FieldGroup>
 
-  {form.formState.errors.root && (
-    <div className="mt-4 text-red-400">
-      {form.formState.errors.root.message}
-    </div>
-  )}
+                    {form.formState.errors.root && (
+                        <div className="mt-4 text-red-400">
+                            {form.formState.errors.root.message}
+                        </div>
+                    )}
                 </form>
             </CardContent>
 

@@ -6,11 +6,11 @@ import { sql } from "../sql";
 import { getUserId } from "@/lib/auth";
 
 
-export async function addVehicle(values: z.infer<typeof vehicleSchema>){
-    
-const user_id = await getUserId()
+export async function addVehicle(values: z.infer<typeof vehicleSchema>) {
+
+    const user_id = await getUserId()
     try {
-             const parsed = vehicleSchema.safeParse(values);
+        const parsed = vehicleSchema.safeParse(values);
 
         if (!parsed.success) {
             const fieldErrors: Record<string, string> = {}
@@ -27,13 +27,14 @@ const user_id = await getUserId()
 
         const v = parsed.data;
 
-const result = await sql`
+        await sql`
     INSERT INTO vehicles (
       make,
       model,
       year,
       licence_plate_number,
       current_odometer,
+      initial_odometer,
       user_id
     )
     VALUES (
@@ -42,51 +43,48 @@ const result = await sql`
       ${v.year},
       ${v.licence_plate},
       ${v.odometer},
+    ${v.odometer},
       ${user_id}
-    )
-    RETURNING *;
+   
+    );
   `;
 
-  const vehicle = result[0];
 
-    return {
-      success: true,
-      data: {
-        id: vehicle.id,
-        make: vehicle.make,
-        model: vehicle.model,
-        year: vehicle.year,
-        licence_plate_number: vehicle.licence_plate_number,
-        current_odometer: vehicle.current_odometer,
-        user_id: vehicle.user_id,
-        created_at: vehicle.created_at,
-      },
-    };
+        return {
+            success: true,
+            message: "Vehicle has been added"
+        };
     } catch (error) {
-             console.error(error);
+        console.error(error);
+
+        let errorMessage = "Something went wrong. Please try again.";
+
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
 
         return {
             success: false,
-            error: "Something went wrong. Please try again."
-        }
+            error: errorMessage
+        };
     }
 };
 
 
 
-export async function deleteVehicle(vehicle_id: string){
-    
-const user_id = await getUserId()
+export async function deleteVehicle(vehicle_id: string) {
+
+    const user_id = await getUserId()
     try {
-      
-await sql`
+
+        await sql`
 DELETE FROM vehicles
 WHERE user_id = ${user_id} AND
 id = ${vehicle_id}
 `;
- 
+
     } catch (error) {
-             console.error(error);
+        console.error(error);
 
         return {
             success: false,

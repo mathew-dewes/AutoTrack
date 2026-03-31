@@ -38,9 +38,29 @@ export default function VehicleForm() {
         startTransition((async () => {
           const res = await addVehicle(values);
 
+                if (res.error) {
+                          form.setError("root", {
+                              message: res.error
+                          });
+                          toast.error(res.error)
+          
+          
+                      };
+          
+                      if (res.fieldErrors) {
+                          Object.entries(res.fieldErrors).forEach(([field, message]) => {
+                              form.setError(field as keyof z.infer<typeof vehicleSchema>,
+                                  { message }
+                              )
+                          });
+          
+          
+          
+                      }
+
           if (res.success){
-            toast.success(res.data?.make + " " + res.data?.model + " was added");
-            await queryClient.invalidateQueries({ queryKey: ["vehicles"] });
+            toast.success(res.message);
+            queryClient.invalidateQueries({ queryKey: ["vehicles"] });
             router.push('/vehicles')
           }
         }));

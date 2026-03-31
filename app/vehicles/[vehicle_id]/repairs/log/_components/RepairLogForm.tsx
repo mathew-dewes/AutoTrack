@@ -27,7 +27,7 @@ export default function RepairLogForm({ vehicle_id, odometer }:
 ) {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
-const queryClient = useQueryClient(); 
+    const queryClient = useQueryClient();
     const form = useForm<z.infer<typeof repairFormSchema>>({
         resolver: zodResolver(repairFormSchema),
         defaultValues: {
@@ -46,33 +46,37 @@ const queryClient = useQueryClient();
         startTransition((async () => {
 
             const res = await addRepairLog(values, vehicle_id)
-            
-                        if (res.error) {
-                            form.setError("root", {
-                                message: res.error
-                            });
-                  
-            
-            
-                        };
-            
-                        if (res.fieldErrors) {
-                            Object.entries(res.fieldErrors).forEach(([field, message]) => {
-                                form.setError(field as keyof z.infer<typeof repairFormSchema>,
-                                    { message }
-                                )
-                            });
-        
-            
-                        }
-            
-                              if (res?.success) {
-                            toast.success(res.message);
-                                      queryClient.invalidateQueries({ queryKey: [`vehicle-${vehicle_id}-repairs`] });
-                            router.push(`/vehicles/${vehicle_id}/repairs`)
-            
-            
-                        }
+
+            if (res.error) {
+                form.setError("root", {
+                    message: res.error
+                });
+
+
+
+            };
+
+            if (res.fieldErrors) {
+                Object.entries(res.fieldErrors).forEach(([field, message]) => {
+                    form.setError(field as keyof z.infer<typeof repairFormSchema>,
+                        { message }
+                    )
+                });
+
+
+            }
+
+            if (res?.success) {
+                toast.success(res.message);
+                queryClient.invalidateQueries({ queryKey: [`vehicle-${vehicle_id}-repairs`] });
+                queryClient.invalidateQueries({
+                    queryKey: [
+                        `vehicle-${vehicle_id}`]
+                });
+                router.push(`/vehicles/${vehicle_id}/repairs`)
+
+
+            }
 
 
         }))
@@ -248,11 +252,11 @@ const queryClient = useQueryClient();
 
                     </FieldGroup>
 
-  {form.formState.errors.root && (
-    <div className="mt-4 text-red-400">
-      {form.formState.errors.root.message}
-    </div>
-  )}
+                    {form.formState.errors.root && (
+                        <div className="mt-4 text-red-400">
+                            {form.formState.errors.root.message}
+                        </div>
+                    )}
                 </form>
             </CardContent>
 
