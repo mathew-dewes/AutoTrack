@@ -26,7 +26,7 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
 
         const r = parsed.data;
 
-        await sql`
+const result = await sql`
     INSERT INTO repair_logs (
       vehicle_id,
       date,
@@ -37,7 +37,7 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
       user_id,
       vendor
     )
-    VALUES (
+    SELECT 
       ${vehicle_id},
       ${r.date},
       ${r.repair_type},
@@ -46,9 +46,24 @@ export async function addRepairLog(values: z.infer<typeof repairFormSchema>, veh
       ${r.notes},
       ${user_id},
       ${r.vendor}
-    )
-    ;
+      FROM vehicles
+      WHERE id = ${vehicle_id} AND
+      ${r.odometer} >= current_odometer
+      AND ${r.odometer} >= COALESCE(current_odometer, 0)
+     RETURNING id;
+    
   `;
+
+  
+if (result.length === 0) {
+  return {
+    success: false,
+    fieldErrors: {
+      odometer: "Odometer must be greater than current vehicle odometer"
+    }, 
+
+  };
+}
 
         return {
             success: true,

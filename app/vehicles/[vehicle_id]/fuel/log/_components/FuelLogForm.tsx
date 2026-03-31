@@ -31,7 +31,8 @@ const queryClient = useQueryClient();
             cost: undefined,
             fuel_litres: undefined,
             odometer,
-            vendor: ""
+            vendor: "",
+       
         }
     });
 
@@ -45,8 +46,7 @@ const queryClient = useQueryClient();
                 form.setError("root", {
                     message: res.error
                 });
-                toast.error(res.error)
-
+     
 
             };
 
@@ -57,7 +57,7 @@ const queryClient = useQueryClient();
                     )
                 });
 
-                toast.error(res.error)
+        
 
             }
 
@@ -242,6 +242,12 @@ const queryClient = useQueryClient();
 
                         </Controller>
                     </FieldGroup>
+
+  {form.formState.errors.root && (
+    <div className="mt-4 text-red-400">
+      {form.formState.errors.root.message}
+    </div>
+  )}
                 </form>
             </CardContent>
 

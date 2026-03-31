@@ -46,8 +46,8 @@ export default function VehicleList(){
                 </CardHeader>
 
                 <CardContent>
-                    <p>Total distance traveled: 20000</p>
-                    <p>Average weekly fuel cost: $120</p>
+                    <p>Fuel Economy: 20000</p>
+                    <p>Distance tracked: $120</p>
 
                 </CardContent>
 
