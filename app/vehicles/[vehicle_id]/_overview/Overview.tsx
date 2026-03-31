@@ -9,8 +9,8 @@ export default function Overview({vehicle_id}:
 ){
     return (
         <div className="grid grid-cols-2 gap-5">
-            <VehicleSummary/>
-            <FuelOverview/>
+            <VehicleSummary vehicle_id={vehicle_id}/>
+            <FuelOverview vehicle_id={vehicle_id}/>
             <Repairoverview/>
             <RecentActivity/>
         </div>

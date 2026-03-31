@@ -4,7 +4,7 @@ export default function Repairoverview(){
     return(
         <Card className="w-full">
             <CardHeader>
-                <CardTitle>Repairs</CardTitle>
+                <CardTitle>Latest Repair</CardTitle>
             </CardHeader>
             <CardContent>
                 Lorem ipsum dolor sit amet.
