@@ -12,7 +12,10 @@ export default async function page(
     
     return(
         <div>
-            <RepairLogForm vehicle_id={vehicle_id} />
+  
+    <RepairLogForm vehicle_id={vehicle_id} />
+      
+        
         </div>
     )
 }

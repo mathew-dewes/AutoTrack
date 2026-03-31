@@ -50,7 +50,6 @@ if (!vehicle) return <p>Vehicle doesn&apos;t exist</p>
         </CardHeader>
 
         <CardFooter className="flex gap-1 justify-end">
-            <Button size={"sm"}>Update Odometer</Button>
             <Button size={"sm"}>Edit details</Button>
             <DeleteVehicleButton vehicle_id={vehicle_id}/>
         </CardFooter>

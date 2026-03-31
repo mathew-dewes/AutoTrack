@@ -30,8 +30,17 @@ export default function VehicleNavigation({ vehicleId }:
 
         </div>
 
-        <div className="flex gap-2">
-            {tabs.map((tab, key) => {
+        <div className="flex gap-5">
+            <Link
+
+                className={cn(
+                    buttonVariants({
+                        variant: `${pathname == `/vehicles/${vehicleId}` ? 'default' : 'outline'}`
+                    }))}
+                href={`/vehicles/${vehicleId}`}>Overview</Link>
+
+                <div className="flex gap-2">
+       {tabs.map((tab, key) => {
                 return <Link
                     key={key}
                     className={cn(
@@ -40,6 +49,8 @@ export default function VehicleNavigation({ vehicleId }:
                         }))}
                     href={tab.href}>{tab.name}</Link>
             })}
+                </div>
+     
             <Link
 
                 className={cn(

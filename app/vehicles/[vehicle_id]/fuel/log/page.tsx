@@ -1,7 +1,8 @@
 
-import { sql } from "@/lib/db/sql";
-import FuelLogForm from "./_components/FuelLogForm";
-import { getUserId } from "@/lib/auth";
+
+import { Suspense } from "react";
+
+import FuelForm from "./_components/FuelForm";
 
 export default async function page(
     {params}:{
@@ -9,23 +10,15 @@ export default async function page(
     }
 ){
      const {vehicle_id} = await params;
-     const user_id = await getUserId();
-
-     const result = await sql`
-     SELECT current_odometer
-     FROM vehicles
-     WHERE id = ${vehicle_id} AND
-     user_id = ${user_id}
-     `;
-
-     const currentOdometer = result[0]?.current_odometer;
 
 
-     
      
     return(
         <div>
-            <FuelLogForm vehicle_id={vehicle_id} odometer={currentOdometer}/>
+            <Suspense fallback={'Loading fuel form...'}>
+ <FuelForm vehicle_id={vehicle_id}/>
+            </Suspense>
+          
         </div>
     )
 }

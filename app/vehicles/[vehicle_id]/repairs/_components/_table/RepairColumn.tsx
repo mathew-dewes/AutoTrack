@@ -38,6 +38,10 @@ export const RepairColumn: ColumnDef<RepairEntry>[] = [
     header: "Vendor",
   },
   {
+    accessorKey: "notes",
+    header: "notes",
+  },
+  {
     accessorKey: "cost",
     header: () => <div className="text-right">Total cost</div>,
     cell: ({ row }) => {

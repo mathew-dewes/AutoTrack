@@ -1,12 +1,13 @@
-import { getUserId } from "@/lib/auth"
+import Dashboard from "./_components/Dashboard";
 
-export default async function page(){
 
-    const session = await getUserId();
+export default function page(){
 
-    console.log(session);
+   
     
     return (
-        <p>Dashboard</p>
+        <div>
+<Dashboard/>
+        </div>
     )
 }

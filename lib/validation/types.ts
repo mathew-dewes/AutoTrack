@@ -9,7 +9,8 @@ export type Vehicle = {
     total_litres: string,
     year: number,
     avg_weekly_distance: string,
-    avg_weekly_cost: string
+    avg_weekly_cost: string,
+    licence_plate_number: string
 };
 
 export type FuelEntry = {
