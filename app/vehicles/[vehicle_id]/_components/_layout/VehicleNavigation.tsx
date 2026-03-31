@@ -20,13 +20,14 @@ export default function VehicleNavigation({ vehicleId }:
     return <div className="flex justify-between my-5">
         <div className="flex items-center gap-2">
             <Link className={cn(buttonVariants({
-                variant: `${pathname == `/vehicles/${vehicleId}/repairs/log` ? 'default' : 'outline'}`
-            }))}
-                href={`/vehicles/${vehicleId}/repairs/log`}>+ Log repairs</Link>
-            <Link className={cn(buttonVariants({
                 variant: `${pathname == `/vehicles/${vehicleId}/fuel/log` ? 'default' : 'outline'}`
             }))}
                 href={`/vehicles/${vehicleId}/fuel/log`}>+ Log fuel</Link>
+            <Link className={cn(buttonVariants({
+                variant: `${pathname == `/vehicles/${vehicleId}/repairs/log` ? 'default' : 'outline'}`
+            }))}
+                href={`/vehicles/${vehicleId}/repairs/log`}>+ Log repair</Link>
+
         </div>
 
         <div className="flex gap-2">
@@ -41,17 +42,17 @@ export default function VehicleNavigation({ vehicleId }:
             })}
             <Link
 
-            className={cn(
-                buttonVariants({
-                    variant: `${pathname == `/vehicles/${vehicleId}/analytics` ? 'default' : 'outline'}`
-                }))}
-            href={`/vehicles/${vehicleId}/analytics`}>Analytics</Link>
+                className={cn(
+                    buttonVariants({
+                        variant: `${pathname == `/vehicles/${vehicleId}/analytics` ? 'default' : 'outline'}`
+                    }))}
+                href={`/vehicles/${vehicleId}/analytics`}>Analytics</Link>
         </div>
 
 
 
 
-        
+
 
 
 
