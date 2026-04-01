@@ -1,16 +1,17 @@
+
 export type Vehicle = {
-    avg_km_per_litre: string,
-    current_odometer: number,
-    id: string,
-    last_litres: string,
-    make: string,
-    model:string,
-    total_distance: string,
-    total_litres: string,
-    year: number,
-    avg_weekly_distance: string,
-    avg_weekly_cost: string,
-    licence_plate_number: string
+  avg_km_per_litre: string,
+  current_odometer: number,
+  id: string,
+  last_litres: string,
+  make: string,
+  model: string,
+  total_distance: string,
+  total_litres: string,
+  year: number,
+  avg_weekly_distance: string,
+  avg_weekly_cost: string,
+  licence_plate_number: string
 };
 
 export type FuelEntry = {
@@ -26,14 +27,31 @@ export type FuelEntry = {
 
 };
 
-export type RepairEntry = {
-  id: string
-  date: string;
-  notes: string;
-  cost: number;
-  service_type: ['oil_service',
-'general_service',
-'brakes',
-'tyres',
-'battery'];
+
+export type RecentActivityType = {
+  id: string,
+  vehicle_id: string,
+  date: Date,
+  litres: string | null,
+  type: "fuel" | "repair",
+  cost: string,
+  vendor: string,
+  repair_type: string
 };
+
+
+export type RecentFuelLogType = {
+  id: string,
+  date: Date,
+  cost: string,
+  litres: string | null,
+  vendor: string
+}
+export type RecentRepairLogType = {
+  id: string,
+  date: Date,
+  cost: string,
+  litres: string | null,
+  vendor: string,
+  repair_type: string
+}

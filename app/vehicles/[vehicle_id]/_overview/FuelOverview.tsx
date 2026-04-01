@@ -2,6 +2,7 @@
 
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import LoadingCard from "@/components/web/LoadingCard";
 import { convertToMoney } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
@@ -36,14 +37,12 @@ export default function FuelOverview({vehicle_id}:
 
     }
 
-    if (isLoading) return <p>Loading vehicle</p>
+    if (isLoading) return <LoadingCard/>
     if (isError) return <p>There was an error</p>
     if (!metrics) return <p>Vehicle doesn&apos;t exist</p>
-
-    console.log(metrics);
     
     return(
-        <Card className="w-full">
+        <Card className="w-full h-60">
             <CardHeader>
                 <CardTitle>Latest refill</CardTitle>
             </CardHeader>
