@@ -42,7 +42,7 @@ export default function FuelOverview({vehicle_id}:
     if (!metrics) return <p>Vehicle doesn&apos;t exist</p>
     
     return(
-        <Card className="w-full h-50">
+        <Card className="w-full h-60">
             <CardHeader>
                 <CardTitle>Latest refill</CardTitle>
             </CardHeader>

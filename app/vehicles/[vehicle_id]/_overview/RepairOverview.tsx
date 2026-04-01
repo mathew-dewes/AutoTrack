@@ -44,7 +44,7 @@ export default function Repairoverview({vehicle_id}:
     />
 
     return(
-        <Card className="w-full h-50">
+        <Card className="w-full h-60">
             <CardHeader>
                 <CardTitle>Latest Repair</CardTitle>
             </CardHeader>

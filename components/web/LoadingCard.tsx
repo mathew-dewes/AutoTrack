@@ -4,7 +4,7 @@ import { Skeleton } from "../ui/skeleton";
 
 export default function LoadingCard(){
     return (
-           <Card className={`w-full h-50`}>
+           <Card className={`w-full h-60`}>
       <CardHeader>
         <Skeleton className="h-4 w-2/3" />
         <Skeleton className="h-4 w-1/2" />
