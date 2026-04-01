@@ -12,6 +12,7 @@ import Link from "next/link"
 import { cn, convertToMoney } from "@/lib/utils";
 import { Vehicle } from "@/lib/validation/types"
 import { useQuery } from "@tanstack/react-query"
+import LoadingCard from "@/components/web/LoadingCard"
 
 async function fetchVehicles(): Promise<Vehicle[]> {
     const res = await fetch("/api/vehicles");
@@ -38,7 +39,7 @@ export function VehicleCarousel() {
         },);
 
 
-    if (isLoading) return <p>Data is loading..</p>;
+    if (isLoading) return <LoadingCard />
     if (isError) return <p>Error: {(error as Error).message}</p>;
 
     console.log(vehicles);

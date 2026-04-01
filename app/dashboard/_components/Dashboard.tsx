@@ -1,8 +1,8 @@
 import FleetSummary from "./FleetSummary";
 import Efficiencies from "./Efficiencies";
 import Trends from "./Trends";
-import VehicleDisplay from "./VehicleDisplay";
 import { VehicleCarousel } from "./VehicleCarousel";
+import { LogTables } from "./LogTables";
 
 
 export default function Dashboard(){
@@ -12,7 +12,8 @@ export default function Dashboard(){
             <VehicleCarousel/>
             <Efficiencies/>
             <Trends/>
-            <VehicleDisplay/>
+             <LogTables repairs={[]} fuel={[]}/>
+    
         </div>
     )
 }

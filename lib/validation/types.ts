@@ -89,4 +89,35 @@ export type EfficienciesType = {
     licence_plate_number: string
   }
 
+};
+
+
+export type AllLogs = {
+  fuel_logs:FuelEntryAll[],
+  repair_logs:RepairEntryAll[]
 }
+
+
+export type FuelEntryAll = {
+date: string,
+make: string,
+vendor: string,
+model: string,
+litres: number,
+cost: number,
+licence_plate_number: string
+
+
+}
+
+
+export type RepairEntryAll = {
+date: string,
+make: string,
+type: string,
+vendor: string,
+model: string,
+litres: number,
+cost: number,
+licence_plate_number: string
+};
