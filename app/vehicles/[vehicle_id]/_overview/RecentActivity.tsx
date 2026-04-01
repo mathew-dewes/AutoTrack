@@ -40,10 +40,13 @@ export default function RecentActivity({ vehicle_id }:
 
     if (isLoading) return <LoadingCard />
     if (isError) return <p>There was an error</p>
-    if (!metrics) return <NullCard
-        title="Latest Repairs"
-        description="You have no repairs"
+    if (!metrics || metrics.length == 0) return <NullCard
+        title="Recent Activity"
+        description="You have no logs for this vehicle. Please add either fuel or repair logs to see metrics"
     />;
+
+    console.log(metrics);
+    
 
     const fuel_logs = metrics.filter((metric) => {
         return metric.type == "fuel"
@@ -54,7 +57,7 @@ export default function RecentActivity({ vehicle_id }:
 
 
     return (
-        <Card className="w-full h-60">
+        <Card className="w-full lg:col-span-2  h-60">
             <CardHeader>
                 <CardTitle>Recent Activity</CardTitle>
             </CardHeader>

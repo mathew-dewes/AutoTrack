@@ -54,4 +54,70 @@ export type RecentRepairLogType = {
   litres: string | null,
   vendor: string,
   repair_type: string
+};
+
+
+export type FleetSummaryType = {
+  total_distance: string,
+  total_fuel_spend: string,
+  total_repair_spend: string,
+  total_vehicles: string
+};
+
+
+export type EfficienciesType = {
+
+  most_efficient: {
+    id: string,
+    make: string,
+    model: string,
+    fuel_cost: number,
+    total_litres: number,
+    distance: number,
+    km_per_litre: number,
+    licence_plate_number: string
+  },
+
+  least_efficient: {
+    id: string,
+    make: string,
+    model: string,
+    fuel_cost: number,
+    total_litres: number,
+    distance: number,
+    km_per_litre: number,
+    licence_plate_number: string
+  }
+
+};
+
+
+export type AllLogs = {
+  fuel_logs:FuelEntryAll[],
+  repair_logs:RepairEntryAll[]
 }
+
+
+export type FuelEntryAll = {
+date: string,
+make: string,
+vendor: string,
+model: string,
+litres: number,
+cost: number,
+licence_plate_number: string
+
+
+}
+
+
+export type RepairEntryAll = {
+date: string,
+make: string,
+type: string,
+vendor: string,
+model: string,
+litres: number,
+cost: number,
+licence_plate_number: string
+};
