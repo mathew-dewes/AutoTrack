@@ -121,3 +121,10 @@ litres: number,
 cost: number,
 licence_plate_number: string
 };
+
+
+export type spendChartData = {
+  date: Date,
+  fuel_cost: number,
+  repair_cost: number
+}

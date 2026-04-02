@@ -40,8 +40,6 @@ export default function Efficiencies() {
     if (!metrics) return <NullCard title="Fleet Summary" description="You have no fuel logs. Please add them to see metrics" />
 
 
-    console.log(metrics);
-
     const most_efficient = metrics.most_efficient;
     const least_efficient = metrics.least_efficient;
     
