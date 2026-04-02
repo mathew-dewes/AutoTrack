@@ -43,7 +43,6 @@ export function LogTables() {
     if (isError) return <p>There was an error</p>
     if (!metrics) return <NullCard title="Fleet Summary" description="You have no fuel logs. Please add them to see metrics" />
 
-  
     return (
     <div className="space-y-4 col-span-4 md:col-span-2">
       <div className="flex gap-2">
@@ -66,8 +65,8 @@ export function LogTables() {
       {/* Tables */}
       <div className='h-110'>
         {activeTable === 'fuel' ?
-        <FuelTableClient columns={fuelColumns} data={metrics.fuel_logs} />: 
-        <RepairTableClient columns={repairColumns} data={metrics.repair_logs}/>}
+        <FuelTableClient columns={fuelColumns} data={metrics.fuel_logs ?? []} />: 
+        <RepairTableClient columns={repairColumns} data={metrics.repair_logs?? []}/>}
       </div>
     </div>
   )

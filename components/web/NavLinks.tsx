@@ -31,7 +31,7 @@ if (path === "/vehicles") return pathname.startsWith("/vehicles") && pathname !=
 }
 
 return (
-    <ul className="flex justify-end gap-5 items-center">
+    <ul className="sm:flex justify-end gap-5 items-center hidden">
         {navLinks.map((link, key)=>{
             return <Link
             hidden={session}

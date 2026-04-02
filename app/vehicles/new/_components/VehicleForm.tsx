@@ -66,8 +66,7 @@ export default function VehicleForm() {
         }));
     }
 
-    return <div className="flex flex-col gap-6 max-w-xl">
-        <Card>
+    return <Card className="w-full max-w-md mx-auto mt-5">
             <CardHeader>
                 <CardTitle className="font-bold">Vehicle Details</CardTitle>
                 <CardDescription>Enter you vehicle details</CardDescription>
@@ -75,7 +74,7 @@ export default function VehicleForm() {
 
             <CardContent>
                 <form id="vehicleForm" onSubmit={form.handleSubmit(onSubmit)}>
-                    <FieldGroup>
+                    <FieldGroup className="w-3/4">
                         <Controller
                             control={form.control}
                             name="make"
@@ -208,5 +207,5 @@ export default function VehicleForm() {
 
         </Card>
 
-    </div>
+   
 }

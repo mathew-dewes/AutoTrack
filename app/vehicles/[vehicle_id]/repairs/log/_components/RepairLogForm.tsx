@@ -85,7 +85,7 @@ export default function RepairLogForm({ vehicle_id }:
 
 
     return (
-        <Card className="w-full max-w-lg">
+        <Card className="w-full max-w-md mt-5">
             <CardHeader>
                 <CardTitle className="font-semibold">Repair form</CardTitle>
             </CardHeader>

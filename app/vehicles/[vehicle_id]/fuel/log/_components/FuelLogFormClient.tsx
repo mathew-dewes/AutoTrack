@@ -85,7 +85,7 @@ export default function FuelLogFormClient({ vehicle_id, odometer }:
     }
 
     return (
-        <Card className="w-full max-w-lg">
+        <Card className="w-full max-w-md mt-5">
             <CardHeader>
                 <CardTitle className="font-semibold">Fuel log</CardTitle>
             </CardHeader>
