@@ -7,13 +7,15 @@ import { TotalCostOvertime } from "./_charts/TotalCostOvertime";
 
 
 
-export default function Analytics() {
+export default function Analytics({vehicle_id}:
+    {vehicle_id: string}
+) {
     return (
         <div className="grid grid-cols-2 gap-5 space-y-10 mt-10">
             <div className="col-span-full">
                 <h1>Fuel Analytics</h1>
                 <div className="grid grid-cols-2 gap-5 mt-2">
-                    <EconomyOvertime />
+                    <EconomyOvertime vehicle_id={vehicle_id}/>
                     <PricePerLitre />
                 </div>
 
