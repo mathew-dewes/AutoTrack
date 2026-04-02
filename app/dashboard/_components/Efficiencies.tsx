@@ -1,9 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import LoadingCard from "@/components/web/LoadingCard";
-import NullCard from "@/components/web/NullCard";
 import { convertToMoney } from "@/lib/utils";
 import { EfficienciesType } from "@/lib/validation/types";
 import { useQuery } from "@tanstack/react-query";
@@ -37,21 +35,19 @@ export default function Efficiencies() {
 
     if (isLoading) return <LoadingCard />
     if (isError) return <p>There was an error</p>
-    if (!metrics) return <NullCard title="Fleet Summary" description="You have no fuel logs. Please add them to see metrics" />
-
+    if (!metrics || !metrics.least_efficient || !metrics.most_efficient) return
 
     const most_efficient = metrics.most_efficient;
     const least_efficient = metrics.least_efficient;
-    
 
 
     return (
-        <Card className="w-full h-60">
+        <Card className="w-full col-span-full">
             <CardHeader>
-                <CardTitle>Fuel efficiencies</CardTitle>
+                <CardTitle>Fuel Economy</CardTitle>
             </CardHeader>
             <CardContent>
-                <div className="space-y-2">
+                <div className="flex gap-20 items-center">
                                    <div className="space-y-2">
                         <div className="flex gap-5">
                             <div className="flex gap-1">
@@ -84,8 +80,7 @@ export default function Efficiencies() {
                         </div>
 
                     </div>
-                    <Separator />
-
+            
                     <div className="space-y-2">
                         <div className="flex gap-5">
                             <div className="flex gap-1">

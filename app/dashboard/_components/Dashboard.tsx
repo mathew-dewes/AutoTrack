@@ -11,9 +11,10 @@ export default function Dashboard(){
         <div>
             <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
             <QuickActions/>
+                 <FleetSummary/>
             <VehicleCarousel/>
    
-        <FleetSummary/>
+   
         <Efficiencies/>
       
    

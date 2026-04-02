@@ -75,7 +75,7 @@ export function SpendOvertimeChart() {
 
     if (isLoading) return <LoadingCard />
     if (isError) return <p>There was an error</p>
-    if (!data) return <NullCard title="Fleet Summary" description="You have no fuel logs. Please add them to see metrics" />
+    if (!data) return <NullCard title="Total spend overtime" description="You have no fuel logs. Please add them to see metrics" />
 
 
   const filteredData = data.filter((item) => {

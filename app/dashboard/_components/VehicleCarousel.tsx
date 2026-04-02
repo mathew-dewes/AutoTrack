@@ -14,6 +14,7 @@ import { Vehicle } from "@/lib/validation/types"
 import { useQuery } from "@tanstack/react-query"
 import LoadingCard from "@/components/web/LoadingCard"
 
+
 async function fetchVehicles(): Promise<Vehicle[]> {
     const res = await fetch("/api/vehicles");
 
@@ -41,6 +42,7 @@ export function VehicleCarousel() {
 
     if (isLoading) return <LoadingCard />
     if (isError) return <p>Error: {(error as Error).message}</p>;
+      if (!vehicles || vehicles.length == 0) return;
 
 
     return (
