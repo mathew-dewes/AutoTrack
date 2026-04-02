@@ -82,7 +82,7 @@ fuel_daily AS (
     AVG(cost_per_km) AS avg_cost_per_km
   FROM fuel_calculated
   WHERE date >= CURRENT_DATE - INTERVAL '90 days'
-    AND km_travelled > 0 -- 👈 optional safety
+    AND km_travelled > 0
   GROUP BY date
 )
 
