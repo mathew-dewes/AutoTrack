@@ -45,7 +45,7 @@ export function VehicleCarousel() {
 
     return (
     
-            <Carousel 
+            <Carousel  className="w-full"
             plugins={[
                 Autoplay({
                     delay: 6000,

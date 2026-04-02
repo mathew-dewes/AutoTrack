@@ -59,7 +59,7 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function SpendOvertimeChart() {
-  const [timeRange, setTimeRange] = React.useState("90d");
+  const [timeRange, setTimeRange] = React.useState("30d");
 
       const { data, error, isLoading, isError } =
         useQuery({
@@ -93,7 +93,7 @@ export function SpendOvertimeChart() {
   })
 
   return (
-    <Card className="pt-0 md:col-span-2">
+    <Card className="pt-0 col-span-4 md:col-span-2">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
           <CardTitle>Total spend overtime - Fuel vs Repair cost</CardTitle>

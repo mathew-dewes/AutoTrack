@@ -45,7 +45,7 @@ export function LogTables() {
 
   
     return (
-    <div className="space-y-4 col-span-1">
+    <div className="space-y-4 col-span-4 md:col-span-2">
       <div className="flex gap-2">
         <Button 
         variant={`${activeTable == "fuel" ? "default" : "outline"}`}
