@@ -48,6 +48,11 @@ export function FuelTableClient<TData, TValue>({
         []
     );
 
+    const [pagination, setPagination] = useState({
+  pageIndex: 0,
+  pageSize: 5,
+});
+
       const [columnVisibility, setColumnVisibility] =
 useState<VisibilityState>({})
 
@@ -62,10 +67,12 @@ useState<VisibilityState>({})
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
+          onPaginationChange: setPagination,
         state: {
-              sorting,
+        sorting,
       columnFilters,
       columnVisibility,
+      pagination
         },
 
     })

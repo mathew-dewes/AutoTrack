@@ -42,11 +42,10 @@ export function VehicleCarousel() {
     if (isLoading) return <LoadingCard />
     if (isError) return <p>Error: {(error as Error).message}</p>;
 
-    console.log(vehicles);
 
     return (
     
-            <Carousel className="w-full"
+            <Carousel  className="w-full"
             plugins={[
                 Autoplay({
                     delay: 6000,

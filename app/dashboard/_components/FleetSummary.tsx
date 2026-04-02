@@ -40,7 +40,7 @@ export default function FleetSummary(){
 
     
     return (
-         <Card className="w-full  h-60">
+         <Card className="w-full h-60">
             <CardHeader>
                 <CardTitle>Fleet Summary</CardTitle>
             </CardHeader>
