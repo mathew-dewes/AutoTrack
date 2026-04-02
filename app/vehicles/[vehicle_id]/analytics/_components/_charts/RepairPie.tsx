@@ -17,80 +17,98 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
+import { useQuery } from "@tanstack/react-query"
+import LoadingCard from "@/components/web/LoadingCard"
+import NullCard from "@/components/web/NullCard"
 
-export const description = "A pie chart with a custom label"
+export const description = "A pie chart with a label"
 
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
-]
+
+const typeColors: Record<string, string> = {
+  oil_service: "var(--chart-1)",
+  general_service: "var(--chart-2)",
+  brakes: "var(--chart-3)",
+  tyres: "var(--chart-4)",
+  battery: "var(--chart-5)",
+};
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
+  count: {
+    label: "Total repairs",
   },
-  chrome: {
-    label: "Chrome",
+  oil_service: {
+    label: "oil_service",
     color: "var(--chart-1)",
   },
-  safari: {
-    label: "Safari",
+  general_service: {
+    label: "general_service",
     color: "var(--chart-2)",
   },
-  firefox: {
-    label: "Firefox",
+  brakes: {
+    label: "brakes",
     color: "var(--chart-3)",
   },
-  edge: {
-    label: "Edge",
+  tyres: {
+    label: "tyres",
     color: "var(--chart-4)",
   },
-  other: {
-    label: "Other",
+  battery: {
+    label: "battery",
     color: "var(--chart-5)",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
-export function RepairPie() {
+async function fetchRepairData(vehicle_id: string):Promise< { type: string; count: number }[]>{
+    const res = await fetch(`/api/vehicles/${vehicle_id}/analytics/repair-types`);
+    if (!res.ok) {
+  if (res.status === 401) throw new Error("Unauthorized. Please log in.");
+  throw new Error(`Failed to fetch fuel logs: ${res.statusText}`);
+}
+
+
+  
+  return res.json();
+};
+
+export function RepairPie({vehicle_id}:
+  {vehicle_id: string}) {
+
+                const { data, error, isLoading, isError } =
+        useQuery({
+            queryKey: [`vehicle-${vehicle_id}-analytics-repairTypes`],
+            queryFn: () => fetchRepairData(vehicle_id),
+            staleTime: 1000 * 30,
+        },);
+
+    if (error) {
+        console.log(error);
+
+    }
+
+    if (isLoading) return <LoadingCard />
+    if (isError) return <p>There was an error</p>
+    if (!data) return <NullCard title="Total spend overtime" description="You have no fuel logs. Please add them to see metrics" />
+
+      const chartDataWithFill = data.map(item => ({
+  ...item,
+  fill: typeColors[item.type] || "var(--chart-default)",
+}));
+
+console.log(chartDataWithFill);
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Custom Label</CardTitle>
+        <CardTitle>Pie Chart - Label</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-62.5 px-0"
+          className="mx-auto aspect-square max-h-62.5 pb-0 [&_.recharts-pie-label-text]:fill-foreground"
         >
           <PieChart>
-            <ChartTooltip
-              content={<ChartTooltipContent nameKey="visitors" hideLabel />}
-            />
-            <Pie
-              data={chartData}
-              dataKey="visitors"
-              labelLine={false}
-              label={({ payload, ...props }) => {
-                return (
-                  <text
-                    cx={props.cx}
-                    cy={props.cy}
-                    x={props.x}
-                    y={props.y}
-                    textAnchor={props.textAnchor}
-                    dominantBaseline={props.dominantBaseline}
-                    fill="var(--foreground)"
-                  >
-                    {payload.visitors}
-                  </text>
-                )
-              }}
-              nameKey="browser"
-            />
+            <ChartTooltip content={<ChartTooltipContent />} />
+            <Pie data={chartDataWithFill} dataKey="count" label nameKey="type" />
           </PieChart>
         </ChartContainer>
       </CardContent>

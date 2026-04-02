@@ -63,10 +63,6 @@ export function EconomyOvertime({vehicle_id}:{vehicle_id: string}) {
     if (isError) return <p>There was an error</p>
     if (!data) return <NullCard title="Total spend overtime" description="You have no fuel logs. Please add them to see metrics" />
 
-console.log(data);
-
-
-  
   return (
     <Card>
       <CardHeader>
