@@ -3,7 +3,7 @@ import Efficiencies from "./Efficiencies";
 import { VehicleCarousel } from "./VehicleCarousel";
 import { LogTables } from "./LogTables";
 import { SpendOvertimeChart } from "./_charts/SpendOvertimeChart";
-import QuickActions from "./QuickAction";
+import QuickActions from "./QuickActions";
 
 
 export default function Dashboard(){
