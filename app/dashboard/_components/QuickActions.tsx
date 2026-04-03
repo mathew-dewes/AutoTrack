@@ -6,6 +6,7 @@ import LoadingCard from "@/components/web/LoadingCard";
 import { Vehicle } from "@/lib/validation/types";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import { LogAction } from "./LogAction";
 
 async function fetchVehicles(): Promise<Vehicle[]> {
     const res = await fetch("/api/vehicles");
@@ -31,7 +32,10 @@ export default function QuickActions(){
 
     if (isLoading) return <LoadingCard />
     if (isError) return <p>Error: {(error as Error).message}</p>;
-    if (!vehicles) return
+    if (!vehicles) return;
+
+    console.log(vehicles);
+    
     return (
         <Card className="w-full col-span-full">
             <CardHeader>
@@ -42,9 +46,10 @@ export default function QuickActions(){
             </CardHeader>
             <CardFooter>
                 <div className="flex items-center gap-2">
-                <Link hidden={vehicles?.length == 0} className={buttonVariants()} href={'/vehicles/log/fuel'}>+ Log Fuel</Link>
-                <Link hidden={vehicles?.length == 0} className={buttonVariants()} href={'/vehicles/log/repair'}>+ Log Repair</Link>
-                <Link className={buttonVariants()} href={'/vehicles/new'}>+ Add Vehicle</Link>
+                    {vehicles?.length > 0 && <LogAction vehicles={vehicles} type="fuel"/>}
+                    {vehicles?.length > 0 && <LogAction vehicles={vehicles} type="repair"/>}
+                    <Link className={buttonVariants()} href={'/vehicles/new'}>+ Add Vehicle</Link>
+              
                 <Button hidden={vehicles?.length > 0}>Load Demo</Button>
                 </div>
              
