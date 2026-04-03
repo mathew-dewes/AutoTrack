@@ -94,7 +94,7 @@ export function RepairPie({vehicle_id}:
   fill: typeColors[item.type] || "var(--chart-default)",
 }));
 
-console.log(chartDataWithFill);
+
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">

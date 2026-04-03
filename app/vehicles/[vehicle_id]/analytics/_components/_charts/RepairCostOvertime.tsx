@@ -38,7 +38,7 @@ const chartConfig = {
 
 export function RepairCostOvertime() {
   return (
-    <Card>
+    <Card className="md:col-span-2">
       <CardHeader>
         <CardTitle>Repair cost overtime</CardTitle>
         <CardDescription>Cost per litre by date</CardDescription>
