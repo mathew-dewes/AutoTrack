@@ -14,7 +14,7 @@ export default function VehicleNavigation({ vehicleId }:
 
     const tabs = [
         { name: "Fuel", href: `/vehicles/${vehicleId}/fuel` },
-        { name: "Repairs", href: `/vehicles/${vehicleId}/repairs` },
+        { name: "Repairs", href: `/vehicles/${vehicleId}/repair` },
 
     ];
     return <div className="flex justify-between my-5">

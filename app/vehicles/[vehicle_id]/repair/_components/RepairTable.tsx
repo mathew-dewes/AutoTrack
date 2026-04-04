@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { RepairColumn } from "./_table/RepairColumn";
 import { RepairTableClient } from "./_table/RepairTableClient";
+import TableSkeleton from "@/components/web/Skeletons/TableSkeleton";
 
 
 
@@ -33,7 +34,7 @@ if (error){
     
 }
 
-if (isLoading) return <p>Loading fuel logs</p>
+if (isLoading) return <TableSkeleton/>
 if (isError) return <p>There was an error</p>
 if (!logs) return <p>logs doesn&apos;t exist</p>
 

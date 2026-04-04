@@ -19,39 +19,73 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
+import { useQuery } from "@tanstack/react-query"
+import LoadingCard from "@/components/web/LoadingCard"
+import NullCard from "@/components/web/NullCard"
+import { format } from "date-fns"
 
 export const description = "A stacked bar chart with a legend"
 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-]
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  fuel: {
+    label: "Fuel cost",
     color: "var(--chart-1)",
   },
-  mobile: {
-    label: "Mobile",
+  repair: {
+    label: "Repair cost",
     color: "var(--chart-2)",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
-export function MonthlyCostBreakdown() {
+
+async function fetchMonthlyCost(vehicle_id: string){
+    const res = await fetch(`/api/vehicles/${vehicle_id}/analytics/monthly-cost`);
+    if (!res.ok) {
+  if (res.status === 401) throw new Error("Unauthorized. Please log in.");
+  throw new Error(`Failed to fetch fuel logs: ${res.statusText}`);
+}
+
+
+  
+  return res.json();
+}
+
+export function MonthlyCostBreakdown({vehicle_id}:
+  {vehicle_id: string}
+) {
+
+          const { data, error, isLoading, isError } =
+        useQuery({
+            queryKey: [`vehicle-${vehicle_id}-analytics-monthly-cost`],
+            queryFn: () => fetchMonthlyCost(vehicle_id),
+            staleTime: 1000 * 30,
+        },);
+
+    if (error) {
+        console.log(error);
+
+    }
+
+    if (isLoading) return <LoadingCard />
+    if (isError) return <p>There was an error</p>
+    if (!data) return <NullCard title="Total spend overtime" description="You have no fuel logs. Please add them to see metrics" />
+
+const month = new Date().setMonth(new Date().getMonth() - 6);
+const startMonth = format(month, "MMMM");
+const endMonth = format(new Date(), "MMMM")
+
+
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Bar Chart - Stacked + Legend</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Monthly cost breakdown</CardTitle>
+        <CardDescription>{startMonth} - {endMonth} {new Date().getFullYear()}</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={chartData}>
+          <BarChart accessibilityLayer data={data}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="month"
@@ -63,15 +97,15 @@ export function MonthlyCostBreakdown() {
             <ChartTooltip content={<ChartTooltipContent hideLabel />} />
             <ChartLegend content={<ChartLegendContent />} />
             <Bar
-              dataKey="desktop"
+              dataKey="fuel"
               stackId="a"
-              fill="var(--color-desktop)"
+              fill="var(--color-fuel)"
               radius={[0, 0, 4, 4]}
             />
             <Bar
-              dataKey="mobile"
+              dataKey="repair"
               stackId="a"
-              fill="var(--color-mobile)"
+              fill="var(--color-repair)"
               radius={[4, 4, 0, 0]}
             />
           </BarChart>
