@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { FuelTableClient } from "./_table/FuelTableClient";
 import { Fuelcolumns } from "./_table/Fuelcolumns";
+import TableSkeleton from "@/components/web/Skeletons/TableSkeleton";
 
 
 async function fetchFuelLogs(vehicle_id: string){
@@ -32,7 +33,7 @@ if (error){
     
 }
 
-if (isLoading) return <p>Loading fuel logs</p>
+if (isLoading) return <TableSkeleton/>
 if (isError) return <p>There was an error</p>
 if (!logs) return <p>logs doesn&apos;t exist</p>
 
