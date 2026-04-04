@@ -24,15 +24,15 @@ export default function Analytics({vehicle_id}:
                 <h1>Repair Analytics</h1>
                 <div className="grid md:grid-cols-3 gap-10 mt-2">
                     <RepairPie vehicle_id={vehicle_id}/>
-                    <RepairCostOvertime />
+                    <RepairCostOvertime vehicle_id={vehicle_id} />
                 </div>
 
             </div>
             <div className="col-span-full">
                 <h1>Cost of ownership</h1>
                 <div className="grid md:grid-cols-2 gap-10 mt-2">
-                    <TotalCostOvertime />
-                    <MonthlyCostBreakdown />
+                    <TotalCostOvertime vehicle_id={vehicle_id} />
+                    <MonthlyCostBreakdown vehicle_id={vehicle_id} />
                 </div>
 
             </div>

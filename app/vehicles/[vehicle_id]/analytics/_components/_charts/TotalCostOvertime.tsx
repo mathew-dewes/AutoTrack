@@ -17,26 +17,53 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
+import { useQuery } from "@tanstack/react-query"
+import LoadingCard from "@/components/web/LoadingCard"
+import NullCard from "@/components/web/NullCard"
+import { format } from "date-fns"
 
 export const description = "A line chart"
-
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-]
 
 const chartConfig = {
   desktop: {
     label: "Desktop",
     color: "var(--chart-1)",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
-export function TotalCostOvertime() {
+
+async function fetchTotalCost(vehicle_id: string){
+    const res = await fetch(`/api/vehicles/${vehicle_id}/analytics/total-cost-overtime`);
+    if (!res.ok) {
+  if (res.status === 401) throw new Error("Unauthorized. Please log in.");
+  throw new Error(`Failed to fetch fuel logs: ${res.statusText}`);
+}
+
+
+  
+  return res.json();
+}
+
+export function TotalCostOvertime({vehicle_id}:
+  {vehicle_id: string}
+) {
+
+          const { data, error, isLoading, isError } =
+        useQuery({
+            queryKey: [`vehicle-${vehicle_id}-analytics-total-cost-overtime`],
+            queryFn: () => fetchTotalCost(vehicle_id),
+            staleTime: 1000 * 30,
+        },);
+
+    if (error) {
+        console.log(error);
+
+    }
+
+    if (isLoading) return <LoadingCard />
+    if (isError) return <p>There was an error</p>
+    if (!data) return <NullCard title="Total spend overtime" description="You have no fuel logs. Please add them to see metrics" />
+
   return (
     <Card>
       <CardHeader>
@@ -47,26 +74,27 @@ export function TotalCostOvertime() {
         <ChartContainer config={chartConfig}>
           <LineChart
             accessibilityLayer
-            data={chartData}
+            data={data}
             margin={{
               left: 12,
               right: 12,
             }}
           >
             <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
+                 <XAxis
+                   dataKey="date"
+                   tickLine={false}
+                   axisLine={false}
+                   tickMargin={8}
+          tickFormatter={(value) => format(new Date(value), "MMM d")}
+       tickCount={6}
+                 />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
             <Line
-              dataKey="desktop"
+              dataKey="total_cost"
               type="natural"
               stroke="var(--color-desktop)"
               strokeWidth={2}
