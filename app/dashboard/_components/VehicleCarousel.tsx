@@ -13,6 +13,7 @@ import { cn, convertToMoney } from "@/lib/utils";
 import { Vehicle } from "@/lib/validation/types"
 import { useQuery } from "@tanstack/react-query"
 import LoadingCard from "@/components/web/LoadingCard"
+import { useMemo } from "react"
 
 
 async function fetchVehicles(): Promise<Vehicle[]> {
@@ -39,20 +40,18 @@ export function VehicleCarousel() {
             staleTime: 1000 * 30
         },);
 
+  const autoplay = useMemo(() => Autoplay({ delay: 6000, stopOnInteraction: false }), []);
 
     if (isLoading) return <LoadingCard />
     if (isError) return <p>Error: {(error as Error).message}</p>;
       if (!vehicles || vehicles.length == 0) return;
+      
 
 
     return (
     
-            <Carousel  className="w-full"
-            plugins={[
-                Autoplay({
-                    delay: 6000,
-                }),
-            ]}>
+            <Carousel  className="w-full hidden md:flex"
+            plugins={[autoplay]}>
             <CarouselContent>
                 {vehicles?.map((vehicle, key) => {
                     return <CarouselItem key={vehicle.id}>

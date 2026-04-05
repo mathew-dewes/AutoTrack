@@ -1,5 +1,4 @@
-'use client'
-
+"use client";
 
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
@@ -18,56 +17,48 @@ async function fetchLogs():Promise<AllLogs> {
         if (res.status === 401) throw new Error("Unauthorized. Please log in.");
         throw new Error(`Failed to fetch vehicles: ${res.statusText}`);
     }
-
-
-
     return res.json();
 }
 
-
 export function LogTables() {
-  const [activeTable, setActiveTable] = useState<'fuel' | 'repairs'>('fuel')
-    const { data: metrics, error, isLoading, isError } =
-        useQuery({
-            queryKey: [`dashboard-logs`],
-            queryFn: () => fetchLogs(),
-            staleTime: 1000 * 30,
-        },);
+    const [activeTable, setActiveTable] = useState<'fuel' | 'repairs'>('fuel')
+    const { data: metrics, error, isLoading, isError } = useQuery({
+        queryKey: [`dashboard-logs`],
+        queryFn: () => fetchLogs(),
+        staleTime: 1000 * 30,
+    });
 
-    if (error) {
-        console.log(error);
-
-    }
-
+    if (error) console.log(error);
     if (isLoading) return <LoadingCard />
     if (isError) return <p>There was an error</p>
     if (!metrics) return <NullCard title="Fleet Summary" description="You have no fuel logs. Please add them to see metrics" />
 
     return (
-    <div className="space-y-4 col-span-4 md:col-span-2">
-      <div className="flex gap-2">
-        <Button 
-        variant={`${activeTable == "fuel" ? "default" : "outline"}`}
-        onClick={() => setActiveTable('fuel')}
-        >
-            Fuel
-        </Button>
-        <Button 
-        variant={`${activeTable == "repairs" ? "default" : "outline"}`}
-        onClick={() => setActiveTable('repairs')}
-        >
-            Repairs
-        </Button>
+        <div className="space-y-4 mt-10 w-full">
+            {/* Toggle Buttons */}
+            <div className="flex flex-wrap gap-2">
+                <Button
+                    variant={activeTable === "fuel" ? "default" : "outline"}
+                    onClick={() => setActiveTable('fuel')}
+                >
+                    Fuel
+                </Button>
+                <Button
+                    variant={activeTable === "repairs" ? "default" : "outline"}
+                    onClick={() => setActiveTable('repairs')}
+                >
+                    Repairs
+                </Button>
+            </div>
 
-        
-      </div>
-
-      {/* Tables */}
-      <div className='h-110'>
-        {activeTable === 'fuel' ?
-        <FuelTableClient columns={fuelColumns} data={metrics.fuel_logs ?? []} />: 
-        <RepairTableClient columns={repairColumns} data={metrics.repair_logs?? []}/>}
-      </div>
-    </div>
-  )
+            {/* Responsive Table Wrapper */}
+            <div className="overflow-x-auto w-full">
+                {activeTable === 'fuel' ? (
+                    <FuelTableClient columns={fuelColumns} data={metrics.fuel_logs ?? []} />
+                ) : (
+                    <RepairTableClient columns={repairColumns} data={metrics.repair_logs ?? []} />
+                )}
+            </div>
+        </div>
+    )
 }

@@ -37,7 +37,6 @@ if (isLoading) return <TableSkeleton/>
 if (isError) return <p>There was an error</p>
 if (!logs) return <p>logs doesn&apos;t exist</p>
 
-console.log(logs);
 
 
 return (

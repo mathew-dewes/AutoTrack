@@ -47,7 +47,7 @@ export default function Efficiencies() {
                 <CardTitle>Fuel Economy</CardTitle>
             </CardHeader>
             <CardContent>
-                <div className="flex gap-20 items-center">
+                <div className="flex flex-col md:flex-row md:gap-20 gap-5 md:items-center">
                                    <div className="space-y-2">
                         <div className="flex gap-5">
                             <div className="flex gap-1">
