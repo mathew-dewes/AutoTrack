@@ -118,7 +118,7 @@ useState<VisibilityState>({})
         </DropdownMenu>
             </div>
             <div className="overflow-hidden rounded-md border">
-                <Table>
+                <Table className="w-full min-w-max">
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>

@@ -6,27 +6,27 @@ import { SpendOvertimeChart } from "./_charts/SpendOvertimeChart";
 import QuickActions from "./QuickActions";
 
 
-export default function Dashboard(){
+export default function Dashboard() {
     return (
-        <div>
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
-            <QuickActions/>
-                 <FleetSummary/>
+
+        <div className="grid lg:grid-cols-2 gap-5">
+            <QuickActions />
+            <FleetSummary />
             <VehicleCarousel/>
-   
-   
-        <Efficiencies/>
-      
-   
+            <Efficiencies />
+            <div className="col-span-full md:col-span-1 w-full overflow-x-auto">
+                <LogTables />
             </div>
 
-            <div className="grid md:grid-cols-4 gap-5 mt-10">
-            <LogTables/>
-            <SpendOvertimeChart/>
-            </div>
-          
-        
-    
+            <SpendOvertimeChart />
+
         </div>
+
+
+
+
+
+
+
     )
 }
